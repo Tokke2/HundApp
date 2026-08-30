@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hantera dina hundprofiler i HundApp – samla chippnummer, försäkring, vaccinationer, rutiner, viktkurva och matallergier.">
+  <title>Mina hundar & Hälsojournal – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="portal-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html">Översikt</a>
+        <a href="dogs.html" class="active">Mina hundar</a>
+        <a href="walks.html">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" type="button">
+          <span id="userAvatarLetter">M</span>
+          <b id="userNavName">Maria</b>
+          <em>⌄</em>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Huvudinnehåll -->
+  <main id="main" class="portal-main dogs-main">
+    
+    <!-- Header med åtgärder -->
+    <header class="dogs-heading-row">
+      <div>
+        <p class="eyebrow">Dina fyrbenta familjemedlemmar</p>
+        <h1>Mina hundar & Hälsojournal</h1>
+        <p class="dogs-subheading">Samla chippnummer, försäkring, vaccinationer, rutiner, foder och matallergier för varje hund.</p>
+      </div>
+      <button id="add-dog-button" class="button" type="button">
+        <span>+</span> Lägg till hund
+      </button>
+    </header>
+
+    <!-- Hundprofiler Grid -->
+    <section class="dog-cards-container" aria-label="Hundprofiler" id="dogProfilesContainer">
+      
+      <!-- HUVUDPROFIL: BELLA -->
+      <article class="dog-main-card active-dog-card" id="dog-card-bella">
+        
+        <!-- Toppstatus & Åtgärder -->
+        <div class="dog-card-header">
+          <span class="active-badge">● AKTIV HUND</span>
+          <div class="dog-card-top-actions">
+            <button type="button" class="btn btn-outline btn-xs" id="edit-bella-btn">✏️ Redigera</button>
+          </div>
+        </div>
+
+        <!-- Profilöversikt -->
+        <div class="dog-hero-section">
+          <div class="dog-portrait-avatar" aria-label="Porträtt av Bella">🐶</div>
+          <div class="dog-primary-details">
+            <h2 id="dogBellaName">Bella</h2>
+            <p class="dog-breed-gender" id="dogBellaBreed">Golden retriever · Tik</p>
+            <div class="dog-vital-chips">
+              <span class="vital-chip">🎂 <b>3 år</b> (14 juni 2023)</span>
+              <span class="vital-chip">⚖️ <b id="dogBellaWeight">27,4 kg</b> (Idealvikt)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trygghet, ID & Försäkring -->
+        <div class="dog-id-insurance-grid">
+          <div class="info-block">
+            <small class="info-label">CHIPPNUMMER (ID)</small>
+            <div class="copyable-code-row">
+              <code id="bellaChipCode">752098100123456</code>
+              <button type="button" class="btn-copy-chip" id="copyChipBtn" title="Kopiera chippnummer">📋 Kopiera</button>
+            </div>
+          </div>
+
+          <div class="info-block">
+            <small class="info-label">FÖRSÄKRING</small>
+            <strong class="info-text">Agria Djurförsäkring</strong>
+            <small class="sub-info">Polisnr: #AG-948102</small>
+          </div>
+
+          <div class="info-block">
+            <small class="info-label">VACCINATIONSSTATUS</small>
+            <strong class="info-text" style="color:var(--green);">✓ DHPPI giltig till maj 2027</strong>
+            <small class="sub-info">Rabies: Giltig till juni 2028</small>
+          </div>
+        </div>
+
+        <!-- Matallergier & Specialkost -->
+        <div class="dog-allergy-health-box">
+          <div class="allergy-box-header">
+            <div>
+              <small class="allergy-box-label">🌾 MATALLERGIER & SPECIALKOST</small>
+              <div class="allergy-badges-list" id="dogAllergyBadges">
+                <span class="allergy-badge danger-badge">⚠️ Kycklingprotein</span>
+                <span class="allergy-badge warning-badge">🌾 Spannmålsfritt</span>
+              </div>
+            </div>
+            <button type="button" class="btn btn-outline btn-xs" id="edit-dog-allergies-btn">Ändra kost</button>
+          </div>
+
+          <p class="diet-summary-text" id="dogDietSummary">
+            <b>Aktuellt foder:</b> Veterinärfoder – Hypoallergent Lamm & Ris (Spannmålsfritt).
+          </p>
+          <small class="diet-note-text" id="dogDietNotes">
+            💡 <b>Instruktion till hundvakter:</b> Ge ej godis med kycklingbuljong eller vetemjöl.
+          </small>
+        </div>
+
+        <!-- Kortets Fotlänkar -->
+        <div class="dog-card-actions-footer">
+          <a href="portal.html" class="btn btn-primary btn-sm">Gå till Bellas översikt →</a>
+          <a href="statistics.html" class="btn btn-outline btn-sm">📊 Hälsostatistik & Grafer</a>
+          <a href="calendar.html" class="btn btn-outline btn-sm">📅 Kalenderrutiner</a>
+        </div>
+      </article>
+
+      <!-- EXTRA HUNDKORT: MAX -->
+      <article class="dog-main-card secondary-dog-card" id="dog-card-max">
+        <div class="dog-card-header">
+          <span class="inactive-badge">FAMILJEMEDLEM</span>
+          <button type="button" class="btn btn-primary btn-xs" id="make-max-active-btn">Gör aktiv ✓</button>
+        </div>
+
+        <div class="dog-hero-section">
+          <div class="dog-portrait-avatar" style="background:#faede0;" aria-label="Porträtt av Max">🐕</div>
+          <div class="dog-primary-details">
+            <h2>Max</h2>
+            <p class="dog-breed-gender">Border collie · Hane</p>
+            <div class="dog-vital-chips">
+              <span class="vital-chip">🎂 <b>1 år</b> (10 april 2025)</span>
+              <span class="vital-chip">⚖️ <b>19,5 kg</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dog-id-insurance-grid">
+          <div class="info-block">
+            <small class="info-label">CHIPPNUMMER (ID)</small>
+            <code style="font-size:12px; color:var(--ink);">752098100987654</code>
+          </div>
+          <div class="info-block">
+            <small class="info-label">FÖRSÄKRING</small>
+            <strong class="info-text">Sveland Djurförsäkring</strong>
+          </div>
+          <div class="info-block">
+            <small class="info-label">KOST & ALLERGI</small>
+            <span class="allergy-badge" style="background:#eef7ee; color:#2d6a4f; font-size:10px; padding:2px 8px;">✓ Inga kända allergier</span>
+          </div>
+        </div>
+
+        <div class="dog-card-actions-footer" style="margin-top:auto;">
+          <button type="button" class="btn btn-outline btn-sm switch-to-max-btn">Välj Max som aktiv hund</button>
+        </div>
+      </article>
+
+      <!-- LÄGG TILL HUND KORT -->
+      <article class="add-new-dog-card" id="open-add-dog-card-btn">
+        <div class="add-dog-icon-circle">+</div>
+        <h3>Ge plats åt en till hund</h3>
+        <p>Skapa en separat profil för en annan hund i familjen med egen kalender, viktkurva och matallergier.</p>
+        <button class="btn btn-outline" type="button">+ Lägg till hund</button>
+      </article>
+
+    </section>
+
+    <!-- Snabböverblick för Aktiv Hund -->
+    <section class="dog-quick-overview-section">
+      <div class="section-row-header">
+        <div>
+          <p class="eyebrow">För aktiv hund (Bella)</p>
+          <h2>Snabb hälsoöverblick</h2>
+        </div>
+        <a class="text-link dark" href="portal.html">Till Bellas dashboard →</a>
+      </div>
+
+      <div class="dog-mini-cards-grid">
+        <article class="dog-mini-kpi-card">
+          <span class="mini-kpi-icon pink">✂</span>
+          <div>
+            <small>NÄSTA RUTIN</small>
+            <strong>Kloklippning</strong>
+            <p>Om 3 dagar · 31 juli</p>
+          </div>
+        </article>
+
+        <article class="dog-mini-kpi-card">
+          <span class="mini-kpi-icon green">⚖</span>
+          <div>
+            <small>SENASTE VIKT</small>
+            <strong>27,4 kg</strong>
+            <p>Registrerad 20 juli · Idealvikt</p>
+          </div>
+        </article>
+
+        <article class="dog-mini-kpi-card">
+          <span class="mini-kpi-icon purple">🐾</span>
+          <div>
+            <small>DEN HÄR VECKAN</small>
+            <strong>6 promenader</strong>
+            <p>13,8 km · 4 h 25 min ute</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Viktsektion & Kurva -->
+    <section class="portal-card dog-weight-history-card">
+      <div class="card-heading">
+        <div>
+          <p class="card-label">VIKTHISTORIK & KURVA</p>
+          <h2>Bellas viktutveckling</h2>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="statistics.html" class="btn btn-outline btn-xs">Full statistik & grafer →</a>
+        </div>
+      </div>
+
+      <div class="weight-content-row">
+        <div class="weight-current-info">
+          <b>27,4</b><span>kg</span>
+          <small>Senast registrerad 20 juli 2026</small>
+          <span class="weight-status-pill ideal-zone" style="margin-top:6px;">✓ Inom idealintervall (25–29 kg)</span>
+        </div>
+
+        <div class="weight-visual-chart-wrap" aria-label="Viktkurva över tid">
+          <div class="weight-chart-bar-line">
+            <div class="chart-point-dot" style="left:5%; bottom:35%;" title="Feb: 27.0 kg"></div>
+            <div class="chart-point-dot" style="left:23%; bottom:45%;" title="Mar: 27.1 kg"></div>
+            <div class="chart-point-dot" style="left:42%; bottom:55%;" title="Apr: 27.2 kg"></div>
+            <div class="chart-point-dot" style="left:60%; bottom:65%;" title="Maj: 27.3 kg"></div>
+            <div class="chart-point-dot" style="left:78%; bottom:45%;" title="Jun: 27.1 kg"></div>
+            <div class="chart-point-dot active-last" style="left:95%; bottom:75%;" title="Jul: 27.4 kg"></div>
+          </div>
+          <div class="chart-x-labels">
+            <span>Feb</span>
+            <span>Mar</span>
+            <span>Apr</span>
+            <span>Maj</span>
+            <span>Jun</span>
+            <span>Jul</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: LÄGG TILL NY HUND -->
+  <div id="add-dog-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-dog-title">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 id="add-dog-title" style="margin: 0; font-family: 'Fraunces', serif;">🐾 Registrera ny hundprofil</h3>
+        <button class="modal-close" id="close-add-dog-modal" type="button" aria-label="Stäng">×</button>
+      </div>
+
+      <form id="add-dog-form" class="modal-body" style="padding: 20px 24px;">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="new-dog-name" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Hundens tilltalsnamn *</label>
+          <input type="text" id="new-dog-name" class="form-control" placeholder="t.ex. Charlie, Luna, Buster..." required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label for="new-dog-breed" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Ras *</label>
+            <input type="text" id="new-dog-breed" class="form-control" placeholder="t.ex. Labradoodle" required>
+          </div>
+          <div>
+            <label for="new-dog-gender" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Kön</label>
+            <select id="new-dog-gender" class="form-control">
+              <option value="Hane">Hane</option>
+              <option value="Tik">Tik</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label for="new-dog-birth" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Födelsedatum</label>
+            <input type="date" id="new-dog-birth" class="form-control">
+          </div>
+          <div>
+            <label for="new-dog-weight" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Vikt (kg)</label>
+            <input type="number" id="new-dog-weight" class="form-control" step="0.1" placeholder="t.ex. 22.4">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label for="new-dog-chip" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Chippnummer (ID)</label>
+            <input type="text" id="new-dog-chip" class="form-control" placeholder="15 siffror...">
+          </div>
+          <div>
+            <label for="new-dog-insurance" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Försäkringsbolag</label>
+            <input type="text" id="new-dog-insurance" class="form-control" placeholder="t.ex. Agria, Folksam">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label for="new-dog-allergies" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Kända matallergier eller specialkost:</label>
+          <input type="text" id="new-dog-allergies" class="form-control" placeholder="t.ex. Kycklingprotein, Spannmålsfritt, Känslig mage">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn btn-outline" id="cancel-add-dog-btn">Avbryt</button>
+          <button type="submit" class="btn btn-primary">Skapa hundprofil</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: REDIGERA PROFIL (BELLA) -->
+  <div id="edit-dog-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="edit-dog-title">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 id="edit-dog-title" style="margin: 0; font-family: 'Fraunces', serif;">✏️ Redigera profil för Bella</h3>
+        <button class="modal-close" id="close-edit-dog-modal" type="button" aria-label="Stäng">×</button>
+      </div>
+
+      <form id="edit-dog-form" class="modal-body" style="padding: 20px 24px;">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="edit-dog-name" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Hundens tilltalsnamn *</label>
+          <input type="text" id="edit-dog-name" class="form-control" value="Bella" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label for="edit-dog-breed" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Ras *</label>
+            <input type="text" id="edit-dog-breed" class="form-control" value="Golden retriever" required>
+          </div>
+          <div>
+            <label for="edit-dog-gender" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Kön</label>
+            <select id="edit-dog-gender" class="form-control">
+              <option value="Tik" selected>Tik</option>
+              <option value="Hane">Hane</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <label for="edit-dog-chip" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Chippnummer</label>
+            <input type="text" id="edit-dog-chip" class="form-control" value="752098100123456">
+          </div>
+          <div>
+            <label for="edit-dog-insurance" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 4px;">Försäkringsbolag</label>
+            <input type="text" id="edit-dog-insurance" class="form-control" value="Agria Djurförsäkring (#AG-948102)">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn btn-outline" id="cancel-edit-dog-btn">Avbryt</button>
+          <button type="submit" class="btn btn-primary">Spara ändringar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Hundprofil sparad!</span>
+  </div>
+
+  <!-- Sidfot -->
+  <footer class="portal-footer">
+    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
+    <span>Hundprofiler v1.4</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

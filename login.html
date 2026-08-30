@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Logga in till ditt HundApp-konto – håll koll på hundens hälsa, rutiner, kalender och promenader.">
+  <title>Logga in – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="account-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Toppheader -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+      <nav class="account-nav" aria-label="Kontomeny">
+        <span class="account-nav-label">Ny här?</span>
+        <a href="register.html" class="btn btn-outline btn-sm">Skapa konto gratis</a>
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Huvudinnehåll Login -->
+  <main id="main" class="account-main">
+    <section class="login-panel" aria-labelledby="login-heading">
+      
+      <div class="account-badge-row">
+        <span class="account-icon" aria-hidden="true">🐾</span>
+        <span class="tag-pill" style="background:#eef7ee; color:#2d6a4f; font-weight:700;">Trygg Inloggning</span>
+      </div>
+
+      <p class="eyebrow">Välkommen tillbaka</p>
+      <h1 id="login-heading">Logga in till HundApp</h1>
+      <p class="account-intro">Fortsätt hålla koll på allt som gör livet med din hund enklare, friskare och tryggare.</p>
+
+      <!-- Snabbknappar för Social Inloggning -->
+      <div class="social-auth-group">
+        <button type="button" class="btn-social google-btn" id="social-google-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
+          </svg>
+          <span>Fortsätt med Google</span>
+        </button>
+
+        <button type="button" class="btn-social apple-btn" id="social-apple-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.65-.82 1.11-1.96.98-3.1-.96.04-2.17.65-2.85 1.46-.59.69-1.12 1.83-.98 2.93 1.08.08 2.2-.47 2.85-1.29z"/>
+          </svg>
+          <span>Fortsätt med Apple</span>
+        </button>
+      </div>
+
+      <div class="auth-divider">
+        <span>eller logga in med e-post</span>
+      </div>
+
+      <!-- Inloggningsformulär -->
+      <form id="login-form" class="login-form" novalidate>
+        
+        <!-- E-postfält -->
+        <div class="form-group-field">
+          <label for="email">E-postadress <span class="required-star">*</span></label>
+          <div class="input-icon-wrap">
+            <span class="field-icon" aria-hidden="true">✉️</span>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
+          </div>
+          <p class="field-error-msg" id="login-email-error" hidden>Ange en giltig e-postadress.</p>
+        </div>
+
+        <!-- Lösenordsfält med Glömt lösenord-länk -->
+        <div class="form-group-field">
+          <div class="label-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label for="password" style="margin:0;">Lösenord <span class="required-star">*</span></label>
+            <button type="button" class="text-modal-link" id="open-forgot-modal-btn" style="font-size:12px;">Glömt lösenord?</button>
+          </div>
+          <div class="input-icon-wrap">
+            <span class="field-icon" aria-hidden="true">🔒</span>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Ange ditt lösenord" required class="form-control-icon">
+            <button id="toggle-password" class="btn-toggle-eye" type="button" aria-label="Visa lösenord">
+              <span class="eye-icon">👁️</span>
+            </button>
+          </div>
+          <p class="field-error-msg" id="login-pass-error" hidden>Vänligen ange ditt lösenord.</p>
+        </div>
+
+        <!-- Kom ihåg mig -->
+        <label class="consent-row remember-row">
+          <input type="checkbox" id="remember-me" name="remember" checked>
+          <span>Kom ihåg mig på den här enheten</span>
+        </label>
+
+        <!-- Submit-knapp -->
+        <button class="button login-button" id="submit-login-btn" type="submit">
+          <span id="login-btn-text">Logga in</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <!-- Snabbtest Demokonto -->
+      <div style="background:#f8faf8; border:1px dashed #bcdbc3; border-radius:var(--radius-sm); padding:10px 14px; margin-top:16px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">💡</span>
+          <small style="font-size:11px; color:var(--muted); line-height:1.3;">
+            <b>Testa prototypen direkt:</b><br>Klicka för att logga in som Maria & Bella
+          </small>
+        </div>
+        <button type="button" class="btn btn-outline btn-xs" id="quick-demo-login-btn" style="white-space:nowrap;">
+          🚀 Snabbtest
+        </button>
+      </div>
+
+      <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+
+      <div class="account-bottom-box">
+        <p>Har du inget konto än? <a href="register.html" class="text-link-green">Skapa konto gratis här</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: GLÖMT LÖSENORD -->
+  <div id="forgot-password-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="forgot-modal-title">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 id="forgot-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🔑 Återställ ditt lösenord</h3>
+        <button class="modal-close" id="close-forgot-modal-btn" type="button" aria-label="Stäng">×</button>
+      </div>
+
+      <form id="forgot-password-form" class="modal-body" style="padding: 20px 24px;">
+        <p style="font-size: 0.9rem; color: var(--muted); margin: 0 0 16px; line-height: 1.5;">
+          Ange den e-postadress som är kopplad till ditt HundApp-konto så skickar vi en säker återställningslänk.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="forgot-email-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">E-postadress *</label>
+          <div class="input-icon-wrap">
+            <span class="field-icon" aria-hidden="true">✉️</span>
+            <input type="email" id="forgot-email-input" class="form-control form-control-icon" placeholder="din@email.se" required>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn btn-outline" id="cancel-forgot-modal-btn">Avbryt</button>
+          <button type="submit" class="btn btn-primary" id="send-reset-link-btn">Skicka återställningslänk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Inloggad! Välkommen tillbaka.</span>
+  </div>
+
+  <!-- Sidfot -->
+  <footer class="simple-footer">
+    <a href="index.html">← Tillbaka till HundApp</a>
+    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

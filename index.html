@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HundApp hjälper dig hålla koll på din hunds rutiner, promenader, påminnelser, matallergier och hälsa. Enkel, mobilanpassad och 100% trygg.">
+  <title>HundApp – En tryggare och enklare vardag för dig och din hund</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span class="sr-only">Öppna meny</span>
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="Huvudmeny">
+        <a href="#sa-fungerar-det">Så fungerar det</a>
+        <a href="#funktioner">Funktioner</a>
+        <a href="tips.html">Hundtips</a>
+        <a href="suggestions.html">Förslagslåda</a>
+        <a href="#omdomen">Omdömen</a>
+        <a href="#faq">Vanliga frågor</a>
+        <a class="nav-login" href="login.html">Logga in</a>
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <a class="button button-small" href="register.html">Kom igång gratis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    
+    <!-- ================= HERO SECTION ================= -->
+    <section id="top" class="hero section">
+      <div class="container hero-grid">
+        
+        <!-- Vänster: Hero Text & CTA -->
+        <div class="hero-copy">
+          <p class="eyebrow"><span aria-hidden="true">✦</span> För en tryggare hundvardag</p>
+          <h1>Allt din hund behöver.<br><em>Samlat på ett tryggt ställe.</em></h1>
+          <p class="hero-text">
+            Missa aldrig kloklippning, fästingmedel eller veterinärbesök. Logga promenader med ett klick och få full koll på din hunds hälsa, vikt, matallergier och glädje.
+          </p>
+          
+          <div class="hero-actions">
+            <a class="button" href="register.html">Skapa gratis konto <span aria-hidden="true">→</span></a>
+            <a class="button button-secondary" href="portal.html">Testa demo <span>🐶</span></a>
+          </div>
+
+          <div class="trust-row" aria-label="Fördelar">
+            <span><b aria-hidden="true">✓</b> Gratis grundversion</span>
+            <span><b aria-hidden="true">✓</b> Mobilanpassad</span>
+            <span><b aria-hidden="true">✓</b> 100% GDPR-säker</span>
+          </div>
+        </div>
+
+        <!-- Höger: Interaktiv Mobilapp Mockup -->
+        <div class="hero-visual" aria-label="Förhandsvisning av HundApp i mobilen">
+          <div class="sun-shape"></div>
+          <div class="dot dot-one"></div>
+          <div class="dot dot-two"></div>
+          <div class="dot dot-three"></div>
+          
+          <div class="app-preview">
+            <div class="preview-top">
+              <span class="preview-logo"><i>🐾</i> HundApp</span>
+              <span class="avatar">M</span>
+            </div>
+            
+            <p class="preview-date">Tisdag, 28 juli</p>
+            <h2>Hej, Maria! <span>👋</span></h2>
+            
+            <!-- Aktiv hundkort -->
+            <a href="dogs.html" class="dog-card" style="text-decoration:none;" title="Öppna Bellas profil">
+              <div class="dog-avatar" aria-hidden="true">🐶</div>
+              <div>
+                <span>Din aktiva hund</span>
+                <strong>Bella</strong>
+              </div>
+              <span class="task-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- Nästa rutin -->
+            <p class="next-label">NÄSTA FÖR BELLA</p>
+            <a href="calendar.html" class="task-card" style="text-decoration:none;" title="Gå till aktivitetskalendern">
+              <div class="task-icon pink" aria-hidden="true">✂</div>
+              <div>
+                <strong>Kloklippning</strong>
+                <span>Om 3 dagar · 31 juli</span>
+              </div>
+              <span class="task-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- Veckostatistik -->
+            <a href="statistics.html" class="week-card" style="text-decoration:none;" title="Se komplett hälsostatistik">
+              <div>
+                <span>DEN HÄR VECKAN</span>
+                <strong>4 <small>promenader</small></strong>
+              </div>
+              <div class="mini-chart" aria-hidden="true">
+                <i style="height:12px"></i>
+                <i style="height:22px"></i>
+                <i style="height:15px"></i>
+                <i style="height:28px"></i>
+                <i style="height:18px"></i>
+                <i style="height:32px"></i>
+                <i style="height:24px"></i>
+              </div>
+            </a>
+
+            <a href="walks.html" class="preview-add button" style="text-decoration:none; display:flex; justify-content:center; align-items:center; gap:6px;">
+              <span>+</span> Logga promenad
+            </a>
+          </div>
+
+          <!-- Svävande live-notiskort -->
+          <div class="floating-card walk-card">
+            <span class="float-icon">🐾</span>
+            <span>
+              <span class="pulse-badge"><span class="pulse-dot"></span> Ny händelse</span>
+              <b>Morgonpromenad loggad</b>
+              <small>32 minuter · 2,4 km i parken</small>
+            </span>
+          </div>
+
+          <div class="floating-card heart-card">
+            <span aria-hidden="true">♥</span> En tryggare hundvardag
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= STATISTIKSTRIP (UPPDATERAS LIVE) ================= -->
+    <section class="stats-strip" aria-label="Nyckeltal om HundApp">
+      <div class="container stats-strip-grid">
+        <div class="stats-strip-item">
+          <strong id="live-rating-value">— / 5</strong>
+          <span id="live-rating-label">Betyg från hundägare</span>
+        </div>
+        <div class="stats-strip-item">
+          <strong>25+</strong>
+          <span>Kvalitetssäkrade tips</span>
+        </div>
+        <div class="stats-strip-item">
+          <strong>100 %</strong>
+          <span>Fokus på hundglädje</span>
+        </div>
+        <div class="stats-strip-item">
+          <strong>0 kr</strong>
+          <span>Gratis grundversion</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SOCIAL PROOF LISTA ================= -->
+    <section class="social-proof">
+      <div class="container proof-wrap">
+        <p>En samlad plats för allt som får hundlivet att fungera smidigt:</p>
+        <div class="proof-items">
+          <span>🐕 Vård & Rutiner</span>
+          <span>🐾 Promenader & GPS</span>
+          <span>♡ Vikt & Hälsa</span>
+          <span>✦ Mental aktivering</span>
+          <span>🌾 Matallergier</span>
+          <span>🛡️ 100% GDPR-tryggt</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SÅ FUNGERAR DET (3 STEG) ================= -->
+    <section id="sa-fungerar-det" class="section how-section">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="eyebrow">Enkelt från första tassavtrycket</p>
+          <h2>Mer överblick. Mindre att komma ihåg.</h2>
+          <p>HundApp är din lugna, omtänksamma hjälpreda i en händelserik vardag.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-number">01</div>
+            <div class="step-icon peach">🐶</div>
+            <h3>Skapa hundprofil</h3>
+            <p>Samla ras, födelsedatum, chippnummer, vikt, matallergier och försäkringsuppgifter på ett tryggt ställe.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">02</div>
+            <div class="step-icon mint">⏰</div>
+            <h3>Sätt upp rutiner</h3>
+            <p>Få smarta påminnelser om kloklippning, fästingmedel, bad, tandborstning och årliga vaccinationer.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">03</div>
+            <div class="step-icon lilac">📊</div>
+            <h3>Följ utvecklingen</h3>
+            <p>Logga promenader och nosaktivering med ett klick. Följ viktkurvor och distansdiagram vecka för vecka.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INTERAKTIVA FUNKTIONSPELARE ================= -->
+    <section id="funktioner" class="section features-section">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="eyebrow">Allt för ett härligt hundliv</p>
+          <h2>Funktioner skapade med kärlek till hundar</h2>
+          <p>Designad för att vara blixtsnabb att använda med en hand i mobilen under promenaden.</p>
+        </div>
+
+        <div class="feature-pillar-grid">
+          <article class="feature-pillar-card">
+            <div class="pillar-icon mint">📅</div>
+            <h3>Smart kalender & påminnelser</h3>
+            <p>Missa aldrig ett viktigt datum. Ställ in återkommande intervall för klor, fästingmedel eller veterinärtid.</p>
+            <a class="pillar-link" href="calendar.html">Utforska kalendern →</a>
+          </article>
+
+          <article class="feature-pillar-card">
+            <div class="pillar-icon peach">🐾</div>
+            <h3>Promenad- & aktivitetslogg</h3>
+            <p>Håll koll på dagens turer, minuter och kilometer. Logga även nosarbete, träning och mental stimulans.</p>
+            <a class="pillar-link" href="walks.html">Se aktivitetsloggen →</a>
+          </article>
+
+          <article class="feature-pillar-card">
+            <div class="pillar-icon lilac">📊</div>
+            <h3>Statistik & hälsokurvor</h3>
+            <p>Se hur ni rör er vecka för vecka i jämna SVG-kurvor. Följ hundens viktutveckling och aktivitetsfördelning.</p>
+            <a class="pillar-link" href="statistics.html">Se statistikvyn →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HUNDÄGARRECENSIONER (LIVE) ================= -->
+    <section id="omdomen" class="testimonials-section">
+      <div class="container">
+        <div class="reviews-header-row">
+          <div class="section-heading">
+            <p class="eyebrow">Omdömen från hundägare</p>
+            <h2>Vad tycker hundägare?</h2>
+            <p id="reviews-subtitle">Här visas äkta omdömen så fort våra användare har tyckt till.</p>
+          </div>
+          <button id="open-review-modal-btn" class="button button-small" type="button">+ Lämna ett omdöme</button>
+        </div>
+
+        <div id="reviews-container">
+          <!-- Renderas dynamiskt i app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= UTVALDA TIPS FRÅN BIBLIOTEKET ================= -->
+    <section id="tips" class="section tips-section">
+      <div class="container">
+        <div class="tips-top">
+          <div>
+            <p class="eyebrow">För nyfikna hundägare</p>
+            <h2>Små tips för ett stort hundliv.</h2>
+          </div>
+          <a class="text-link dark" href="tips.html">Se alla 25 hundtips <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="tips-grid">
+          <article class="tip-card">
+            <div class="tip-image sunshine">☀️</div>
+            <div class="tip-body">
+              <span>VARDAG</span>
+              <h3>Så hjälper du hunden i sommarvärmen</h3>
+              <a href="tips.html" aria-label="Läs tips om sommarvärme">Läs tipset <b>→</b></a>
+            </div>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-image green">🦴</div>
+            <div class="tip-body">
+              <span>TRÄNING</span>
+              <h3>Fem enkla sätt att aktivera hemma</h3>
+              <a href="tips.html" aria-label="Läs tips om aktivering">Läs tipset <b>→</b></a>
+            </div>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-image lavender">🪥</div>
+            <div class="tip-body">
+              <span>HÄLSA</span>
+              <h3>Gör tandvården till en mysig rutin</h3>
+              <a href="tips.html" aria-label="Läs tips om tandvård">Läs tipset <b>→</b></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VANLIGA FRÅGOR (ACCORDION) ================= -->
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <div class="section-heading centered">
+          <p class="eyebrow">Frågor & svar</p>
+          <h2>Vanliga frågor om HundApp</h2>
+          <p>Här hittar du svar på de vanligaste funderingarna om funktioner, säkerhet och användning.</p>
+        </div>
+
+        <div class="faq-wrap">
+          <details class="faq-item" open>
+            <summary class="faq-summary">
+              Är HundApp gratis att använda?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-content">
+              Ja! Grundversionen av HundApp är helt kostnadsfri och innehåller allt du behöver för att hålla koll på din hund: profil, rutinpåminnelser, promenadlogg, matallergier, hälsostatistik och tipsbibliotek.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              Kan jag lägga till flera hundar i familjen?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-content">
+              Ja, du kan enkelt hantera flera hundprofiler och växla mellan dem med ett klick i appen, så att varje hund får sina egna rutiner, påminnelser, foder och historik.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              Hur fungerar påminnelserna?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-content">
+              Du väljer själv intervall (t.ex. kloklippning var 21:a dag eller fästingmedel en gång i månaden). HundApp beräknar automatiskt nästa datum och påminner dig i god tid så att du kan bocka av rutinen direkt.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              Fungerar HundApp i mobilen?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-content">
+              Absolut! HundApp är byggd med mobil-först-design och fungerar direkt i webbläsaren i mobilen utan krångliga nedladdningar. Du kan även spara den som genväg på din hemskärm för snabbåtkomst.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-summary">
+              Hur hanteras mina och min hunds personuppgifter?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-content">
+              Vi tillämpar strikt dataminimering enligt GDPR. Endast nödvändiga uppgifter sparas, vi visar ingen reklam och dina data säljs eller delas aldrig vidare till tredje part.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CALL TO ACTION ================= -->
+    <section id="kom-igang" class="cta-section">
+      <div class="container cta-inner">
+        <div class="cta-paw" aria-hidden="true">🐾</div>
+        <p class="eyebrow light">Redo när du är redo</p>
+        <h2>En enklare vardag<br>börjar med en liten tass.</h2>
+        <p>Skapa ett gratis konto på under en minut och ge dig själv mer tid för promenader, mys och lek.</p>
+        <div style="display:inline-flex; gap:16px; flex-wrap:wrap; justify-content:center; position:relative; z-index:2;">
+          <a class="button button-light" href="register.html">Kom igång gratis <span aria-hidden="true">→</span></a>
+          <a class="button button-ghost" style="color:#fff !important; border-color:rgba(255,255,255,0.4);" href="portal.html">Testa portalen först 🐶</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: LÄMNA ETT OMDÖME -->
+  <div id="review-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+    <div class="modal-box review-modal-box">
+      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+      <span class="modal-icon">⭐</span>
+      <p class="eyebrow">Tyck till om HundApp</p>
+      <h2 id="review-modal-title">Lämna ett omdöme</h2>
+      <p style="font-size:13px; color:var(--muted); margin: 6px 0 16px;">Ditt betyg och din recension uppdaterar snittbetyget och visas direkt på startsidan.</p>
+      
+      <form id="review-form">
+        <div class="review-form-field">
+          <label>Välj betyg (1–5 stjärnor):</label>
+          <div id="review-star-picker" class="star-picker" role="radiogroup" aria-label="Välj betyg">
+            <span data-star="1" role="radio" aria-checked="false" aria-label="1 stjärna">★</span>
+            <span data-star="2" role="radio" aria-checked="false" aria-label="2 stjärnor">★</span>
+            <span data-star="3" role="radio" aria-checked="false" aria-label="3 stjärnor">★</span>
+            <span data-star="4" role="radio" aria-checked="false" aria-label="4 stjärnor">★</span>
+            <span data-star="5" role="radio" aria-checked="false" aria-label="5 stjärnor">★</span>
+          </div>
+          <input type="hidden" id="review-rating-input" name="rating" value="5" required>
+        </div>
+
+        <div class="review-form-field">
+          <label for="review-name">Ditt namn och hundens namn:</label>
+          <input type="text" id="review-name" placeholder="T.ex. Maria & Bella (Golden retriever)" required>
+        </div>
+
+        <div class="review-form-field">
+          <label for="review-text">Din upplevelse av HundApp:</label>
+          <textarea id="review-text" placeholder="Berätta vad du tycker om funktionerna, påminnelserna eller promenadloggen..." required></textarea>
+        </div>
+
+        <button class="button" style="width:100%; margin-top:8px;" type="submit">Publicera mitt omdöme ✨</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Tack för ditt omdöme!</span>
+  </div>
+
+  <!-- ================= SIDFOT ================= -->
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+      <p>För ett tryggare, friskare och enklare hundliv.</p>
+      
+      <nav class="footer-links" aria-label="Sidfotslänkar">
+        <a href="portal.html">Kundportal</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="walks.html">Promenader</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tipsbibliotek</a>
+        <a href="login.html">Logga in</a>
+        <a href="register.html">Skapa konto</a>
+      </nav>
+    </div>
+    
+    <div class="container footer-bottom">
+      <span>© 2026 HundApp Sverige. Med kärlek till hundar.</span>
+      <span>Byggd för trygghet, enkelhet och hundglädje</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

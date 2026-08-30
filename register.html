@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Skapa ditt gratiskonto i HundApp – samla hundens hälsa, rutiner, kalender och promenader på ett tryggt ställe.">
+  <title>Skapa konto – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="account-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Toppheader -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+      <nav class="account-nav" aria-label="Kontomeny">
+        <span class="account-nav-label">Har du redan konto?</span>
+        <a href="login.html" class="btn btn-outline btn-sm">Logga in</a>
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Huvudsektion med Split Layout -->
+  <main id="main" class="account-main register-split-main">
+    <div class="register-split-container">
+      
+      <!-- Vänster kolumn: Registreringspanel -->
+      <section class="login-panel register-panel-card" aria-labelledby="register-heading">
+        <div class="account-badge-row">
+          <span class="account-icon peach-icon" aria-hidden="true">🐶</span>
+          <span class="tag-pill" style="background:#eef7ee; color:#2d6a4f; font-weight:700;">100% Gratis & Tryggt</span>
+        </div>
+
+        <p class="eyebrow">Börja med ett tassavtryck</p>
+        <h1 id="register-heading">Skapa ditt gratiskonto</h1>
+        <p class="account-intro">Kom igång på under 1 minut. Du lägger enkelt till din hund på nästa sida.</p>
+
+        <!-- Snabbknappar för Social Inloggning -->
+        <div class="social-auth-group">
+          <button type="button" class="btn-social google-btn" id="social-google-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
+            </svg>
+            <span>Fortsätt med Google</span>
+          </button>
+
+          <button type="button" class="btn-social apple-btn" id="social-apple-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.65-.82 1.11-1.96.98-3.1-.96.04-2.17.65-2.85 1.46-.59.69-1.12 1.83-.98 2.93 1.08.08 2.2-.47 2.85-1.29z"/>
+            </svg>
+            <span>Fortsätt med Apple</span>
+          </button>
+        </div>
+
+        <div class="auth-divider">
+          <span>eller registrera med e-post</span>
+        </div>
+
+        <!-- Formulär -->
+        <form id="register-form" class="login-form" novalidate>
+          
+          <!-- Namnfält -->
+          <div class="form-group-field">
+            <label for="name">Ditt förnamn <span class="optional">(valfritt)</span></label>
+            <div class="input-icon-wrap">
+              <span class="field-icon" aria-hidden="true">👤</span>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Till exempel Maria" class="form-control-icon">
+            </div>
+          </div>
+
+          <!-- E-postfält -->
+          <div class="form-group-field">
+            <label for="email">E-postadress <span class="required-star">*</span></label>
+            <div class="input-icon-wrap">
+              <span class="field-icon" aria-hidden="true">✉️</span>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
+            </div>
+            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. namn@doman.se).</p>
+          </div>
+
+          <!-- Lösenordsfält -->
+          <div class="form-group-field">
+            <label for="password">Välj ett säkert lösenord <span class="required-star">*</span></label>
+            <div class="input-icon-wrap">
+              <span class="field-icon" aria-hidden="true">🔒</span>
+              <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Minst 12 tecken" required class="form-control-icon">
+              <button id="toggle-password" class="btn-toggle-eye" type="button" aria-label="Visa lösenord">
+                <span class="eye-icon">👁️</span>
+              </button>
+            </div>
+
+            <!-- Visuell Styrkebar -->
+            <div class="strength-meter-wrap" id="strengthMeterWrap">
+              <div class="strength-bar-bg">
+                <div class="strength-bar-fill" id="strengthBarFill"></div>
+              </div>
+              <span class="strength-text-label" id="strengthTextLabel">Lösenordsstyrka: Ange lösenord</span>
+            </div>
+
+            <!-- Interaktiva Lösenordskrav -->
+            <ul class="password-checklist" id="passwordChecklist" aria-label="Lösenordskrav">
+              <li id="req-length" class="req-item">Minst 12 tecken</li>
+              <li id="req-case" class="req-item">Både stor och liten bokstav</li>
+              <li id="req-num" class="req-item">Minst en siffra (0–9)</li>
+              <li id="req-special" class="req-item">Minst ett specialtecken (!@#$%...)</li>
+            </ul>
+          </div>
+
+          <!-- Bekräfta lösenord -->
+          <div class="form-group-field">
+            <label for="password-confirm">Bekräfta lösenord <span class="required-star">*</span></label>
+            <div class="input-icon-wrap">
+              <span class="field-icon" aria-hidden="true">🔒</span>
+              <input id="password-confirm" name="password_confirm" type="password" autocomplete="new-password" placeholder="Upprepa ditt lösenord" required class="form-control-icon">
+              <button id="toggle-password-confirm" class="btn-toggle-eye" type="button" aria-label="Visa bekräftat lösenord">
+                <span class="eye-icon">👁️</span>
+              </button>
+            </div>
+            <p class="field-error-msg" id="confirm-error" hidden>Lösenorden matchar inte.</p>
+          </div>
+
+          <!-- GDPR Samtycke -->
+          <div class="form-group-field">
+            <label class="consent-row">
+              <input type="checkbox" id="terms-consent" name="terms" required>
+              <span>
+                Jag godkänner HundApps 
+                <button type="button" class="text-modal-link" id="open-terms-modal-btn">användarvillkor</button> 
+                och bekräftar att jag läst 
+                <button type="button" class="text-modal-link" id="open-privacy-modal-btn">integritetspolicyn</button>.
+              </span>
+            </label>
+            <p class="field-error-msg" id="terms-error" hidden>Du måste godkänna användarvillkoren för att skapa konto.</p>
+          </div>
+
+          <!-- Submit-knapp -->
+          <button class="button login-button" id="submit-register-btn" type="submit">
+            <span id="register-btn-text">Skapa gratiskonto</span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+
+        <div class="account-bottom-box">
+          <p>Har du redan ett konto? <a href="login.html" class="text-link-green">Logga in här</a></p>
+        </div>
+      </section>
+
+      <!-- Höger kolumn: Värdeerbjudande & Förtroendepanel -->
+      <aside class="register-sidebar-card" aria-label="Fördelar med HundApp">
+        <div class="sidebar-card-inner">
+          <span class="sidebar-badge">✨ Allt på ett ställe</span>
+          <h2>Det bästa för dig och din hund</h2>
+          <p class="sidebar-desc">Skapa en lugn och trygg vardag med smarta verktyg skapade av hundälskare, för hundälskare.</p>
+
+          <ul class="sidebar-features-list">
+            <li>
+              <span class="feature-bullet-icon">🐕</span>
+              <div>
+                <strong>Komplett hundprofil</strong>
+                <p>Samla chippnummer, försäkringsdetaljer, vaccinationer och viktkurva på ett tryggt ställe.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature-bullet-icon">⏰</span>
+              <div>
+                <strong>Smarta påminnelser</strong>
+                <p>Glöm aldrig kloklippning, fästingmedel, pälsvård eller veterinärbesök.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature-bullet-icon">🐾</span>
+              <div>
+                <strong>Promenad- & Aktivitetslogg</strong>
+                <p>Håll koll på distans, rörelse och mental nosaktivering vecka för vecka.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature-bullet-icon">📚</span>
+              <div>
+                <strong>25+ Kvalitetssäkrade Hundtips</strong>
+                <p>Evidensbaserad kunskap om foder, säkerhet och skonsam belöningsträning.</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="sidebar-security-badge">
+            <span class="security-lock-icon">🔒</span>
+            <div>
+              <strong>100% GDPR-tryggt & Privat</strong>
+              <p>Vi säljer aldrig dina uppgifter och visar ingen reklam. Din data är din egen.</p>
+            </div>
+          </div>
+
+          <!-- Användarcitat / Social Proof -->
+          <div class="sidebar-testimonial">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>”HundApp har gjort underverk för våra rutiner. Bella får exakt den stimulans hon behöver och jag slipper oroa mig för att glömma vaccinationer!”</p>
+            <div class="testimonial-author">
+              <b>Maria & Bella</b>
+              <small>Golden Retriever, 3 år</small>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MODAL: ANVÄNDARVILLKOR -->
+  <div id="terms-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+    <div class="modal-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="terms-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">📜 Användarvillkor för HundApp</h3>
+        <button class="modal-close" id="close-terms-modal-btn" type="button" aria-label="Stäng">×</button>
+      </div>
+      <div class="modal-body" style="padding: 20px 24px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-light); max-height: 60vh; overflow-y: auto;">
+        <h4 style="color: var(--ink); margin-top: 0;">1. Allmänt</h4>
+        <p>Välkommen till HundApp. Genom att registrera ett konto godkänner du dessa villkor. HundApp är en digital assistent för att logga hundaktiviteter, rutiner och hälsa.</p>
+        
+        <h4 style="color: var(--ink);">2. Användarkonto och säkerhet</h4>
+        <p>Du ansvarar för att hålla dina inloggningsuppgifter konfidentiella och att lösenordet uppfyller våra säkerhetskrav (minst 12 tecken, versal, siffra och specialtecken).</p>
+
+        <h4 style="color: var(--ink);">3. Ej veterinärdiagnostik</h4>
+        <p>All information, tips och statistik i HundApp är endast avsedd som allmän vägledning och ersätter aldrig professionell veterinärvård eller instruktörshjälp.</p>
+
+        <h4 style="color: var(--ink);">4. Kostnadsfri användning</h4>
+        <p>Grundversionen av HundApp är helt kostnadsfri. Eventuella framtida premiumfunktioner aktiveras endast med ditt uttryckliga godkännande.</p>
+      </div>
+      <div class="modal-footer" style="padding: 14px 24px; border-top: 1px solid var(--line); text-align: right;">
+        <button class="btn btn-primary" id="confirm-terms-modal-btn" type="button">Jag förstår</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INTEGRITETSPOLICY (GDPR) -->
+  <div id="privacy-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+    <div class="modal-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="privacy-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🔒 Integritetspolicy & GDPR</h3>
+        <button class="modal-close" id="close-privacy-modal-btn" type="button" aria-label="Stäng">×</button>
+      </div>
+      <div class="modal-body" style="padding: 20px 24px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-light); max-height: 60vh; overflow-y: auto;">
+        <h4 style="color: var(--ink); margin-top: 0;">1. Behandling av personuppgifter</h4>
+        <p>HundApp värnar om din och din hunds integritet. Vi samlar endast in uppgifter som är nödvändiga för att tillhandahålla tjänsten (namn, e-postadress och information om dina hundar).</p>
+        
+        <h4 style="color: var(--ink);">2. Tredjepartsdelning & Reklam</h4>
+        <p>Vi säljer aldrig dina personuppgifter eller din hunds loggdata till tredje part. Vi visar ingen tredjepartsreklam.</p>
+
+        <h4 style="color: var(--ink);">3. Dina rättigheter enligt GDPR</h4>
+        <p>Du har alltid rätt att begära utdrag, rättelse eller fullständig radering av alla dina lagrade personuppgifter och hundprofiler när som helst.</p>
+      </div>
+      <div class="modal-footer" style="padding: 14px 24px; border-top: 1px solid var(--line); text-align: right;">
+        <button class="btn btn-primary" id="confirm-privacy-modal-btn" type="button">Stäng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Konto skapat! Välkommen till HundApp.</span>
+  </div>
+
+  <!-- Sidfot -->
+  <footer class="simple-footer">
+    <a href="index.html">← Tillbaka till HundApp</a>
+    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

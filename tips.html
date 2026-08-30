@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kvalitetssäkrade hundtips om hälsa, träning, vardag, foder, farlig mat och valpuppfostran.">
+  <title>Hundtips & Kunskapsbibliotek – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="portal-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny"><a href="portal.html">Översikt</a><a href="dogs.html">Mina hundar</a><a href="walks.html">Promenader</a><a href="calendar.html">Kalender</a><a href="statistics.html">Statistik</a><a href="tips.html" class="active">Tips</a>  <a href="suggestions.html">Förslag &amp; Idéer</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" type="button">
+          <span>M</span>
+          <b>Maria</b>
+          <em>⌄</em>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="tips-main">
+    <!-- HERO MED SÖK & SNABBLÄNKAR -->
+    <section class="tips-hero">
+      <div class="container">
+        <p class="eyebrow">Kunskap för ett tryggt hundliv</p>
+        <h1>Hundtips för varje dag</h1>
+        <p>25 beprövade, omtänksamma råd om hälsa, foder, träning och vardagslivet tillsammans med din hund.</p>
+        
+        <label class="tips-search" for="tips-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="tips-search" type="search" placeholder="Sök bland hundtips, t.ex. “giftig mat”, “koppelträning”, “klor”...">
+          <button id="tips-search-btn" type="button" aria-label="Sök">Sök</button>
+        </label>
+
+        <!-- SNABBSÖKNINGSTAGGAR -->
+        <div class="quick-search-tags" aria-label="Populära sökord">
+          <span class="quick-search-label">Populärt:</span>
+          <button type="button" class="quick-search-tag danger-tag" data-search="giftigt">⚠️ Giftig mat</button>
+          <button type="button" class="quick-search-tag" data-search="kloklippning">✂️ Kloklippning</button>
+          <button type="button" class="quick-search-tag" data-search="koppel">🐾 Koppelträning</button>
+          <button type="button" class="quick-search-tag" data-search="ensamträning">🚪 Ensamträning</button>
+          <button type="button" class="quick-search-tag" data-search="rumsrenhet">👶 Rumsrenhet</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIPSBIBLIOTEK MED KATEGORIFILTER -->
+    <section class="container tips-library">
+      <div class="tips-filter-row" role="toolbar" aria-label="Filtrera tips per kategori">
+        <button class="tip-filter active" type="button" data-category="all">Alla tips <span id="count-all">25</span></button>
+        <button class="tip-filter" type="button" data-category="health">Hälsa <span id="count-health">5</span></button>
+        <button class="tip-filter" type="button" data-category="training">Träning <span id="count-training">5</span></button>
+        <button class="tip-filter" type="button" data-category="everyday">Vardag <span id="count-everyday">5</span></button>
+        <button class="tip-filter" type="button" data-category="food">Foder & Kost <span id="count-food">5</span></button>
+        <button class="tip-filter" type="button" data-category="puppy">Valp <span id="count-puppy">5</span></button>
+        <button class="tip-filter" type="button" data-category="favorites">⭐ Sparade tips <span id="count-favorites">0</span></button>
+      </div>
+
+      <div class="tips-library-head">
+        <div>
+          <p class="card-label">TIPSBIBLIOTEK</p>
+          <h2 id="tips-results-heading">25 tips för dig och din hund</h2>
+        </div>
+        <p id="tips-results-count">Visar alla 25 tips</p>
+      </div>
+
+      <!-- DYNAMISK KORTGRID -->
+      <div id="tips-grid" class="tips-card-grid" aria-live="polite">
+        <!-- Renderas i app.js -->
+      </div>
+
+      <p id="tips-empty" class="tips-empty" hidden>
+        Vi hittade inga tips som matchar din sökning. Testa ett annat sökord eller välj en annan kategori ovanför.
+      </p>
+    </section>
+
+    <!-- VETERINÄRDISCLAIMER ENLIGT SPEC -->
+    <section class="tips-disclaimer">
+      <div class="container">
+        <span aria-hidden="true">♥</span>
+        <p><b>Viktigt:</b> HundApps tips är generell vägledning och ersätter aldrig rådgivning eller diagnos från legitimerad veterinär eller kvalificerad hundinstruktör. Kontakta alltid veterinär vid akuta besvär, förgiftningsmisstanke eller osäkerhet.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: DETALJERAD ARTIKELVY -->
+  <div id="tip-detail-modal" class="modal tip-detail-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="tip-detail-title">
+    <article class="tip-detail-box">
+      <button class="modal-close" type="button" aria-label="Stäng artikeln">×</button>
+      <div id="tip-detail-content">
+        <!-- Renderas dynamiskt i app.js -->
+      </div>
+    </article>
+  </div>
+
+  <!-- TOAST FEEDBACK NOTIFIERING -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Tips sparat!</span>
+  </div>
+
+  <!-- SIDFOT -->
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+      <p>För ett tryggare och enklare hundliv.</p>
+      <div class="footer-links">
+        <a href="portal.html">Kundportal</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="walks.html">Promenader</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tipsbibliotek</a>
+        <a href="login.html">Logga in</a>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <span>© 2026 HundApp. Med kärlek till hundar.</span>
+      <span>25 beprövade hundtips</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

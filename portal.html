@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Din personliga översikt och dashboard i HundApp – håll koll på hundens hälsa, promenader, rutiner och matallergier.">
+  <title>Översikt & Portal – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="portal-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html" class="active">Översikt</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="walks.html">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" type="button" id="userMenuBtn">
+          <span id="userAvatarLetter">M</span>
+          <b id="userNavName">Maria</b>
+          <em>⌄</em>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Huvudinnehåll -->
+  <main id="main" class="portal-main">
+    
+    <!-- Välkomsthälsning & Aktiv Hundväljare -->
+    <header class="portal-welcome-row">
+      <div class="welcome-text-col">
+        <p class="eyebrow" id="portalCurrentDate">Idag</p>
+        <h1 id="portalGreetingHeading">God morgon, <span id="portalGreetingName">Maria</span> <span>👋</span></h1>
+        <p class="portal-intro-sub" id="portalGreetingSub">Här är en samlad överblick över Bellas dag, rutiner och välmående.</p>
+      </div>
+
+      <div class="dog-switch-card" id="dogSwitchWidget">
+        <div class="dog-avatar-wrap">
+          <span class="dog-emoji" id="activeDogEmoji">🐶</span>
+        </div>
+        <div class="dog-meta-info">
+          <small class="meta-label">AKTIV HUND</small>
+          <strong class="dog-name-display" id="activeDogName">Bella</strong>
+          <span class="dog-sub-tag">Golden retriever · 3 år</span>
+        </div>
+        <button type="button" class="btn-switch-dog" id="switchDogBtn" aria-label="Byt aktiv hund">
+          <span class="switch-icon">⇄</span> Byt hund
+        </button>
+      </div>
+    </header>
+
+    <!-- Snabbåtgärder (Quick Actions) -->
+    <section class="quick-actions-bar" aria-label="Snabbåtgärder">
+      <a href="walks.html" class="quick-action-btn">
+        <span class="quick-icon walk-icon">🐾</span>
+        <div>
+          <b>Logga promenad</b>
+          <small>Distans, tid & rutt</small>
+        </div>
+      </a>
+
+      <a href="walks.html" class="quick-action-btn">
+        <span class="quick-icon activity-icon">✦</span>
+        <div>
+          <b>Logga aktivitet</b>
+          <small>Nosarbete, lek & träning</small>
+        </div>
+      </a>
+
+      <a href="calendar.html" class="quick-action-btn">
+        <span class="quick-icon reminder-icon">⏰</span>
+        <div>
+          <b>Ny påminnelse</b>
+          <small>Kloklippning & vård</small>
+        </div>
+      </a>
+
+      <button type="button" class="quick-action-btn btn-trigger-allergy" id="openAllergyModalBtn">
+        <span class="quick-icon allergy-icon">🌾</span>
+        <div>
+          <b>Matallergier & Foder</b>
+          <small id="quickAllergySummary">1 registrerad allergi</small>
+        </div>
+      </button>
+    </section>
+
+    <!-- Huvudgrid Dashboard -->
+    <div class="dashboard-grid">
+      
+      <!-- KORT 1: Kommande Rutiner & Check-off -->
+      <section class="portal-card upcoming-routines-card">
+        <div class="card-heading">
+          <div>
+            <p class="card-label">RUTINER & VÅRD</p>
+            <h2>Vad händer härnäst?</h2>
+          </div>
+          <a href="calendar.html" class="text-link-sm">Öppna kalendern →</a>
+        </div>
+
+        <div class="upcoming-routines-list" id="upcomingRoutinesList">
+          <!-- Rutin 1: Kloklippning -->
+          <article class="routine-item" id="routine-claw">
+            <span class="date-chip">
+              <b>31</b>
+              <small>JUL</small>
+            </span>
+            <span class="routine-icon pink-icon">✂</span>
+            <div class="routine-info">
+              <strong>Kloklippning</strong>
+              <small>För Bella · <span class="due-tag">om 3 dagar</span></small>
+            </div>
+            <button type="button" class="btn-check-routine" data-routine-id="claw" title="Markera som klar">
+              <span class="check-box-icon">○</span>
+              <span class="check-text">Klar</span>
+            </button>
+          </article>
+
+          <!-- Rutin 2: Fästingmedel -->
+          <article class="routine-item" id="routine-tick">
+            <span class="date-chip">
+              <b>04</b>
+              <small>AUG</small>
+            </span>
+            <span class="routine-icon yellow-icon">🩺</span>
+            <div class="routine-info">
+              <strong>Fästingmedel</strong>
+              <small>För Bella · <span class="due-tag">om 7 dagar</span></small>
+            </div>
+            <button type="button" class="btn-check-routine" data-routine-id="tick" title="Markera som klar">
+              <span class="check-box-icon">○</span>
+              <span class="check-text">Klar</span>
+            </button>
+          </article>
+
+          <!-- Rutin 3: Årlig hälsokontroll -->
+          <article class="routine-item" id="routine-vet">
+            <span class="date-chip">
+              <b>12</b>
+              <small>AUG</small>
+            </span>
+            <span class="routine-icon green-icon">♥</span>
+            <div class="routine-info">
+              <strong>Årlig hälsokontroll</strong>
+              <small>Veterinärbesök · <span class="due-tag">om 15 dagar</span></small>
+            </div>
+            <button type="button" class="btn-check-routine" data-routine-id="vet" title="Markera som klar">
+              <span class="check-box-icon">○</span>
+              <span class="check-text">Klar</span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- KORT 2: Matallergi & Specialkost (Hundens Trygghet) -->
+      <section class="portal-card allergy-safety-card">
+        <div class="card-heading">
+          <div>
+            <p class="card-label">HÄLSA & FODER</p>
+            <h2>Matallergi & Specialkost</h2>
+          </div>
+          <button type="button" class="btn btn-outline btn-xs" id="editAllergyBtn">✏️ Redigera</button>
+        </div>
+
+        <div class="allergy-card-body">
+          <div class="allergy-tags-wrap" id="portalAllergyTags">
+            <span class="allergy-badge danger-badge">⚠️ Kycklingprotein</span>
+            <span class="allergy-badge warning-badge">🌾 Spannmålsfritt</span>
+          </div>
+
+          <div class="diet-info-box">
+            <strong class="diet-title">🥣 Aktuellt foder:</strong>
+            <p id="portalDietText" class="diet-desc">Veterinärfoder: Hypoallergent Lamm & Ris (Spannmålsfritt).</p>
+          </div>
+
+          <div class="safety-warning-box">
+            <span class="safety-icon">💡</span>
+            <div class="safety-text">
+              <strong>Information till hundvakter & familj:</strong>
+              <p id="portalAllergyNotes">Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KORT 3: Denna vecka i siffror (Widget till Statistik) -->
+      <section class="portal-card week-stats-card">
+        <div class="card-heading">
+          <div>
+            <p class="card-label">DENNA VECKA</p>
+            <h2>Rörelse & Motion</h2>
+          </div>
+          <a href="statistics.html" class="text-link-sm">Full statistik →</a>
+        </div>
+
+        <div class="week-stat-top-row">
+          <div class="stat-highlight-item">
+            <b id="portalWeekWalksCount">6</b>
+            <span>promenader</span>
+          </div>
+          <div class="stat-highlight-item">
+            <b id="portalWeekDistanceKm">13,8</b>
+            <span>km totalt</span>
+          </div>
+          <div class="stat-highlight-item">
+            <b id="portalWeekActiveHours">4 h 25 m</b>
+            <span>tid ute</span>
+          </div>
+        </div>
+
+        <!-- Visuella veckostaplar -->
+        <div class="portal-week-bars" aria-label="Aktivitet per veckodag">
+          <div class="bar-col"><i style="height:45%"></i><span>M</span></div>
+          <div class="bar-col"><i style="height:70%"></i><span>T</span></div>
+          <div class="bar-col"><i style="height:35%"></i><span>O</span></div>
+          <div class="bar-col"><i style="height:90%"></i><span>T</span></div>
+          <div class="bar-col active-today"><i style="height:55%"></i><span>F</span></div>
+          <div class="bar-col"><i style="height:80%"></i><span>L</span></div>
+          <div class="bar-col"><i style="height:30%"></i><span>S</span></div>
+        </div>
+
+        <p class="week-footer-summary">
+          ↗ <b>+14%</b> mer rörelse än föregående vecka. Snyggt jobbat!
+        </p>
+      </section>
+
+      <!-- KORT 4: Senaste Händelser (Live Flöde) -->
+      <section class="portal-card recent-activity-card">
+        <div class="card-heading">
+          <div>
+            <p class="card-label">SENASTE LOGGADE</p>
+            <h2>Bellas vardagshistorik</h2>
+          </div>
+          <a href="walks.html" class="text-link-sm">Visa loggbok →</a>
+        </div>
+
+        <div class="recent-events-list" id="portalRecentList">
+          <article class="recent-item">
+            <span class="recent-icon green-dot">🐾</span>
+            <div class="recent-text">
+              <strong>Morgonpromenad i parken</strong>
+              <small>32 min · 2,4 km · Jämnt tempo</small>
+            </div>
+            <time>I dag, 08:14</time>
+          </article>
+
+          <article class="recent-item">
+            <span class="recent-icon purple-dot">👃</span>
+            <div class="recent-text">
+              <strong>Nosarbete & Godissök</strong>
+              <small>15 min · Mental berikning</small>
+            </div>
+            <time>I går, 18:30</time>
+          </article>
+
+          <article class="recent-item">
+            <span class="recent-icon peach-dot">⚖️</span>
+            <div class="recent-text">
+              <strong>Vägning registrerad (27,4 kg)</strong>
+              <small>Stabil och fin idealvikt</small>
+            </div>
+            <time>20 juli</time>
+          </article>
+        </div>
+      </section>
+
+      <!-- KORT 5: Dagens Omtänksamma Hundtips -->
+      <aside class="portal-card daily-tip-portal-card">
+        <div class="tip-card-inner">
+          <span class="tip-sparkle-icon">🌿</span>
+          <p class="card-label">DAGENS UTVALDA HUNDTIPS</p>
+          <h2 id="portalDailyTipTitle">En lugn stund kan vara dagens bästa aktivering</h2>
+          <p id="portalDailyTipBody">
+            Mental stimulans genom nosarbete sänker hundens stressnivåer och puls mer effektivt än enbart långa promenader. Låt Bella söka efter några doftande godisar i en hoprullad handduk idag!
+          </p>
+          <div class="tip-card-action">
+            <a href="tips.html" class="btn btn-outline" style="background:var(--white); font-size:0.85rem;">📚 Läs fler tips i biblioteket →</a>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MODAL: REGISTRERA / REDIGERA MATALLERGI & SPECIALKOST -->
+  <div id="allergy-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="allergy-modal-title">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 id="allergy-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🌾 Hantera Matallergier & Specialkost</h3>
+        <button class="modal-close" id="close-allergy-modal-btn" type="button" aria-label="Stäng">×</button>
+      </div>
+
+      <form id="allergy-form" class="modal-body" style="padding: 20px 24px;">
+        <p style="font-size: 0.88rem; color: var(--muted); margin: 0 0 16px; line-height: 1.5;">
+          Håll koll på ingredienser och råvaror som Bella inte tål. Detta visas tydligt i portalen och underlättar för hundvakter och familjemedlemmar.
+        </p>
+
+        <!-- Vanliga allergener (Checkboxes) -->
+        <label style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 8px;">Kända överkänsligheter & allergier:</label>
+        <div class="allergen-checkbox-grid">
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Kyckling" checked>
+            <span>🐔 Kycklingprotein</span>
+          </label>
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Spannmål" checked>
+            <span>🌾 Spannmål / Vete</span>
+          </label>
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Nötkött">
+            <span>🥩 Nötkött</span>
+          </label>
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Ägg">
+            <span>🥚 Ägg</span>
+          </label>
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Mejeri">
+            <span>🥛 Mjölk / Mejeri</span>
+          </label>
+          <label class="allergen-checkbox-item">
+            <input type="checkbox" name="allergens" value="Fisk">
+            <span>🐟 Fisk</span>
+          </label>
+        </div>
+
+        <!-- Egna övriga allergier -->
+        <div class="form-group" style="margin: 16px 0;">
+          <label for="custom-allergy-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Övriga ingredienser eller ämnen (valfritt):</label>
+          <input type="text" id="custom-allergy-input" class="form-control" placeholder="t.ex. Griskött, Soja, Konserveringsmedel">
+        </div>
+
+        <!-- Aktuellt foder -->
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="diet-name-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Aktuellt foder / diet:</label>
+          <input type="text" id="diet-name-input" class="form-control" value="Veterinärfoder: Hypoallergent Lamm & Ris (Spannmålsfritt)" placeholder="t.ex. Royal Canin Hypoallergenic, Acana Lamm...">
+        </div>
+
+        <!-- Säkerhetsinstruktion till hundvakter -->
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="safety-notes-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Instruktion till hundvakter / familj:</label>
+          <textarea id="safety-notes-input" class="form-control" rows="2" placeholder="t.ex. Ge absolut inte godis med kyckling. Vid belöning: använd lammgodis.">Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.</textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn btn-outline" id="cancel-allergy-modal-btn">Avbryt</button>
+          <button type="submit" class="btn btn-primary">Spara hälsoinformation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: BYT HUND -->
+  <div id="dog-switch-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dog-switch-modal-title">
+    <div class="modal-card" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 id="dog-switch-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🐾 Välj aktiv hund</h3>
+        <button class="modal-close" id="close-dog-switch-modal-btn" type="button" aria-label="Stäng">×</button>
+      </div>
+      <div class="modal-body" style="padding: 16px 20px;">
+        <div class="dog-select-list">
+          <button type="button" class="dog-select-item active" data-dog="bella">
+            <span style="font-size: 28px;">🐶</span>
+            <div style="text-align: left; flex: 1;">
+              <strong>Bella</strong>
+              <small style="display: block; color: var(--muted);">Golden retriever · 3 år</small>
+            </div>
+            <span style="color: var(--green); font-weight: 700;">Aktiv ✓</span>
+          </button>
+          <button type="button" class="dog-select-item" data-dog="max">
+            <span style="font-size: 28px;">🐕</span>
+            <div style="text-align: left; flex: 1;">
+              <strong>Max</strong>
+              <small style="display: block; color: var(--muted);">Border collie · 1 år</small>
+            </div>
+            <span style="color: var(--muted); font-size: 12px;">Välj</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 12px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between;">
+        <a href="dogs.html" class="btn btn-outline btn-sm">+ Hantera hundar</a>
+        <button type="button" class="btn btn-primary btn-sm" id="confirm-dog-switch-btn">Klar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Översikten uppdaterad!</span>
+  </div>
+
+  <!-- Sidfot -->
+  <footer class="portal-footer">
+    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
+    <span>Kundportal v1.4</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Promenader och aktiviteter för din hund i HundApp. Enkel loggning, statistik och historik.">
+  <title>Promenader & Aktiviteter – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="portal-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny"><a href="portal.html">Översikt</a><a href="dogs.html">Mina hundar</a><a href="walks.html" class="active">Promenader</a><a href="calendar.html">Kalender</a><a href="statistics.html">Statistik</a><a href="tips.html">Tips</a>  <a href="suggestions.html">Förslag &amp; Idéer</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" type="button">
+          <span>M</span>
+          <b>Maria</b>
+          <em>⌄</em>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="portal-main walks-main">
+    <!-- SIDRUBRIK & SNABBKNAPPAR -->
+    <section class="walks-heading">
+      <div>
+        <p class="eyebrow">Bellas rörelse och äventyr</p>
+        <h1>Promenader & aktiviteter</h1>
+        <p>Följ vardagen, se mönster och fira varje liten tur tillsammans.</p>
+      </div>
+
+      <div class="walks-actions">
+        <button id="log-activity-button" class="outline-button" type="button">+ Logga aktivitet</button>
+        <button id="log-walk-button" class="button" type="button">+ Logga promenad</button>
+      </div>
+    </section>
+
+    <!-- LIVE STATISTIKKORT -->
+    <section class="walk-stats" aria-label="Sammanfattning för veckan">
+      <article>
+        <span>🐾</span>
+        <div>
+          <small>DEN HÄR VECKAN</small>
+          <b id="stat-walk-count">4 <em>promenader</em></b>
+          <p id="stat-walk-time">2 h 38 min totalt</p>
+        </div>
+      </article>
+
+      <article>
+        <span>↗</span>
+        <div>
+          <small>TOTAL DISTANS</small>
+          <b id="stat-walk-distance">9,7 <em>km</em></b>
+          <p>+12% från förra veckan</p>
+        </div>
+      </article>
+
+      <article>
+        <span>✦</span>
+        <div>
+          <small>AKTIVITETER</small>
+          <b id="stat-activity-count">3 <em>st</em></b>
+          <p id="stat-activity-time">45 min mental stimulans</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- AKTIVITETSHISTORIK MED FILTER -->
+    <section class="portal-card walks-list-card">
+      <div class="walks-list-top">
+        <div>
+          <p class="card-label">HISTORIK</p>
+          <h2>Senaste aktiviteterna</h2>
+        </div>
+
+        <div class="walk-filters">
+          <button type="button" aria-label="Filtrera på hund">🐶 Bella ⌄</button>
+          <button type="button" aria-label="Filtrera på period">Senaste 30 dagarna ⌄</button>
+        </div>
+      </div>
+
+      <!-- KATEGORIFILTER -->
+      <div class="log-filter-bar" role="toolbar" aria-label="Filtrera typer">
+        <button class="log-filter-btn active" type="button" data-filter="all">Alla händelser</button>
+        <button class="log-filter-btn" type="button" data-filter="walk">🐾 Bara promenader</button>
+        <button class="log-filter-btn" type="button" data-filter="activity">✦ Bara aktiviteter</button>
+        <button class="log-filter-btn" type="button" data-filter="scent">👃 Nosarbete</button>
+        <button class="log-filter-btn" type="button" data-filter="play">🎾 Lek</button>
+        <button class="log-filter-btn" type="button" data-filter="training">🏆 Träning</button>
+      </div>
+
+      <!-- DYNAMISK LOGGLISTA -->
+      <div id="walks-log-list" class="log-list" aria-live="polite">
+        <!-- Renderas i app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: LOGGA PROMENAD -->
+  <div id="walk-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walk-modal-title">
+    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px;">
+      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+      <span class="modal-icon">🐾</span>
+      <p class="eyebrow">Ny promenad</p>
+      <h2 id="walk-modal-title">Logga promenad för Bella</h2>
+      
+      <form id="walk-log-form" style="margin-top:16px;">
+        <!-- Snabbval för typ av promenad -->
+        <div class="walk-form-group">
+          <label>Typ av tur:</label>
+          <div class="pill-selector" id="walk-type-pills">
+            <button type="button" class="pill-option active" data-type="Morgonpromenad">🌅 Morgontur</button>
+            <button type="button" class="pill-option" data-type="Skogspromenad">🌲 Skogstur</button>
+            <button type="button" class="pill-option" data-type="Kvällspromenad">🌙 Kvällstur</button>
+            <button type="button" class="pill-option" data-type="Snabb rastning">⚡ Rastning</button>
+            <button type="button" class="pill-option" data-type="Långpromenad">🦮 Långpromenad</button>
+          </div>
+          <input type="hidden" id="walk-type-input" value="Morgonpromenad">
+        </div>
+
+        <div class="walk-form-row">
+          <div class="walk-form-group">
+            <label for="walk-duration">Varaktighet (minuter):</label>
+            <input type="number" id="walk-duration" min="1" max="600" placeholder="T.ex. 30" required value="30">
+          </div>
+
+          <div class="walk-form-group">
+            <label for="walk-distance">Distans (km):</label>
+            <input type="number" id="walk-distance" step="0.1" min="0" max="100" placeholder="T.ex. 2.2" required value="2.0">
+          </div>
+        </div>
+
+        <div class="walk-form-group">
+          <label for="walk-datetime">Datum och tid:</label>
+          <input type="datetime-local" id="walk-datetime" required>
+        </div>
+
+        <div class="walk-form-group">
+          <label for="walk-note">Anteckning (valfritt):</label>
+          <input type="text" id="walk-note" placeholder="T.ex. lugnt tempo, träffade Milo i parken">
+        </div>
+
+        <button class="button" style="width:100%; margin-top:8px;" type="submit">Spara promenad 🐾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LOGGA AKTIVITET -->
+  <div id="activity-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="activity-modal-title">
+    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px;">
+      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+      <span class="modal-icon activity-modal-icon">✦</span>
+      <p class="eyebrow">Ny aktivitet</p>
+      <h2 id="activity-modal-title">Logga aktivitet för Bella</h2>
+      
+      <form id="activity-log-form" style="margin-top:16px;">
+        <!-- Snabbval för aktivitetstyp -->
+        <div class="walk-form-group">
+          <label>Aktivitetstyp:</label>
+          <div class="pill-selector" id="activity-type-pills">
+            <button type="button" class="pill-option active" data-type="Nosarbete hemma" data-category="scent">👃 Nosarbete</button>
+            <button type="button" class="pill-option" data-type="Bolllek i parken" data-category="play">🎾 Bolllek</button>
+            <button type="button" class="pill-option" data-type="Lydnadsträning" data-category="training">🏆 Träning</button>
+            <button type="button" class="pill-option" data-type="Dragkampslek" data-category="play">🪢 Dragkamp</button>
+            <button type="button" class="pill-option" data-type="Mental aktivering" data-category="scent">🧩 Hjärngympa</button>
+          </div>
+          <input type="hidden" id="activity-type-input" value="Nosarbete hemma">
+          <input type="hidden" id="activity-category-input" value="scent">
+        </div>
+
+        <div class="walk-form-row">
+          <div class="walk-form-group">
+            <label for="activity-duration">Varaktighet (minuter):</label>
+            <input type="number" id="activity-duration" min="1" max="300" placeholder="T.ex. 15" required value="15">
+          </div>
+
+          <div class="walk-form-group">
+            <label for="activity-datetime">Datum och tid:</label>
+            <input type="datetime-local" id="activity-datetime" required>
+          </div>
+        </div>
+
+        <div class="walk-form-group">
+          <label for="activity-note">Anteckning (valfritt):</label>
+          <input type="text" id="activity-note" placeholder="T.ex. godissök i trädgården med gott fokus">
+        </div>
+
+        <button class="button" style="width:100%; margin-top:8px;" type="submit">Spara aktivitet ✦</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK NOTIFIERING -->
+  <div id="toast-msg" class="toast-msg" role="status" aria-live="polite">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Händelse sparad!</span>
+  </div>
+
+  <!-- SIDFOT -->
+  <footer class="portal-footer">
+    <span>© 2026 HundApp</span>
+    <span>Aktivitets- och promenadlogg för Bella</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
