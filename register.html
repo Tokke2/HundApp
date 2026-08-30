@@ -86,7 +86,7 @@
               <span class="field-icon" aria-hidden="true">✉️</span>
               <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
             </div>
-            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. namn@doman.se).</p>
+            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1b757a76755b7f74767a7535687e">[email&#160;protected]</a>).</p>
           </div>
 
           <!-- Lösenordsfält -->
@@ -275,12 +275,73 @@
     <span id="toast-text">Konto skapat! Välkommen till HundApp.</span>
   </div>
 
+  
+  <!-- Modal: Koppla & Logga in med Google -->
+  <div class="modal-overlay" id="google-connect-modal" role="dialog" aria-modal="true" aria-labelledby="google-modal-title" aria-hidden="true">
+    <div class="modal-card google-oauth-modal-card">
+      <div class="google-modal-header">
+        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
+        </svg>
+        <div style="flex: 1;">
+          <h2 id="google-modal-title" class="google-modal-title">Logga in med Google</h2>
+          <p class="google-modal-sub">Välj eller fyll i ditt Google-konto för att ansluta till HundApp</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-google-modal-btn" data-modal-close aria-label="Stäng">&times;</button>
+      </div>
+
+      <!-- Snabbval av Google-konton -->
+      <div class="google-accounts-list" id="google-accounts-list">
+        <button type="button" class="google-account-item" onclick="window.selectQuickGoogleAccount('Anna Lindgren', 'anna.lindgren@gmail.com')">
+          <div class="google-avatar-circle" style="background:#4285f4; color:#fff;">A</div>
+          <div class="google-account-info">
+            <strong>Anna Lindgren</strong>
+            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e687888887c88a8f888281948388a6818b878f8ac885898b">[email&#160;protected]</a></span>
+          </div>
+          <span class="google-select-arrow">➔</span>
+        </button>
+        <button type="button" class="google-account-item" onclick="window.selectQuickGoogleAccount('Johan Svensson', 'johan.svensson@gmail.com')">
+          <div class="google-avatar-circle" style="background:#34a853; color:#fff;">J</div>
+          <div class="google-account-info">
+            <strong>Johan Svensson</strong>
+            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f99396919897d78a8f9c978a8a9697b99e94989095d79a9694">[email&#160;protected]</a></span>
+          </div>
+          <span class="google-select-arrow">➔</span>
+        </button>
+      </div>
+
+      <div class="google-modal-divider">
+        <span>Eller ange ditt egna Google-konto</span>
+      </div>
+
+      <form id="custom-google-signin-form" class="google-modal-form">
+        <div class="form-group">
+          <label for="google-user-name">Ditt fullständiga namn <span class="required">*</span></label>
+          <input type="text" id="google-user-name" class="form-input" placeholder="T.ex. Karin Bergström" required>
+        </div>
+        <div class="form-group">
+          <label for="google-user-email">Din Google e-postadress (@gmail.com) <span class="required">*</span></label>
+          <input type="email" id="google-user-email" class="form-input" placeholder="karin.bergstrom@gmail.com" required>
+        </div>
+        <div class="google-modal-actions">
+          <button type="button" class="btn btn-secondary" data-modal-close>Avbryt</button>
+          <button type="submit" class="btn btn-primary" id="confirm-google-login-btn">
+            Koppla konto &amp; Logga in ➔
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Sidfot -->
   <footer class="simple-footer">
     <a href="index.html">← Tillbaka till HundApp</a>
     <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
   </footer>
 
-  <script src="app.js"></script>
-</body>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="app.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3327d3b0fbde0fe',t:'MTc4ODA3OTIxMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
