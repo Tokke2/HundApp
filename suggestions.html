@@ -3,25 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Förslagslåda & Idéer · HundApp</title>
-  <meta name="description" content="Lämna förslag på nya funktioner, rösta på communityns idéer och maila direkt till administratören. Forma framtidens HundApp tillsammans!">
+  <title>Förslagslåda &amp; Idéröstning · HundApp</title>
+  <meta name="description" content="Lämna förslag på nya funktioner, rösta på communityns idéer och följ vår live-roadmap. Forma framtidens HundApp tillsammans!">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
 </head>
 <body class="portal-body">
   <a class="skip-link" href="#main">Hoppa till innehåll</a>
 
   <!-- Toppnavigation -->
   <header class="portal-header">
-    <div class="portal-header-inner">
-      <div class="portal-brand">
-        <a href="index.html" class="logo-link" aria-label="Gå till startsidan">
-          <span class="logo-icon">🐾</span>
-          <span class="logo-text">Hund<strong>App</strong></span>
-        </a>
-      </div>
+    <div class="portal-nav">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <span class="brand-mark" aria-hidden="true">🐾</span>
+        <span>HundApp</span>
+      </a>
 
       <nav class="portal-links" aria-label="Huvudmeny">
         <a href="portal.html">Översikt</a>
@@ -33,34 +31,38 @@
         <a href="suggestions.html" class="active">Förslag &amp; Idéer</a>
       </nav>
 
-      <div class="portal-user-actions">
-        <div class="user-menu-wrap">
-          <button type="button" class="user-menu-btn" id="userMenuBtn" aria-expanded="false" aria-label="Användarmeny">
-            <span class="avatar-circle" id="userAvatarLetter">B</span>
-            <span class="user-name-text" id="userNavName">Bella</span>
-          </button>
-        </div>
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" id="userMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="userAvatarLetter">M</span>
+          <b id="userNavName">Maria</b>
+          <em>⌄</em>
+        </button>
       </div>
     </div>
   </header>
 
   <!-- Huvudinnehåll -->
   <main id="main" class="portal-main suggestions-page-main">
-    <div class="portal-container">
+    <div class="portal-container" style="max-width: 1120px; margin: 0 auto; padding: 24px 20px 60px;">
       
-      <!-- Sidhuvud & Introduktion -->
+      <!-- Sidhuvud & Hero -->
       <section class="suggestions-hero-card">
         <div class="suggestions-hero-content">
-          <div class="hero-tag-badge">💡 Community &amp; Framtida funktioner</div>
-          <h1 class="suggestions-heading">Förslagslåda &amp; Idéröstning</h1>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+            <span class="hero-tag-badge">💡 Community Co-Creation</span>
+            <span class="hero-tag-badge" style="background:rgba(255,255,255,0.25);">🐾 100% Öppet &amp; Transparent</span>
+          </div>
+          <h1 class="suggestions-heading">Förslagslåda &amp; Framtidsröstning</h1>
           <p class="suggestions-lead">
-            Vad saknar du i HundApp? Dela dina idéer, rösta på andras förslag och skicka önskemål direkt till admin. Tillsammans bygger vi Sveriges bästa verktyg för ett tryggt och aktivt hundliv!
+            Vad saknar du i HundApp? Dela dina idéer, rösta upp andras förslag och följ utvecklingen i vår öppna produkt-roadmap. Tillsammans bygger vi Sveriges bästa verktyg för ett tryggt och aktivt hundliv!
           </p>
           <div class="suggestions-cta-group">
-            <button type="button" class="btn btn-primary btn-lg" id="open-suggestion-modal-btn">
+            <button type="button" class="btn btn-primary btn-lg" id="open-suggestion-modal-btn" style="background:#ffffff; color:var(--green-dark); font-weight:800; border:0;">
               <span class="btn-icon">✨</span> Skicka in nytt förslag
             </button>
-            <a href="mailto:admin@hundapp.se?subject=Direkt%20f%C3%B6rslag%20till%20HundApp&body=Hej%20Admin!%0A%0AJag%20har%20f%C3%B6ljande%20f%C3%B6rslag%20till%20HundApp:%0A%0A" class="btn btn-outline btn-lg" id="direct-email-admin-btn">
+            <a href="mailto:admin@hundapp.se?subject=Direkt%20f%C3%B6rslag%20till%20HundApp&body=Hej%20Admin!%0A%0AJag%20har%20f%C3%B6ljande%20f%C3%B6rslag%20till%20HundApp:%0A%0A" class="btn btn-outline btn-lg" id="direct-email-admin-btn" style="border-color:rgba(255,255,255,0.4); color:#ffffff;">
               <span class="btn-icon">✉️</span> Maila admin direkt
             </a>
           </div>
@@ -87,28 +89,53 @@
         </div>
       </section>
 
-      <!-- Filter- & Sökfält -->
+      <!-- VECKANS COMMUNITY-OMRÖSTNING -->
+      <section class="weekly-poll-card" id="weeklyPollSection" aria-labelledby="poll-heading">
+        <div class="poll-header">
+          <span class="poll-badge">🗳️ VECKANS OMRÖSTNING</span>
+          <span style="font-size:12px; color:var(--muted); font-weight:600;" id="pollTotalVotesLabel">642 röster</span>
+        </div>
+        <h2 id="poll-heading" class="poll-question">Vilken funktion vill du att vi lanserar allra först?</h2>
+        
+        <div class="poll-options-grid" id="pollOptionsContainer">
+          <!-- Renderas dynamiskt i app.js -->
+        </div>
+      </section>
+
+      <!-- Filter-, Sök- & Visningsfält -->
       <section class="suggestions-toolbar-card">
         <div class="toolbar-search-wrap">
-          <span class="search-icon">🔍</span>
-          <input type="search" id="suggestion-search" class="search-input" placeholder="Sök bland förslag, funktioner eller taggar..." aria-label="Sök förslag">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="suggestion-search" class="search-input" placeholder="Sök bland förslag, funktioner eller nyckelord..." aria-label="Sök förslag">
+          <button type="button" id="suggestion-clear-search" class="tips-clear-btn" aria-label="Rensa sökning" style="right:12px;" hidden>&times;</button>
         </div>
 
         <div class="toolbar-controls-wrap">
           <!-- Kategorifilter -->
           <div class="category-pills-row" id="suggestion-category-pills" role="tablist" aria-label="Kategorifilter">
             <button type="button" class="cat-pill active" data-category="all" role="tab" aria-selected="true">Alla (<span id="cat-count-all">25</span>)</button>
-            <button type="button" class="cat-pill" data-category="features" role="tab" aria-selected="false">Appfunktioner</button>
-            <button type="button" class="cat-pill" data-category="health" role="tab" aria-selected="false">Hundhälsa</button>
-            <button type="button" class="cat-pill" data-category="training" role="tab" aria-selected="false">Träning</button>
-            <button type="button" class="cat-pill" data-category="daily" role="tab" aria-selected="false">Vardag</button>
-            <button type="button" class="cat-pill" data-category="food" role="tab" aria-selected="false">Foder</button>
+            <button type="button" class="cat-pill" data-category="features" role="tab" aria-selected="false">✨ Appfunktioner</button>
+            <button type="button" class="cat-pill" data-category="health" role="tab" aria-selected="false">🩺 Hundhälsa</button>
+            <button type="button" class="cat-pill" data-category="training" role="tab" aria-selected="false">🎾 Träning</button>
+            <button type="button" class="cat-pill" data-category="daily" role="tab" aria-selected="false">🏡 Vardag</button>
+            <button type="button" class="cat-pill" data-category="food" role="tab" aria-selected="false">🥩 Foder</button>
           </div>
 
-          <!-- Sortering & Statusfilter -->
-          <div class="toolbar-dropdowns">
+          <!-- Visningsläge & Sortering -->
+          <div class="toolbar-dropdowns" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            
+            <!-- Vy-väljare (Kortgrid vs Roadmap Kanban) -->
+            <div class="view-mode-toggle" role="group" aria-label="Visningsläge">
+              <button type="button" class="view-mode-btn active" id="view-mode-grid-btn" data-view="grid">
+                <span>🎴 Idéflöde</span>
+              </button>
+              <button type="button" class="view-mode-btn" id="view-mode-kanban-btn" data-view="kanban">
+                <span>🗺️ Statusbräda</span>
+              </button>
+            </div>
+
             <div class="dropdown-group">
-              <label for="suggestion-sort-select">Sortering:</label>
+              <label for="suggestion-sort-select">Sortera:</label>
               <select id="suggestion-sort-select" class="form-select-sm">
                 <option value="votes" selected>🔥 Flest röster (Populärast)</option>
                 <option value="newest">🕒 Nyaste först</option>
@@ -131,22 +158,34 @@
         </div>
       </section>
 
-      <!-- Röstningsbräda & Förslagskort -->
-      <section class="suggestions-board-section">
+      <!-- RÖSTNINGSBRÄDA: KORTFLÖDE -->
+      <section class="suggestions-board-section" id="suggestions-grid-view">
         <div class="board-header">
           <h2 class="board-title" id="board-results-heading">Samtliga förslag</h2>
           <span class="board-count" id="board-results-count">25 förslag</span>
         </div>
 
         <div class="suggestions-grid" id="suggestions-grid">
-          <!-- Dynamiskt genererade förslagskort laddas här -->
+          <!-- Dynamiskt genererade förslagskort laddas här via app.js -->
         </div>
 
         <div class="suggestions-empty-state" id="suggestions-empty" style="display: none;">
           <div class="empty-icon">🔎</div>
           <h3>Inga förslag matchar din sökning</h3>
           <p>Hittade du inte vad du letade efter? Skicka in din egen idé till omröstning!</p>
-          <button type="button" class="btn btn-primary" onclick="document.getElementById('open-suggestion-modal-btn')?.click()">Skapa nytt förslag</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('open-suggestion-modal-btn')?.click()">Skapa nytt förslag</button>
+        </div>
+      </section>
+
+      <!-- RÖSTNINGSBRÄDA: KANBAN ROADMAP-VY -->
+      <section class="suggestions-board-section" id="suggestions-kanban-view" style="display: none;">
+        <div class="board-header">
+          <h2 class="board-title">🗺️ Produktens Roadmap &amp; Utvecklingsstatus</h2>
+          <span class="board-count">Följ idéernas resa från förslag till verklighet</span>
+        </div>
+
+        <div class="roadmap-kanban-board" id="roadmap-kanban-board">
+          <!-- 4 Kolumner renderas dynamiskt i app.js: Under granskning, Planerat, I utveckling, Genomfört -->
         </div>
       </section>
 
@@ -155,7 +194,7 @@
 
   <!-- Modal: Skicka in nytt förslag -->
   <div class="modal-overlay" id="suggestion-modal" role="dialog" aria-modal="true" aria-labelledby="suggestion-modal-title" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 620px;">
       <div class="modal-header">
         <h2 id="suggestion-modal-title" class="modal-title">✨ Skicka in ett nytt förslag</h2>
         <button type="button" class="modal-close-btn" id="close-suggestion-modal-btn" aria-label="Stäng modal" data-modal-close>&times;</button>
@@ -164,18 +203,18 @@
       <form id="new-suggestion-form" class="modal-body form-grid">
         <div class="form-group">
           <label for="sugg-title">Förslagets rubrik <span class="required">*</span></label>
-          <input type="text" id="sugg-title" class="form-input" placeholder="T.ex. Karta över fästingtäta skogsområden..." required>
+          <input type="text" id="sugg-title" class="form-input" placeholder="T.ex. Karta över fästingtäta skogsområden..." required maxlength="80">
         </div>
 
         <div class="form-row form-row-2">
           <div class="form-group">
             <label for="sugg-category">Kategori <span class="required">*</span></label>
             <select id="sugg-category" class="form-select" required>
-              <option value="features">Appfunktioner</option>
-              <option value="health">Hundhälsa &amp; Vård</option>
-              <option value="training">Träning &amp; Aktivering</option>
-              <option value="daily">Vardag &amp; Gemenskap</option>
-              <option value="food">Foder &amp; Produkter</option>
+              <option value="features">✨ Appfunktioner</option>
+              <option value="health">🩺 Hundhälsa &amp; Vård</option>
+              <option value="training">🎾 Träning &amp; Aktivering</option>
+              <option value="daily">🏡 Vardag &amp; Gemenskap</option>
+              <option value="food">🥩 Foder &amp; Kost</option>
             </select>
           </div>
 
@@ -201,15 +240,15 @@
         </div>
 
         <div class="form-group form-checkbox-group">
-          <label class="checkbox-label">
+          <label class="checkbox-label" style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-light); cursor:pointer;">
             <input type="checkbox" id="sugg-mail-admin-checkbox" checked>
             <span>Skicka även en direktkopia till administratörens inkorg (admin@hundapp.se)</span>
           </label>
         </div>
 
-        <div class="modal-footer">
+        <div class="modal-footer" style="display:flex; justify-content:flex-end; gap:10px; padding-top:16px; border-top:1px solid var(--line);">
           <button type="button" class="btn btn-secondary" id="cancel-suggestion-btn" data-modal-close>Avbryt</button>
-          <button type="submit" class="btn btn-primary" id="submit-suggestion-btn">Publicera förslag &amp; rösta</button>
+          <button type="submit" class="btn btn-primary" id="submit-suggestion-btn">Publicera förslag &amp; rösta ➔</button>
         </div>
       </form>
     </div>
@@ -223,13 +262,13 @@
 
   <!-- Footer -->
   <footer class="portal-footer">
-    <div class="portal-footer-inner">
-      <p>&copy; 2026 HundApp · Evidensbaserad hundvård och smart vardagsplanering.</p>
-      <div class="portal-footer-links">
-        <a href="portal.html">Portalen</a>
-        <a href="tips.html">Tips</a>
-        <a href="calendar.html">Kalender</a>
-        <a href="suggestions.html">Förslagslåda</a>
+    <div class="portal-footer-inner" style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding:24px 20px;">
+      <p style="margin:0; font-size:13px; color:var(--muted);">&copy; 2026 HundApp · Evidensbaserad hundvård och community-driven utveckling.</p>
+      <div class="portal-footer-links" style="display:flex; gap:16px; font-size:13px;">
+        <a href="portal.html" class="text-link-green">Portalen</a>
+        <a href="tips.html" class="text-link-green">Tips</a>
+        <a href="calendar.html" class="text-link-green">Kalender</a>
+        <a href="suggestions.html" class="text-link-green">Förslagslåda</a>
       </div>
     </div>
   </footer>
