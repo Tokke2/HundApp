@@ -3,12 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Promenader och aktiviteter för din hund i HundApp. Enkel loggning, statistik och historik.">
-  <title>Promenader & Aktiviteter – HundApp</title>
+  <meta name="description" content="Promenader och aktiviteter för din hund i HundApp. Enkel loggning, live-tidtagare, underlagskoll och veckostatistik.">
+  <title>Promenader &amp; Aktiviteter – HundApp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 </head>
 <body class="portal-page">
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -16,20 +25,26 @@
   <!-- Huvudnavigation -->
   <header class="portal-header">
     <div class="portal-nav">
-      <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>HundApp</span>
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
       </a>
 
-      <nav class="portal-links" aria-label="Huvudmeny"><a href="portal.html">Översikt</a><a href="dogs.html">Mina hundar</a><a href="walks.html" class="active">Promenader</a><a href="calendar.html">Kalender</a><a href="statistics.html">Statistik</a><a href="tips.html">Tips</a>  <a href="suggestions.html">Förslag &amp; Idéer</a>
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html">Översikt</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="walks.html" class="active">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
       </nav>
 
       <div class="portal-user">
         <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
         <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
-        <button class="user-menu" type="button">
-          <span>M</span>
-          <b>Maria</b>
+        <button class="user-menu" id="userMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="userAvatarLetter">M</span>
+          <b id="userNavName">Maria</b>
           <em>⌄</em>
         </button>
       </div>
@@ -37,17 +52,79 @@
   </header>
 
   <main id="main" class="portal-main walks-main">
+    
     <!-- SIDRUBRIK & SNABBKNAPPAR -->
     <section class="walks-heading">
       <div>
-        <p class="eyebrow">Bellas rörelse och äventyr</p>
-        <h1>Promenader & aktiviteter</h1>
-        <p>Följ vardagen, se mönster och fira varje liten tur tillsammans.</p>
+        <p class="eyebrow" id="walksDogEyebrow">Bellas rörelse och äventyr</p>
+        <h1>Promenader &amp; Aktiviteter</h1>
+        <p>Följ vardagen, se mönster, logga underlag och fira varje härlig tur tillsammans.</p>
       </div>
 
       <div class="walks-actions">
-        <button id="log-activity-button" class="outline-button" type="button">+ Logga aktivitet</button>
-        <button id="log-walk-button" class="button" type="button">+ Logga promenad</button>
+        <button id="log-activity-button" class="btn btn-outline" type="button">+ Logga aktivitet</button>
+        <button id="log-walk-button" class="btn btn-primary" type="button">+ Logga promenad</button>
+      </div>
+    </section>
+
+    <!-- INTERAKTIV LIVE-PROMENAD TIDTAGARE (STOPWATCH) -->
+    <section class="live-tracker-hero-card" aria-labelledby="live-tracker-heading">
+      <div class="live-tracker-left">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+          <span class="live-tracker-badge">
+            <span class="pulse-dot"></span>
+            <span id="liveTrackerStatusText">REDO FÖR NÄSTA TUR</span>
+          </span>
+          <span class="forest-offline-badge" style="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.3); color:#ffffff;">
+            🌲 100% Offline i skogen
+          </span>
+        </div>
+        <h2 id="live-tracker-heading" style="font-family:'Fraunces',serif; font-size:1.5rem; margin:6px 0 8px; color:#ffffff;">
+          Starta en promenad nu
+        </h2>
+        <p style="margin:0; font-size:13.5px; color:#d8f3dc; line-height:1.5;">
+          Starta tidtagaren innan du går ut genom dörren. När du kommer hem sparar du turen med distans, underlag och hundens humör med ett enda klick!
+        </p>
+      </div>
+
+      <div class="live-tracker-timer-box">
+        <span class="tracker-time-text" id="liveTrackerTimerDisplay">00:00:00</span>
+        
+        <div class="tracker-metrics-sub">
+          <span id="liveTrackerDistDisplay">~0.0 km</span>
+          <span>&bull;</span>
+          <span id="liveTrackerPaceDisplay">4.5 km/h</span>
+        </div>
+
+        <div class="tracker-controls-row">
+          <button type="button" class="btn btn-primary btn-sm" id="liveTrackerToggleBtn" style="flex:1; background:#ffffff; color:var(--green-dark); font-weight:800; border:0;">
+            ▶ Starta tur
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" id="liveTrackerFinishBtn" style="border-color:rgba(255,255,255,0.4); color:#ffffff;" disabled>
+            ⏹ Avsluta &amp; Spara
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VECKOMÅL & STREAKPROGRESS -->
+    <section class="weekly-goal-card" aria-label="Veckomål och streak">
+      <div class="goal-info-col">
+        <div class="goal-header-row">
+          <span class="goal-title">🎯 Veckomål: Distans</span>
+          <span class="goal-stat-numbers" id="goalStatNumbers">9.7 av 15.0 km (65%)</span>
+        </div>
+        <div class="goal-progress-bar-bg">
+          <div class="goal-progress-bar-fill" id="goalProgressBarFill" style="width: 65%;"></div>
+        </div>
+      </div>
+
+      <div class="streak-badge-col">
+        <span class="streak-flame">🔥</span>
+        <div class="streak-text">
+          <strong id="streakCount">5 dagars streak</strong>
+          <small>Aktiv varje dag denna vecka</small>
+        </div>
       </div>
     </section>
 
@@ -67,7 +144,7 @@
         <div>
           <small>TOTAL DISTANS</small>
           <b id="stat-walk-distance">9,7 <em>km</em></b>
-          <p>+12% från förra veckan</p>
+          <p id="stat-walk-trend">+12% från förra veckan</p>
         </div>
       </article>
 
@@ -85,13 +162,13 @@
     <section class="portal-card walks-list-card">
       <div class="walks-list-top">
         <div>
-          <p class="card-label">HISTORIK</p>
-          <h2>Senaste aktiviteterna</h2>
+          <p class="card-label">HISTORIK &amp; LOGG</p>
+          <h2 id="walksListHeading">Senaste aktiviteterna</h2>
         </div>
 
         <div class="walk-filters">
-          <button type="button" aria-label="Filtrera på hund">🐶 Bella ⌄</button>
-          <button type="button" aria-label="Filtrera på period">Senaste 30 dagarna ⌄</button>
+          <button type="button" id="walk-filter-dog-btn" aria-label="Filtrera på hund">🐶 <span id="activeDogFilterName">Bella</span></button>
+          <button type="button" id="walk-filter-period-btn" aria-label="Filtrera på period">Senaste 30 dagarna</button>
         </div>
       </div>
 
@@ -107,20 +184,21 @@
 
       <!-- DYNAMISK LOGGLISTA -->
       <div id="walks-log-list" class="log-list" aria-live="polite">
-        <!-- Renderas i app.js -->
+        <!-- Renderas dynamiskt i app.js -->
       </div>
     </section>
   </main>
 
   <!-- MODAL: LOGGA PROMENAD -->
   <div id="walk-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walk-modal-title">
-    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px;">
-      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+    <div class="modal-box form-modal" style="width:min(100%, 560px); background:#fff; border-radius:20px; padding:32px; max-height:90vh; overflow-y:auto;">
+      <button class="modal-close" id="close-walk-modal-btn" type="button" aria-label="Stäng">&times;</button>
       <span class="modal-icon">🐾</span>
       <p class="eyebrow">Ny promenad</p>
-      <h2 id="walk-modal-title">Logga promenad för Bella</h2>
+      <h2 id="walk-modal-title">Logga promenad</h2>
       
       <form id="walk-log-form" style="margin-top:16px;">
+        
         <!-- Snabbval för typ av promenad -->
         <div class="walk-form-group">
           <label>Typ av tur:</label>
@@ -136,14 +214,39 @@
 
         <div class="walk-form-row">
           <div class="walk-form-group">
-            <label for="walk-duration">Varaktighet (minuter):</label>
+            <label for="walk-duration">Varaktighet (minuter) <span class="required">*</span></label>
             <input type="number" id="walk-duration" min="1" max="600" placeholder="T.ex. 30" required value="30">
           </div>
 
           <div class="walk-form-group">
-            <label for="walk-distance">Distans (km):</label>
+            <label for="walk-distance">Distans (km) <span class="required">*</span></label>
             <input type="number" id="walk-distance" step="0.1" min="0" max="100" placeholder="T.ex. 2.2" required value="2.0">
           </div>
+        </div>
+
+        <!-- Underlagsval -->
+        <div class="walk-form-group">
+          <label>Underlag:</label>
+          <div class="pill-selector" id="walk-surface-pills">
+            <button type="button" class="pill-option active" data-surface="🌲 Skogsstig">🌲 Skog</button>
+            <button type="button" class="pill-option" data-surface="🌿 Gräs & Äng">🌿 Gräs</button>
+            <button type="button" class="pill-option" data-surface="🪨 Grusväg">🪨 Grus</button>
+            <button type="button" class="pill-option" data-surface="🛣️ Asfalt">🛣️ Asfalt</button>
+            <button type="button" class="pill-option" data-surface="🏖️ Strand / Bad">🏖️ Strand</button>
+          </div>
+          <input type="hidden" id="walk-surface-input" value="🌲 Skogsstig">
+        </div>
+
+        <!-- Hundens Humör & Energi -->
+        <div class="walk-form-group">
+          <label>Hundens humör &amp; energi:</label>
+          <div class="pill-selector" id="walk-mood-pills">
+            <button type="button" class="pill-option active" data-mood="⚡ Superpigg & glad">⚡ Pigg</button>
+            <button type="button" class="pill-option" data-mood="🐾 Lugn & harmonisk">🐾 Lugn</button>
+            <button type="button" class="pill-option" data-mood="👃 Mycket nosig & fokuserad">👃 Nosig</button>
+            <button type="button" class="pill-option" data-mood="😴 Trött & seg">😴 Trött</button>
+          </div>
+          <input type="hidden" id="walk-mood-input" value="⚡ Superpigg & glad">
         </div>
 
         <div class="walk-form-group">
@@ -163,11 +266,11 @@
 
   <!-- MODAL: LOGGA AKTIVITET -->
   <div id="activity-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="activity-modal-title">
-    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px;">
-      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+    <div class="modal-box form-modal" style="width:min(100%, 560px); background:#fff; border-radius:20px; padding:32px;">
+      <button class="modal-close" id="close-activity-modal-btn" type="button" aria-label="Stäng">&times;</button>
       <span class="modal-icon activity-modal-icon">✦</span>
       <p class="eyebrow">Ny aktivitet</p>
-      <h2 id="activity-modal-title">Logga aktivitet för Bella</h2>
+      <h2 id="activity-modal-title">Logga aktivitet</h2>
       
       <form id="activity-log-form" style="margin-top:16px;">
         <!-- Snabbval för aktivitetstyp -->
@@ -186,7 +289,7 @@
 
         <div class="walk-form-row">
           <div class="walk-form-group">
-            <label for="activity-duration">Varaktighet (minuter):</label>
+            <label for="activity-duration">Varaktighet (minuter) <span class="required">*</span></label>
             <input type="number" id="activity-duration" min="1" max="300" placeholder="T.ex. 15" required value="15">
           </div>
 
@@ -214,8 +317,10 @@
 
   <!-- SIDFOT -->
   <footer class="portal-footer">
-    <span>© 2026 HundApp</span>
-    <span>Aktivitets- och promenadlogg för Bella</span>
+    <div style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:20px;">
+      <span>© 2026 HundApp · Aktivitets- och promenadlogg</span>
+      <span>Håll koll på rörelse och mental stimulans</span>
+    </div>
   </footer>
 
   <script src="app.js"></script>

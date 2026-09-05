@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Officiell profilkollektion & tryckfärdiga original för HundApp – T-shirts, sweatshirts, emaljmuggar och stansade dekaler med 100% vektorgrafik.">
+  <title>Officiell Merch &amp; Tryckoriginal – HundApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <style>
+    .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .merch-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(45, 106, 79, 0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .merch-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(45, 106, 79, 0.12);
+    }
+    .merch-img-wrap {
+      position: relative;
+      background: #F4F1EA;
+      height: 280px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .merch-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .merch-card:hover .merch-img-wrap img {
+      transform: scale(1.04);
+    }
+    .merch-badge-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(27, 67, 50, 0.88);
+      color: #FAF7F2;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(4px);
+    }
+    .merch-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .merch-title {
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      color: var(--pine);
+      margin: 0 0 6px 0;
+    }
+    .merch-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 14px 0;
+      line-height: 1.4;
+    }
+    .merch-specs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      font-size: 12.5px;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .merch-specs-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .merch-specs-list li::before {
+      content: "•";
+      color: var(--pine);
+      font-weight: bold;
+    }
+    .merch-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .color-swatch-picker {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    .swatch-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 0 1px #D1D5DB;
+      transition: transform 0.15s ease;
+    }
+    .swatch-circle:hover, .swatch-circle.active {
+      transform: scale(1.18);
+      box-shadow: 0 0 0 2px var(--pine);
+    }
+  </style>
+</head>
+<body class="portal-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html">Översikt</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="walks.html">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
+        <a href="merch.html" class="active">Merch &amp; Tryckfilm</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
+        <button class="user-menu" id="userMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="userAvatarLetter">M</span>
+          <b id="userNavName">Maria</b>
+          <em>⌄</em>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Huvudinnehåll -->
+  <main id="main" class="portal-main" style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 80px;">
+    
+    <!-- SIDRUBRIK & INTRO -->
+    <section class="portal-welcome-row" style="margin-bottom: 28px;">
+      <div>
+        <p class="eyebrow">OFFICIELL HUNDAPP MERCH &amp; TRYCKORIGINAL</p>
+        <h1 style="font-family:'Fraunces',serif; font-size: 32px; color: var(--pine); margin: 4px 0 8px;">
+          Profilkollektion &amp; Tryckfärdig Vektorfilm
+        </h1>
+        <p style="font-size: 15px; color: var(--ink); max-width: 760px; line-height: 1.5;">
+          Skandinaviskt formgivna profilprodukter och 100% tryckfärdiga vektorfiler (screentrycksfilm, brodyrmönster, stansade dekaler med CutContour och emaljmugg-wraps) optimerade för produktion hos lokala eller digitala tryckerier.
+        </p>
+      </div>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <a href="visitkort-preview.html" class="btn btn-outline" style="font-size:13px; font-weight:700;">
+          📇 Visitkort &amp; Vektorgrafik
+        </a>
+      </div>
+    </section>
+
+    <!-- MERCH GRID -->
+    <div class="merch-grid">
+
+      <!-- PRODUKT 1: T-SHIRT -->
+      <article class="merch-card">
+        <div class="merch-img-wrap">
+          <span class="merch-badge-tag">Screentryck / DTF · A3</span>
+          <img src="merch/tshirt-mockup.png" alt="HundApp Ekologisk T-Shirt Mockup" loading="lazy">
+        </div>
+        <div class="merch-body">
+          <h2 class="merch-title">Ekologisk T-Shirt "Tassavtryck"</h2>
+          <p class="merch-subtitle">Kraftig 220 GSM kammad ekologisk bomull med klassiskt HundApp emblem i vitt och guld på bröstet eller ryggen.</p>
+          
+          <div class="color-swatch-picker">
+            <span style="font-size:12px; font-weight:700; color:var(--muted);">Färger:</span>
+            <span class="swatch-circle active" style="background:#1B4332;" title="Skogsgrön (Forest Pine)"></span>
+            <span class="swatch-circle" style="background:#FAF7F2;" title="Varm Havrebeige"></span>
+            <span class="swatch-circle" style="background:#1F2937;" title="Kolsvart"></span>
+          </div>
+
+          <ul class="merch-specs-list">
+            <li><strong>Tryckformat:</strong> 280 x 350 mm (Centrerat bröst / rygg)</li>
+            <li><strong>Färgseparation:</strong> PMS 5535 C, PMS 1235 C &amp; Täckvit</li>
+            <li><strong>Passmärken:</strong> Inkluderar kryss och hörnmärken</li>
+          </ul>
+
+          <div class="merch-actions">
+            <a href="merch-tshirt-print.svg" download="HundApp-Tshirt-Tryckfilm-A3.svg" class="btn btn-primary btn-sm" style="flex:1; justify-content:center;">
+              📥 Ladda ner Tryckfilm (SVG)
+            </a>
+            <a href="merch-tshirt-print.svg" target="_blank" class="btn btn-outline btn-sm">
+              👁️ Granska Vektor
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUKT 2: SWEATSHIRT / HOODIE -->
+      <article class="merch-card">
+        <div class="merch-img-wrap">
+          <span class="merch-badge-tag">Brodyr · Vänster Bröst</span>
+          <img src="merch/hoodie-mockup.png" alt="HundApp Sweatshirt & Hoodie Mockup" loading="lazy">
+        </div>
+        <div class="merch-body">
+          <h2 class="merch-title">Sweatshirt &amp; Hoodie "Skogstur"</h2>
+          <p class="merch-subtitle">350 GSM premium fleece i havrebeige med elegant tät satinbrodyr av HundApp-tassen på vänster bröst.</p>
+          
+          <div class="color-swatch-picker">
+            <span style="font-size:12px; font-weight:700; color:var(--muted);">Färger:</span>
+            <span class="swatch-circle active" style="background:#E8DFD3;" title="Havrebeige"></span>
+            <span class="swatch-circle" style="background:#1B4332;" title="Skogsgrön"></span>
+            <span class="swatch-circle" style="background:#374151;" title="Grafitgrå"></span>
+          </div>
+
+          <ul class="merch-specs-list">
+            <li><strong>Brodyrformat:</strong> 80 x 80 mm (Vänster bröst)</li>
+            <li><strong>Stygnantal:</strong> Ca 8 450 stygn (Satin stitch)</li>
+            <li><strong>Trådkoder:</strong> Madeira Polyneon 1801, 1987 &amp; 1904</li>
+          </ul>
+
+          <div class="merch-actions">
+            <a href="merch-hoodie-embroidery.svg" download="HundApp-Hoodie-Brodyrmall.svg" class="btn btn-primary btn-sm" style="flex:1; justify-content:center;">
+              📥 Ladda ner Brodyrmall (SVG)
+            </a>
+            <a href="merch-hoodie-embroidery.svg" target="_blank" class="btn btn-outline btn-sm">
+              👁️ Granska Vektor
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUKT 3: EMALJMUGG FÖR SKOGEN -->
+      <article class="merch-card">
+        <div class="merch-img-wrap">
+          <span class="merch-badge-tag">360° Wrap · Emalj &amp; Keramik</span>
+          <img src="merch/mug-mockup.png" alt="HundApp Skogsemaljmugg Mockup" loading="lazy">
+        </div>
+        <div class="merch-body">
+          <h2 class="merch-title">Emaljmugg "Skogskompis" 350ml</h2>
+          <p class="merch-subtitle">Tålig retro emaljmugg med svart rullad kant och dubbelsidigt 360°-tryck. Perfekt för morgonkaffet på skogspromenaden.</p>
+          
+          <ul class="merch-specs-list">
+            <li><strong>Mått för wrap:</strong> 200 x 85 mm (Runtomkring)</li>
+            <li><strong>Design:</strong> Dubbelsidig (Höger/Vänster hand + centrerad gran)</li>
+            <li><strong>Kvalitet:</strong> Reptålig, diskmaskinssäker och eldfast</li>
+          </ul>
+
+          <div class="merch-actions">
+            <a href="merch-mugg-print.svg" download="HundApp-Emaljmugg-Wrap-200x85mm.svg" class="btn btn-primary btn-sm" style="flex:1; justify-content:center;">
+              📥 Ladda ner Mugg-Wrap (SVG)
+            </a>
+            <a href="merch-mugg-print.svg" target="_blank" class="btn btn-outline btn-sm">
+              👁️ Granska Vektor
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUKT 4: STANSADE DEKALER / STICKERS -->
+      <article class="merch-card">
+        <div class="merch-img-wrap">
+          <span class="merch-badge-tag">Die-Cut · CutContour Skärlinje</span>
+          <img src="merch/stickers-mockup.png" alt="HundApp Stansade Dekaler Mockup" loading="lazy">
+        </div>
+        <div class="merch-body">
+          <h2 class="merch-title">Vattentåliga Dekaler &amp; Bilstickers</h2>
+          <p class="merch-subtitle">Stansade 80 mm runda vinyldekaler med UV-skydd och laminering för bilrutor, vattenflaskor, foderburkar och datorer.</p>
+          
+          <ul class="merch-specs-list">
+            <li><strong>Stansformat:</strong> 80 mm diameter (100% Magenta CutContour)</li>
+            <li><strong>Utfall &amp; Marginal:</strong> 2.5 mm utfall (Bleed) + 2 mm säkerhetszon</li>
+            <li><strong>Material:</strong> Matt UV-lackerad vinyl (5 års utomhuslivslängd)</li>
+          </ul>
+
+          <div class="merch-actions">
+            <a href="merch-dekal-diecut.svg" download="HundApp-Dekal-Stanslinje-80mm.svg" class="btn btn-primary btn-sm" style="flex:1; justify-content:center;">
+              📥 Ladda ner Stansfilm (SVG)
+            </a>
+            <a href="merch-dekal-diecut.svg" target="_blank" class="btn btn-outline btn-sm">
+              👁️ Granska Vektor
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- TRYCKERISPECIFIKATIONER & TEKNISK GUIDE -->
+    <section class="portal-card" style="margin-top: 36px; padding: 28px;">
+      <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div>
+          <p class="card-label">TEKNISK TRYCKGUIDE</p>
+          <h2 style="font-family:'Fraunces',serif; font-size:22px; color:var(--pine); margin:2px 0 0;">Standarder för Tryckerier &amp; Leverantörer</h2>
+        </div>
+        <span class="badge-unlocked-tag">🎨 Vektorbaserat (RGB / CMYK / PMS)</span>
+      </div>
+
+      <p style="font-size:14px; color:var(--ink); line-height:1.5; margin-bottom:20px;">
+        Alla filer är exporterade i ren SVG med text konverterad till banor (outlines), inbäddade färgdefinitioner och separerade lager för tryck, utfall och stanslinjer.
+      </p>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border); color:var(--pine);">
+              <th style="padding:10px 12px;">Produkt</th>
+              <th style="padding:10px 12px;">Tryckmetod</th>
+              <th style="padding:10px 12px;">Mått (B × H)</th>
+              <th style="padding:10px 12px;">Färgsystem</th>
+              <th style="padding:10px 12px;">Särskilda Specifikationer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 12px; font-weight:700;">T-Shirt / Tröjtryck</td>
+              <td style="padding:10px 12px;">Screentryck / DTF</td>
+              <td style="padding:10px 12px;">280 × 350 mm</td>
+              <td style="padding:10px 12px;">PMS 5535 C, 1235 C, Vit</td>
+              <td style="padding:10px 12px;">Passmärken &amp; färgkilar i hörnen</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 12px; font-weight:700;">Sweatshirt Brodyr</td>
+              <td style="padding:10px 12px;">Maskinbrodyr (Satin)</td>
+              <td style="padding:10px 12px;">80 × 80 mm</td>
+              <td style="padding:10px 12px;">Madeira Polyneon tråd</td>
+              <td style="padding:10px 12px;">Ca 8 450 stygn, underlagstyg 350 GSM</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 12px; font-weight:700;">Emaljmugg Wrap</td>
+              <td style="padding:10px 12px;">Sublimering / Screentryck</td>
+              <td style="padding:10px 12px;">200 × 85 mm</td>
+              <td style="padding:10px 12px;">CMYK / Solid Coated</td>
+              <td style="padding:10px 12px;">3 mm utfall, 5 mm säkerhetszon från öra</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 12px; font-weight:700;">Stansad Bildekal</td>
+              <td style="padding:10px 12px;">Digitaltryck &amp; Stansning</td>
+              <td style="padding:10px 12px;">80 mm diam (85 mm med utfall)</td>
+              <td style="padding:10px 12px;">CMYK + Spot CutContour</td>
+              <td style="padding:10px 12px;">100% Magenta skärbana (#FF00FF)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sidfot -->
+  <footer class="portal-footer" style="margin-top: 40px; padding: 32px 20px; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted);">
+    <p>© 2026 HundApp Sverige. Alla rättigheter förbehållna. Vektorgrafik och tryckmallar är fria för officiell produktion.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

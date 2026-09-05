@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1250" width="280mm" height="350mm">
+  <defs>
+    <style>
+      .film-bg { fill: #0d1b13; }
+      .text-title { font-family: 'Fraunces', 'Georgia', serif; font-weight: bold; fill: #ffffff; }
+      .text-sub { font-family: 'DM Sans', 'Helvetica', sans-serif; font-weight: 500; fill: #d8f3dc; }
+      .meta-label { font-family: 'Courier New', monospace; font-size: 13px; fill: #8da499; }
+      .cut-mark { stroke: #ffffff; stroke-width: 1.5; fill: none; }
+      .gold-accent { fill: #F4D35E; }
+      .pine-fill { fill: #2D6A4F; }
+      .white-fill { fill: #FFFFFF; }
+      .reg-mark { stroke: #ffffff; stroke-width: 1; fill: none; }
+    </style>
+  </defs>
+
+  <!-- PRINT FILM WORKSPACE / ARTBOARD (A3 APPAREL PRINT SPEC) -->
+  <rect width="1000" height="1250" fill="#121815"/>
+
+  <!-- REGISTRATION MARKS (PASSMÄRKEN) -->
+  <g transform="translate(50, 50)">
+    <circle cx="0" cy="0" r="15" class="reg-mark"/>
+    <line x1="-25" y1="0" x2="25" y2="0" class="reg-mark"/>
+    <line x1="0" y1="-25" x2="0" y2="25" class="reg-mark"/>
+  </g>
+  <g transform="translate(950, 50)">
+    <circle cx="0" cy="0" r="15" class="reg-mark"/>
+    <line x1="-25" y1="0" x2="25" y2="0" class="reg-mark"/>
+    <line x1="0" y1="-25" x2="0" y2="25" class="reg-mark"/>
+  </g>
+  <g transform="translate(50, 1200)">
+    <circle cx="0" cy="0" r="15" class="reg-mark"/>
+    <line x1="-25" y1="0" x2="25" y2="0" class="reg-mark"/>
+    <line x1="0" y1="-25" x2="0" y2="25" class="reg-mark"/>
+  </g>
+  <g transform="translate(950, 1200)">
+    <circle cx="0" cy="0" r="15" class="reg-mark"/>
+    <line x1="-25" y1="0" x2="25" y2="0" class="reg-mark"/>
+    <line x1="0" y1="-25" x2="0" y2="25" class="reg-mark"/>
+  </g>
+
+  <!-- HEADER METADATA / TRYCKINFO -->
+  <text x="90" y="55" class="meta-label">PRODUKT: T-SHIRT / TRÖJTRYCK (BRÖST/RYGG) | SKALA: 1:1 | MÅTT: 280 x 350 mm</text>
+  <text x="90" y="75" class="meta-label">FÄRGER: PMS 5535 C (Spruce), PMS 1235 C (Warm Gold), OPAQUE WHITE | METOD: SCREENTRYCK / DTF</text>
+  <line x1="90" y1="90" x2="910" y2="90" stroke="#2D6A4F" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- SAFE PRINT AREA BOX -->
+  <rect x="100" y="120" width="800" height="1020" fill="none" stroke="#2D6A4F" stroke-width="1" stroke-dasharray="8,6" opacity="0.4"/>
+  <text x="110" y="140" class="meta-label" opacity="0.6">MAX TRYCKYTA (SAFE PRINT BOUNDS)</text>
+
+  <!-- MAIN GRAPHIC SEPARATION / EMBLEM -->
+  <g transform="translate(500, 520)">
+    
+    <!-- Outer Decorative Radiance / Badge Ring -->
+    <circle cx="0" cy="-60" r="230" fill="none" stroke="#2D6A4F" stroke-width="3" stroke-dasharray="10,8"/>
+    <circle cx="0" cy="-60" r="215" fill="none" stroke="#F4D35E" stroke-width="2"/>
+    
+    <!-- Main Stylized Dog Paw -->
+    <!-- Large Central Pad -->
+    <path d="M-85,0 C-115,-30 -80,-85 0,-85 C80,-85 115,-30 85,0 C65,22 45,45 0,45 C-45,45 -65,22 -85,0 Z" class="white-fill"/>
+    <!-- Pad Shadow / Accent Inner -->
+    <path d="M-45,-15 C-60,-35 -40,-65 0,-65 C40,-65 60,-35 45,-15 C30,-3 20,15 0,15 C-20,15 -30,-3 -45,-15 Z" fill="#2D6A4F" opacity="0.15"/>
+
+    <!-- 4 Toe Pads -->
+    <!-- Outer Left -->
+    <ellipse cx="-110" cy="-115" rx="36" ry="50" transform="rotate(-28 -110 -115)" class="white-fill"/>
+    <!-- Center Left -->
+    <ellipse cx="-40" cy="-175" rx="38" ry="54" transform="rotate(-10 -40 -175)" class="white-fill"/>
+    <!-- Center Right -->
+    <ellipse cx="40" cy="-175" rx="38" ry="54" transform="rotate(10 40 -175)" class="white-fill"/>
+    <!-- Outer Right -->
+    <ellipse cx="110" cy="-115" rx="36" ry="50" transform="rotate(28 110 -115)" class="white-fill"/>
+
+    <!-- Gold Accent Star in center pad -->
+    <g transform="translate(0, -20) scale(1.4)">
+      <polygon points="0,-18 5,-5 18,-5 8,4 12,17 0,9 -12,17 -8,4 -18,-5 -5,-5" class="gold-accent"/>
+    </g>
+
+    <!-- Pine silhouettes inside lower badge -->
+    <g transform="translate(0, 110)">
+      <polygon points="0,-45 25,0 -25,0" class="gold-accent"/>
+      <polygon points="-50,-30 -25,10 -75,10" fill="#2D6A4F"/>
+      <polygon points="50,-30 75,10 25,10" fill="#2D6A4F"/>
+    </g>
+
+    <!-- Typography: HundApp Master Title -->
+    <text x="0" y="240" text-anchor="middle" font-size="74" class="text-title" letter-spacing="3">HundApp</text>
+    
+    <!-- Slogan / Subtitle -->
+    <text x="0" y="295" text-anchor="middle" font-size="24" class="text-sub" letter-spacing="8">FÖR VARJE TASSAVTRYCK</text>
+    
+    <!-- Secondary Badge Ribbon -->
+    <text x="0" y="340" text-anchor="middle" font-size="16" class="meta-label" letter-spacing="4">EST. 2026 · SVERIGE · SKOG &amp; VARDAGSGUIDE</text>
+
+    <!-- Aesthetic divider line with paw dots -->
+    <line x1="-180" y1="315" x2="180" y2="315" stroke="#F4D35E" stroke-width="2"/>
+    <circle cx="-180" cy="315" r="4" class="gold-accent"/>
+    <circle cx="0" cy="315" r="5" class="gold-accent"/>
+    <circle cx="180" cy="315" r="4" class="gold-accent"/>
+  </g>
+
+  <!-- COLOR SEPARATION SWATCHES / FÄRGRUTOR -->
+  <g transform="translate(100, 1180)">
+    <rect x="0" y="0" width="30" height="30" fill="#1B4332" stroke="#ffffff" stroke-width="1"/>
+    <text x="40" y="20" class="meta-label">PMS 5535 C (Forest Pine)</text>
+
+    <rect x="270" y="0" width="30" height="30" fill="#F4D35E" stroke="#ffffff" stroke-width="1"/>
+    <text x="310" y="20" class="meta-label">PMS 1235 C (Warm Gold)</text>
+
+    <rect x="530" y="0" width="30" height="30" fill="#FFFFFF" stroke="#ffffff" stroke-width="1"/>
+    <text x="570" y="20" class="meta-label">Opaque Solid White</text>
+  </g>
+</svg>

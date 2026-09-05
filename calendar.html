@@ -3,12 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Aktivitetskalender, påminnelser, rutiner och födelsedagar för din hund i HundApp.">
-  <title>Aktivitetskalender & Påminnelser – HundApp</title>
+  <meta name="description" content="Aktivitetskalender, påminnelser, rutiner och födelsedagar för din hund i HundApp. Enkel planering och full koll på hundens hälsa.">
+  <title>Aktivitetskalender &amp; Rutiner – HundApp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 </head>
 <body class="portal-page">
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -17,8 +26,7 @@
   <header class="portal-header">
     <div class="portal-nav">
       <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>HundApp</span>
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
       </a>
 
       <nav class="portal-links" aria-label="Huvudmeny">
@@ -34,7 +42,7 @@
       <div class="portal-user">
         <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
         <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
-        <button class="user-menu" type="button">
+        <button class="user-menu" id="userMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
           <span id="userAvatarLetter">M</span>
           <b id="userNavName">Maria</b>
           <em>⌄</em>
@@ -46,49 +54,84 @@
   <!-- Huvudinnehåll -->
   <main id="main" class="portal-main calendar-main">
     
-    <!-- Header med tidsväljare och ny påminnelse -->
+    <!-- SIDRUBRIK & SNABBKNAPPAR -->
     <header class="calendar-page-heading">
       <div>
-        <p class="eyebrow" id="calEyebrow">Planera med lugn i magen</p>
-        <h1 id="calMainHeading">Aktivitetskalender & Rutiner</h1>
-        <p class="cal-subheading">Håll koll på kloklippning, vaccinationer, fästingmedel, födelsedagar och veterinärbesök.</p>
+        <p class="eyebrow" id="calEyebrow">Planera med lugn i magen för Bella</p>
+        <h1 id="calMainHeading">Aktivitetskalender &amp; Rutiner</h1>
+        <p class="cal-subheading">Håll koll på kloklippning, vaccinationer, fästingmedel, promenader, födelsedagar och veterinärbesök.</p>
       </div>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-        <button id="new-reminder-button" class="button" type="button">
+        <button id="new-reminder-button" class="btn btn-primary" type="button">
           <span>+</span> Ny påminnelse
         </button>
       </div>
     </header>
 
-    <!-- Kategorifilter för Kalendern -->
+    <!-- KPI STATISTIKSTRIP -->
+    <section class="cal-kpi-strip" aria-label="Kalendersammanfattning">
+      <article class="cal-kpi-card">
+        <div class="cal-kpi-icon">🗓️</div>
+        <div class="cal-kpi-info">
+          <small>DENNA VECKA</small>
+          <strong id="kpiWeekCount">3 aktiviteter</strong>
+        </div>
+      </article>
+
+      <article class="cal-kpi-card">
+        <div class="cal-kpi-icon kpi-amber">🩺</div>
+        <div class="cal-kpi-info">
+          <small>HÄLSA &amp; VÅRD</small>
+          <strong id="kpiHealthCount">1 kommande check</strong>
+        </div>
+      </article>
+
+      <article class="cal-kpi-card">
+        <div class="cal-kpi-icon kpi-rose">🎂</div>
+        <div class="cal-kpi-info">
+          <small>NÄSTA FÖDELSEDAG</small>
+          <strong id="kpiNextBirthday">12 apr (Bella)</strong>
+        </div>
+      </article>
+
+      <article class="cal-kpi-card">
+        <div class="cal-kpi-icon kpi-blue">🔥</div>
+        <div class="cal-kpi-info">
+          <small>RUTIN-STREAK</small>
+          <strong id="kpiRoutineStreak">5 dagar i rad</strong>
+        </div>
+      </article>
+    </section>
+
+    <!-- KATEGORIFILTER FÖR KALENDERN -->
     <nav class="cal-filter-toolbar" aria-label="Filtrera kalenderhändelser">
-      <button type="button" class="cal-filter-btn active" data-filter="all">Alla händelser</button>
-      <button type="button" class="cal-filter-btn" data-filter="care">✂️ Klor & Pälsvård</button>
-      <button type="button" class="cal-filter-btn" data-filter="health">🩺 Fästing & Medicin</button>
-      <button type="button" class="cal-filter-btn" data-filter="vet">💉 Veterinär & Vaccin</button>
-      <button type="button" class="cal-filter-btn" data-filter="activity">🐾 Promenad & Träning</button>
-      <button type="button" class="cal-filter-btn" data-filter="birthday">🎂 Födelsedagar</button>
+      <button type="button" class="cal-filter-btn active" data-cal-filter="all">Alla händelser</button>
+      <button type="button" class="cal-filter-btn" data-cal-filter="care">✂️ Klor &amp; Vård</button>
+      <button type="button" class="cal-filter-btn" data-cal-filter="health">🩺 Fästing &amp; Medicin</button>
+      <button type="button" class="cal-filter-btn" data-cal-filter="vet">💉 Veterinär &amp; Vaccin</button>
+      <button type="button" class="cal-filter-btn" data-cal-filter="walk">🐾 Promenad &amp; Träning</button>
+      <button type="button" class="cal-filter-btn" data-cal-filter="birthday">🎂 Födelsedagar</button>
     </nav>
 
-    <!-- Kalender Layout: Månadsöversikt (vänster) + Sidopanel (höger) -->
+    <!-- KALENDER LAYOUT: MÅNADSÖVERSIKT (VÄNSTER) + SIDOPANEL (HÖGER) -->
     <div class="calendar-layout">
       
       <!-- HUVUDKALENDER (MÅNAD & VECKOR) -->
       <section class="portal-card main-calendar-card">
         
-        <!-- Kalender Toolbar med Månadsnavigering -->
+        <!-- Kalender Toolbar med Månadsnavigering och Vyväljare -->
         <div class="calendar-toolbar">
           <div class="month-nav-group">
             <button type="button" id="prevMonthBtn" class="btn-cal-nav" aria-label="Föregående månad">‹</button>
-            <h2 id="currentMonthYearHeading">Juli 2026</h2>
+            <h2 id="currentMonthYearHeading">Augusti 2026</h2>
             <button type="button" id="nextMonthBtn" class="btn-cal-nav" aria-label="Nästa månad">›</button>
           </div>
 
           <div class="cal-actions-right">
             <button class="btn btn-outline btn-xs" id="todayJumpBtn" type="button">Idag</button>
             <div class="view-segmented-switch">
-              <button class="view-btn active" id="monthViewBtn" type="button">Månad</button>
-              <button class="view-btn" id="listViewBtn" type="button">Lista</button>
+              <button class="view-btn active" id="monthViewBtn" type="button" data-cal-view="month">Månad</button>
+              <button class="view-btn" id="listViewBtn" type="button" data-cal-view="agenda">Lista</button>
             </div>
           </div>
         </div>
@@ -103,18 +146,18 @@
           <!-- Renderas dynamiskt i JavaScript -->
         </div>
 
-        <!-- Listvy (visas vid klick på Lista) -->
-        <div class="calendar-agenda-list" id="calendarAgendaList" hidden>
+        <!-- Listvy / Agendavy (visas vid klick på Lista) -->
+        <div class="calendar-agenda-list" id="calendarAgendaList" style="display:none;">
           <!-- Renderas dynamiskt -->
         </div>
 
         <!-- Förklaring & Färgguide -->
         <div class="cal-legend-row">
-          <span class="legend-item"><i style="background:#be185d;"></i> Klor & Vård</span>
-          <span class="legend-item"><i style="background:#b45309;"></i> Fästing & Medicin</span>
-          <span class="legend-item"><i style="background:#15803d;"></i> Veterinär & Vaccin</span>
-          <span class="legend-item"><i style="background:#2d6a4f;"></i> Promenad</span>
-          <span class="legend-item"><i style="background:#d97706;"></i> Födelsedag</span>
+          <span class="legend-item"><i style="background:#be185d;"></i> Klor &amp; Vård</span>
+          <span class="legend-item"><i style="background:#b45309;"></i> Fästing &amp; Medicin</span>
+          <span class="legend-item"><i style="background:#15803d;"></i> Veterinär &amp; Vaccin</span>
+          <span class="legend-item"><i style="background:#2d6a4f;"></i> Promenad &amp; Träning</span>
+          <span class="legend-item"><i style="background:#eab308;"></i> Födelsedag</span>
         </div>
       </section>
 
@@ -123,23 +166,40 @@
         
         <!-- Aktiv Hund Filter & Födelsedagskort -->
         <section class="portal-card cal-dog-info-card">
-          <p class="card-label">KALENDER FÖR HUND</p>
+          <p class="card-label">AKTIV HUND</p>
           <div class="cal-dog-header">
             <span class="cal-dog-avatar" id="calDogAvatar">🐶</span>
             <div class="cal-dog-text">
               <strong id="calDogName">Bella</strong>
-              <small id="calDogMeta">Golden retriever · 3 år</small>
+              <small id="calDogMeta">Golden Retriever · 3 år</small>
             </div>
-            <a href="dogs.html" class="btn btn-outline btn-xs" title="Redigera ras & födelsedag">Ändra</a>
+            <a href="dogs.html" class="btn btn-outline btn-xs" title="Hantera hundar">Byt</a>
           </div>
 
           <!-- Födelsedagsindikator -->
           <div class="cal-birthday-badge-box" id="calBirthdayBox">
-            <span class="birthday-cake-icon">🎂</span>
-            <div class="birthday-text">
-              <strong>Födelsedag: 14 juni</strong>
-              <small>Fyllde nyligen 3 år (Född 2023)</small>
+            <span style="font-size:24px;">🎂</span>
+            <div>
+              <strong style="display:block; font-size:13px; color:#854d0e;">Födelsedag: 12 april</strong>
+              <small style="color:#a16207;">Fyllde 3 år i våras (Född 2023)</small>
             </div>
+          </div>
+
+          <!-- Snabb-bokning av vanliga rutiner -->
+          <div class="quick-routines-box">
+            <small style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;">Snabb-boka rutin:</small>
+            <button type="button" class="quick-routine-btn" data-quick-title="Klippa klorna" data-quick-cat="care">
+              <span>✂️ Kloklippning</span>
+              <em>+</em>
+            </button>
+            <button type="button" class="quick-routine-btn" data-quick-title="Fästingmedel" data-quick-cat="health">
+              <span>🩺 Fästingdroppar</span>
+              <em>+</em>
+            </button>
+            <button type="button" class="quick-routine-btn" data-quick-title="Årlig hälsokoll & vaccin" data-quick-cat="vet">
+              <span>💉 Veterinärbesök</span>
+              <em>+</em>
+            </button>
           </div>
         </section>
 
@@ -148,7 +208,7 @@
           <div class="card-heading">
             <div>
               <p class="card-label">KOMMANDE RUTINER</p>
-              <h2 id="upcomingEventsTitle">Kommande 30 dagar</h2>
+              <h2 id="upcomingEventsTitle" style="font-size:1.1rem; margin:2px 0 0;">Kommande 30 dagar</h2>
             </div>
           </div>
 
@@ -164,11 +224,11 @@
         <!-- Pedagogiskt Rutintips -->
         <section class="portal-card calendar-tip-card">
           <div style="display:flex; gap:12px; align-items:flex-start;">
-            <span style="font-size:22px; flex-shrink:0;">💡</span>
+            <span style="font-size:24px; flex-shrink:0;">💡</span>
             <div>
-              <strong style="display:block; font-size:13px; color:var(--ink); margin-bottom:2px;">Veterinärens tips om rutiner:</strong>
+              <strong style="display:block; font-size:13px; color:var(--ink); margin-bottom:3px;">Veterinärens tips om rutiner:</strong>
               <p style="font-size:12px; color:var(--muted); line-height:1.45; margin:0;">
-                Att klippa klorna regelbundet varannan till var tredje vecka håller pulpan kort och förhindrar felbelastning i tassens leder.
+                Att klippa klorna regelbundet varannan till var tredje vecka håller pulpan kort och förhindrar felbelastning i tassens leder och rygg.
               </p>
             </div>
           </div>
@@ -181,69 +241,112 @@
 
   <!-- MODAL: NY PÅMINNELSE / RUTIN -->
   <div id="reminder-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reminder-title">
-    <div class="modal-card" style="max-width: 540px;">
-      <div class="modal-header">
-        <h3 id="reminder-title" style="margin: 0; font-family: 'Fraunces', serif;">🔔 Skapa ny påminnelse</h3>
-        <button class="modal-close" id="close-reminder-modal-btn" type="button" aria-label="Stäng">×</button>
-      </div>
+    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px;">
+      <button class="modal-close" id="close-reminder-modal-btn" type="button" aria-label="Stäng">&times;</button>
+      <span class="modal-icon">🔔</span>
+      <p class="eyebrow">Ny kalenderhändelse</p>
+      <h2 id="reminder-title" style="margin:4px 0 16px; font-family:'Fraunces',serif;">Skapa påminnelse</h2>
 
-      <form id="reminder-form" class="modal-body" style="padding: 20px 24px;">
+      <form id="reminder-form">
         
         <!-- Kategori / Typ -->
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label for="reminder-category-select" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Typ av påminnelse *</label>
-          <select id="reminder-category-select" class="form-control" required>
-            <option value="care" selected>✂️ Kloklippning & Pälsvård</option>
-            <option value="health">🩺 Fästingmedel / Avmaskning</option>
-            <option value="vet">💉 Veterinärbesök & Vaccination</option>
-            <option value="activity">🐾 Träning / Hundkurs</option>
-            <option value="birthday">🎂 Födelsedag / Årsdag</option>
+        <div class="walk-form-group">
+          <label for="reminder-category-select">Typ av händelse *</label>
+          <select id="reminder-category-select" class="form-control" required style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
+            <option value="care" selected>✂️ Kloklippning &amp; Pälsvård</option>
+            <option value="health">🩺 Fästingmedel &amp; Medicin</option>
+            <option value="vet">💉 Veterinärbesök &amp; Vaccin</option>
+            <option value="walk">🐾 Promenad &amp; Träning</option>
+            <option value="birthday">🎂 Födelsedag &amp; Firande</option>
             <option value="other">✦ Övrig rutin</option>
           </select>
         </div>
 
-        <!-- Titel -->
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label for="reminder-title-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Rubrik *</label>
-          <input type="text" id="reminder-title-input" class="form-control" placeholder="t.ex. Klippa klorna, Fästingdroppar, Tandkontroll..." required>
+        <!-- Titel med Snabbvals-chips -->
+        <div class="walk-form-group">
+          <label for="reminder-title-input">Rubrik *</label>
+          <input type="text" id="reminder-title-input" class="form-control" placeholder="T.ex. Klippa klorna, Fästingdroppar..." required style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
+          
+          <div class="form-suggestion-chips" id="reminderSuggestionChips">
+            <button type="button" class="sug-chip" data-chip="Klippa klorna">✂️ Kloklipp</button>
+            <button type="button" class="sug-chip" data-chip="Fästingdroppar">🩺 Fästingmedel</button>
+            <button type="button" class="sug-chip" data-chip="Årlig vaccination">💉 Vaccination</button>
+            <button type="button" class="sug-chip" data-chip="Tandborstning">🪥 Tandborstning</button>
+            <button type="button" class="sug-chip" data-chip="Träna inkallning">🏆 Inkallningsträning</button>
+          </div>
         </div>
 
         <!-- Datum & Klockslag -->
-        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 14px;">
-          <div>
-            <label for="reminder-date-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Datum *</label>
-            <input type="date" id="reminder-date-input" class="form-control" required>
+        <div class="walk-form-row" style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:12px;">
+          <div class="walk-form-group">
+            <label for="reminder-date-input">Datum *</label>
+            <input type="date" id="reminder-date-input" required style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
           </div>
-          <div>
-            <label for="reminder-time-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Tid (valfritt)</label>
-            <input type="time" id="reminder-time-input" class="form-control" value="09:00">
+          <div class="walk-form-group">
+            <label for="reminder-time-input">Tid (valfritt)</label>
+            <input type="time" id="reminder-time-input" value="09:00" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
           </div>
         </div>
 
         <!-- Återkommande intervall -->
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label for="reminder-repeat-select" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Upprepa rutin</label>
-          <select id="reminder-repeat-select" class="form-control">
+        <div class="walk-form-group">
+          <label for="reminder-repeat-select">Upprepa rutin</label>
+          <select id="reminder-repeat-select" class="form-control" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
             <option value="none" selected>Engångshändelse (Ingen upprepning)</option>
             <option value="weekly">Varje vecka</option>
             <option value="biweekly">Varannan vecka (14 dagar)</option>
-            <option value="triweekly">Var 3:e vecka (21 dagar - Kloklippning)</option>
-            <option value="monthly">Varje månad (30 dagar - Fästingmedel)</option>
+            <option value="triweekly">Var 3:e vecka (21 dagar – Kloklippning)</option>
+            <option value="monthly">Varje månad (30 dagar – Fästingmedel)</option>
             <option value="yearly">Årligen (Vaccination / Födelsedag)</option>
           </select>
         </div>
 
-        <!-- Notering -->
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label for="reminder-notes-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Anteckningar / Påminnelseråd (valfritt)</label>
-          <input type="text" id="reminder-notes-input" class="form-control" placeholder="t.ex. Klipp lite i taget, belöna med lammgodis...">
+        <!-- Anteckningar -->
+        <div class="walk-form-group">
+          <label for="reminder-notes-input">Anteckning (valfritt)</label>
+          <input type="text" id="reminder-notes-input" placeholder="T.ex. Klipp lite i taget, belöna med lammgodis..." style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-          <button type="button" class="btn btn-outline" id="cancel-reminder-btn">Avbryt</button>
-          <button type="submit" class="btn btn-primary">Spara påminnelse</button>
-        </div>
+        <button class="button" style="width:100%; margin-top:12px;" type="submit">Spara påminnelse 📅</button>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: HÄNDELSEDETALJ & HANTERING -->
+  <div id="event-detail-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="eventDetailTitle">
+    <div class="modal-box form-modal" style="width:min(100%, 480px); background:#fff; border-radius:20px; padding:28px;">
+      <button class="modal-close" id="close-event-detail-btn" type="button" aria-label="Stäng">&times;</button>
+      <span class="modal-icon" id="eventDetailIcon">📅</span>
+      <p class="eyebrow" id="eventDetailEyebrow">Kalenderhändelse</p>
+      <h2 id="eventDetailTitle" style="margin:4px 0 12px; font-family:'Fraunces',serif;">Kloklippning</h2>
+      
+      <div class="event-detail-box">
+        <div class="event-detail-row">
+          <small>DATUM &amp; TID</small>
+          <strong id="eventDetailDateTime">30 aug kl 09:00</strong>
+        </div>
+        <div class="event-detail-row">
+          <small>KATEGORI</small>
+          <strong id="eventDetailCategory">Klor &amp; Vård</strong>
+        </div>
+        <div class="event-detail-row">
+          <small>HUND</small>
+          <strong id="eventDetailDog">Bella</strong>
+        </div>
+        <div class="event-detail-row">
+          <small>ANTECKNING</small>
+          <strong id="eventDetailNotes" style="max-width:240px; text-align:right;">Belöna med lammgodis</strong>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:16px;">
+        <button type="button" class="btn btn-outline" id="eventDetailDeleteBtn" style="color:#be123c; border-color:#fecdd3; flex:1;">
+          🗑️ Ta bort
+        </button>
+        <button type="button" class="btn btn-primary" id="eventDetailDoneBtn" style="flex:1.4;">
+          ✓ Markera som klar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -255,8 +358,10 @@
 
   <!-- Sidfot -->
   <footer class="portal-footer">
-    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
-    <span>Aktivitetskalender v1.4</span>
+    <div style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:20px;">
+      <span>© 2026 HundApp · Aktivitetskalender &amp; Rutiner</span>
+      <span>Håll koll på vård, hälsa och födelsedagar</span>
+    </div>
   </footer>
 
   <script src="app.js"></script>

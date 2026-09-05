@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitkort &amp; Logotyp (Tryckfärdigt SVG) · HundApp</title>
+  <meta name="description" content="Officiellt tryckfärdigt visitkort i SVG-vektorformat (85x55 mm) med skanningsbar QR-kod och anpassad logotyp för HundApp.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .card-preview-body {
+      background: #f4f7f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-preview-main {
+      padding: 40px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .preview-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .preview-hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1b4332;
+      margin-bottom: 12px;
+    }
+    .preview-hero p {
+      font-size: 16px;
+      color: #52b788;
+      max-width: 650px;
+      margin: 0 auto 24px;
+      font-weight: 600;
+    }
+    .action-toolbar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    
+    /* Grid med fram- och baksida */
+    .cards-display-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .card-item-wrap {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e1ebe4;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-item-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1b4332;
+      margin: 0;
+    }
+    .card-svg-container {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    .card-svg-container img, .card-svg-container object {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Logotypsektion */
+    .logo-showcase-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e1ebe4;
+      margin-bottom: 48px;
+    }
+    .logo-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .logo-box {
+      padding: 30px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e1ebe4;
+    }
+    .logo-box.light {
+      background: #ffffff;
+    }
+    .logo-box.dark {
+      background: #081c15;
+    }
+    .logo-box img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Print styling för visitkort (85x55 mm) */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .cards-display-grid, .cards-display-grid * {
+        visibility: visible;
+      }
+      .cards-display-grid {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: block;
+      }
+      .card-item-wrap {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin-bottom: 20mm;
+        page-break-inside: avoid;
+      }
+      .card-item-header, .action-toolbar, .portal-header, .portal-footer, .logo-showcase-card {
+        display: none !important;
+      }
+      .card-svg-container {
+        width: 85mm;
+        height: 55mm;
+      }
+    }
+  </style>
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+</head>
+<body class="card-preview-body">
+
+  <!-- Toppnavigation -->
+  <header class="portal-header">
+    <div class="portal-header-inner">
+      <div class="portal-brand">
+        <a href="index.html" class="logo-link" aria-label="Gå till startsidan">
+          <span class="logo-icon">🐾</span>
+          <span class="logo-text">Hund<strong>App</strong></span>
+        </a>
+      </div>
+
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html">Översikt</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="walks.html">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
+      </nav>
+
+      <div class="portal-user-actions">
+        <a href="index.html" class="btn btn-outline btn-sm">Tillbaka till appen</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="card-preview-main">
+    <div class="preview-hero">
+      <span class="badge badge-success" style="margin-bottom: 12px; display: inline-block;">🎨 Tryckfärdigt Vektormaterial (SVG)</span>
+      <h1>HundApp Visitkort &amp; Vektorlogotyp</h1>
+      <p>Anpassad professionell logotyp och 2-sidigt visitkort i europeiskt standardformat (85 × 55 mm) med skanningsbar QR-kod.</p>
+      
+      <div class="action-toolbar">
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+          <span class="btn-icon">🖨️</span> Skriv ut / Spara PDF
+        </button>
+        <a href="visitkort-framsida.svg" download="hundapp-visitkort-framsida.svg" class="btn btn-secondary">
+          <span class="btn-icon">📥</span> Ladda ner Framsida (SVG)
+        </a>
+        <a href="visitkort-baksida.svg" download="hundapp-visitkort-baksida.svg" class="btn btn-secondary">
+          <span class="btn-icon">📥</span> Ladda ner Baksida med QR (SVG)
+        </a>
+        <a href="hundapp-logo.svg" download="hundapp-logo-master.svg" class="btn btn-outline">
+          <span class="btn-icon">💎</span> Ladda ner Master Logotyp (SVG)
+        </a>
+      </div>
+    </div>
+
+    <!-- Visitkort översikt (Framsida & Baksida) -->
+    <section class="cards-display-grid">
+      <!-- Framsida -->
+      <div class="card-item-wrap">
+        <div class="card-item-header">
+          <h3>Framsida (85 × 55 mm)</h3>
+          <span class="badge badge-primary">Mörk Smaragd Luxury</span>
+        </div>
+        <div class="card-svg-container">
+          <img src="visitkort-framsida.svg" alt="HundApp Visitkort Framsida">
+        </div>
+        <p class="text-muted" style="font-size: 13px; margin: 0;">
+          Centrerat logomärke med hjärttass-emblem, guldaccent och modern slogan i skandinavisk typografi.
+        </p>
+      </div>
+
+      <!-- Baksida -->
+      <div class="card-item-wrap">
+        <div class="card-item-header">
+          <h3>Baksida (85 × 55 mm)</h3>
+          <span class="badge badge-success">Skanningsbar QR-kod</span>
+        </div>
+        <div class="card-svg-container">
+          <img src="visitkort-baksida.svg" alt="HundApp Visitkort Baksida">
+        </div>
+        <p class="text-muted" style="font-size: 13px; margin: 0;">
+          Funktionsöversikt, kontaktuppgifter och en laserskarp vektor-QR-kod som öppnar appen i mobilen.
+        </p>
+      </div>
+    </section>
+
+    <!-- Anpassad Logotyp Showcase -->
+    <section class="logo-showcase-card">
+      <div class="card-item-header">
+        <div>
+          <h2 style="font-size: 22px; font-weight: 800; color: #1b4332; margin: 0 0 6px;">Anpassad Vektorlogotyp (Print- &amp; Tryckfärdig)</h2>
+          <p class="text-muted" style="font-size: 14px; margin: 0;">100% skalbar i SVG-format utan kvalitetsförlust. Anpassad för tryckeri, profiltryck, webb och kläder.</p>
+        </div>
+      </div>
+
+      <div class="logo-showcase-grid">
+        <div class="logo-box light">
+          <img src="hundapp-logo.svg" alt="HundApp Logotyp Ljus">
+        </div>
+        <div class="logo-box dark">
+          <img src="hundapp-logo-dark.svg" alt="HundApp Logotyp Mörk">
+        </div>
+      </div>
+    </section>
+
+    <!-- Tryckguide & Specifikationer -->
+    <section class="card-item-wrap">
+      <h3 style="font-size: 18px; font-weight: 800; color: #1b4332; margin-bottom: 12px;">📋 Tryckspecifikationer för Tryckeri</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 13.5px; color: #495057;">
+        <div><strong>Format:</strong> 85 × 55 mm (Svensk/Europeisk standard)</div>
+        <div><strong>Färgrymd:</strong> Vektoriserad RGB/CMYK-kompatibel</div>
+        <div><strong>Upplösning:</strong> Oändlig vektorupplösning (300+ DPI vid export)</div>
+        <div><strong>QR-kod:</strong> ISO/IEC 18004 Vektor SVG (Läsbar med alla telefoner)</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="portal-footer">
+    <div class="portal-footer-inner">
+      <p>&copy; 2026 HundApp · Tryckmaterial och varumärkesprofil.</p>
+      <div class="portal-footer-links">
+        <a href="index.html">Hem</a>
+        <a href="portal.html">Portalen</a>
+        <a href="suggestions.html">Förslagslåda</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

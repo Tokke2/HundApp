@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="80mm" height="80mm">
+  <defs>
+    <style>
+      .embroidery-bg { fill: #1E3A2F; }
+      .thread-gold { fill: #E5B842; stroke: #C89928; stroke-width: 0.5; }
+      .thread-white { fill: #F4F4F6; stroke: #D8D8DC; stroke-width: 0.5; }
+      .thread-green { fill: #143323; stroke: #0A1C13; stroke-width: 0.5; }
+      .frame-contour { stroke: #E5B842; stroke-width: 3; fill: none; }
+      .stitch-guide { stroke: #38b000; stroke-width: 1; stroke-dasharray: 4,4; fill: none; }
+      .text-meta { font-family: 'Courier New', monospace; font-size: 11px; fill: #A5B4AE; }
+    </style>
+  </defs>
+
+  <!-- EMBROIDERY HOOP BOUNDARY (80 x 80 mm) -->
+  <rect width="800" height="800" fill="#15201A"/>
+  
+  <!-- Outer Hoop Circle & Stitch Limit -->
+  <circle cx="400" cy="400" r="380" class="stitch-guide"/>
+  <circle cx="400" cy="400" r="350" fill="#1C382B" stroke="#2D6A4F" stroke-width="2"/>
+
+  <!-- EMBROIDERED SATIN STITCH BORDER RING -->
+  <circle cx="400" cy="400" r="330" class="frame-contour"/>
+  <circle cx="400" cy="400" r="315" fill="none" stroke="#F4F4F6" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+  <!-- CENTRAL EMBROIDERED PAW WITH THREAD TEXTURE -->
+  <g transform="translate(400, 390)">
+    
+    <!-- Central Pad in Satin Gold Thread -->
+    <path d="M-60,10 C-80,-15 -55,-50 0,-50 C55,-50 80,-15 60,10 C45,28 30,45 0,45 C-30,45 -45,28 -60,10 Z" class="thread-gold"/>
+    
+    <!-- Inner Relief Stitch in White -->
+    <path d="M-30,0 C-40,-10 -25,-30 0,-30 C25,-30 40,-10 30,0 C20,12 15,22 0,22 C-15,22 -20,12 -30,0 Z" class="thread-white"/>
+
+    <!-- 4 Embroidered Toe Pads -->
+    <ellipse cx="-75" cy="-60" rx="22" ry="30" transform="rotate(-25 -75 -60)" class="thread-gold"/>
+    <ellipse cx="-25" cy="-95" rx="23" ry="32" transform="rotate(-10 -25 -95)" class="thread-gold"/>
+    <ellipse cx="25" cy="-95" rx="23" ry="32" transform="rotate(10 25 -95)" class="thread-gold"/>
+    <ellipse cx="75" cy="-60" rx="22" ry="30" transform="rotate(25 75 -60)" class="thread-gold"/>
+
+    <!-- Embroidered Mini Star -->
+    <polygon points="0,-10 4,-2 12,-2 6,4 8,12 0,7 -8,12 -6,4 -12,-2 -4,-2" class="thread-green"/>
+
+    <!-- Embroidered Typography -->
+    <text x="0" y="110" text-anchor="middle" font-family="'Fraunces', serif" font-weight="bold" font-size="36" fill="#F4F4F6" letter-spacing="2">HundApp</text>
+    <text x="0" y="140" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="700" font-size="12" fill="#E5B842" letter-spacing="4">ORIGINAL APPAREL</text>
+  </g>
+
+  <!-- BRODYR SPECIFIKATION -->
+  <text x="40" y="740" class="text-meta">BRODYR: VÄNSTER BRÖST (80 x 80 mm) | STYGN: CA 8 450 STYGN</text>
+  <text x="40" y="760" class="text-meta">TRÅD: MADEIRA POLYNEON 1801 (VIT), 1987 (GULD), 1904 (SKOGSGRÖN)</text>
+  <text x="40" y="780" class="text-meta">BÄRARE: 350 GSM ORGANISK EKOLOGISK BOMULL / SWEATSHIRT</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" width="600" height="180" aria-label="HundApp Logotyp Mörk Bakgrund">
+  <defs>
+    <linearGradient id="darkBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081c15" />
+      <stop offset="100%" stop-color="#1b4332" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d6a4f" />
+      <stop offset="100%" stop-color="#52b788" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4a261" />
+      <stop offset="100%" stop-color="#e76f51" />
+    </linearGradient>
+  </defs>
+
+  <!-- Mörk bakgrund -->
+  <rect width="100%" height="100%" fill="url(#darkBgGrad)" rx="16" />
+
+  <!-- Logomärke / Emblem -->
+  <g transform="translate(40, 20)">
+    <rect x="0" y="0" width="140" height="140" rx="36" fill="url(#shieldGrad)" />
+    
+    <!-- Trampdyna -->
+    <path d="M 70 62 C 55 42, 35 55, 38 78 C 40 96, 62 112, 70 118 C 78 112, 100 96, 102 78 C 105 55, 85 42, 70 62 Z" fill="#ffffff" />
+    <path d="M 70 78 C 65 70, 58 75, 60 84 C 62 91, 70 98, 70 98 C 70 98, 78 91, 80 84 C 82 75, 75 70, 70 78 Z" fill="url(#goldGrad)" />
+
+    <!-- 4 Tår -->
+    <ellipse cx="40" cy="46" rx="10" ry="14" transform="rotate(-30 40 46)" fill="#ffffff" />
+    <ellipse cx="60" cy="34" rx="11" ry="15" transform="rotate(-10 60 34)" fill="#ffffff" />
+    <ellipse cx="80" cy="34" rx="11" ry="15" transform="rotate(10 80 34)" fill="#ffffff" />
+    <ellipse cx="100" cy="46" rx="10" ry="14" transform="rotate(30 100 46)" fill="#ffffff" />
+  </g>
+
+  <!-- Typografi Vit/Guld -->
+  <g transform="translate(205, 95)">
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="600" fill="#ffffff" letter-spacing="-0.02em">Hund</text>
+    <text x="165" y="0" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="800" fill="#74c69d" letter-spacing="-0.02em">App</text>
+    <circle cx="295" cy="-44" r="7.5" fill="url(#goldGrad)" />
+    
+    <text x="4" y="32" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#d8f3dc" letter-spacing="0.22em" text-transform="uppercase">Tryggt &amp; Aktivt Hundliv</text>
+    <line x1="4" y1="46" x2="330" y2="46" stroke="#40916c" stroke-width="2" stroke-linecap="round" />
+  </g>
+</svg>

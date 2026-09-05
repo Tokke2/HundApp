@@ -4,11 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Din personliga översikt och dashboard i HundApp – håll koll på hundens hälsa, promenader, rutiner och matallergier.">
-  <title>Översikt & Portal – HundApp</title>
+  <title>Översikt &amp; Portal – HundApp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 </head>
 <body class="portal-page">
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -17,8 +26,7 @@
   <header class="portal-header">
     <div class="portal-nav">
       <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>HundApp</span>
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
       </a>
 
       <nav class="portal-links" aria-label="Huvudmeny">
@@ -34,7 +42,7 @@
       <div class="portal-user">
         <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
         <button class="bell" type="button" aria-label="Notiser">🔔<i></i></button>
-        <button class="user-menu" type="button" id="userMenuBtn">
+        <button class="user-menu" type="button" id="userMenuBtn" aria-haspopup="true" aria-expanded="false">
           <span id="userAvatarLetter">M</span>
           <b id="userNavName">Maria</b>
           <em>⌄</em>
@@ -63,9 +71,14 @@
           <strong class="dog-name-display" id="activeDogName">Bella</strong>
           <span class="dog-sub-tag">Golden retriever · 3 år</span>
         </div>
-        <button type="button" class="btn-switch-dog" id="switchDogBtn" aria-label="Byt aktiv hund">
-          <span class="switch-icon">⇄</span> Byt hund
-        </button>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <button type="button" class="btn-switch-dog" id="switchDogBtn" aria-label="Byt aktiv hund">
+            <span class="switch-icon">⇄</span> Byt hund
+          </button>
+          <button type="button" class="btn btn-outline btn-xs" onclick="window.openCollarPassModal()" style="font-size:11px; font-weight:700;">
+            🏷️ Nödpass &amp; QR
+          </button>
+        </div>
       </div>
     </header>
 
@@ -75,7 +88,7 @@
         <span class="quick-icon walk-icon">🐾</span>
         <div>
           <b>Logga promenad</b>
-          <small>Distans, tid & rutt</small>
+          <small>Tidtagare, underlag &amp; distans</small>
         </div>
       </a>
 
@@ -83,7 +96,7 @@
         <span class="quick-icon activity-icon">✦</span>
         <div>
           <b>Logga aktivitet</b>
-          <small>Nosarbete, lek & träning</small>
+          <small>Nosarbete, lek &amp; träning</small>
         </div>
       </a>
 
@@ -91,16 +104,27 @@
         <span class="quick-icon reminder-icon">⏰</span>
         <div>
           <b>Ny påminnelse</b>
-          <small>Kloklippning & vård</small>
+          <small>Kloklippning &amp; vård</small>
         </div>
       </a>
 
-      <button type="button" class="quick-action-btn btn-trigger-allergy" id="openAllergyModalBtn">
+      <button type="button" class="quick-action-btn btn-trigger-allergy" id="openAllergyModalBtn" style="border:none; text-align:left; font-family:inherit;">
         <span class="quick-icon allergy-icon">🌾</span>
         <div>
-          <b>Matallergier & Foder</b>
+          <b>Matallergier &amp; Foder</b>
           <small id="quickAllergySummary">1 registrerad allergi</small>
         </div>
+      </button>
+    </section>
+
+        <!-- PWA & 100% OFFLINE-LÄGE I SKOGEN -->
+    <section class="pwa-install-card" id="portalPwaPromo" style="margin-top:16px; margin-bottom:20px;">
+      <div class="pwa-install-card-content">
+        <h4>🌲 100% Offline-läge för Skogspromenader</h4>
+        <p>Installera HundApp på hemskärmen för blixtsnabb åtkomst utan internet. Promenader och rutiner sparas säkert lokalt i mobilen.</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="window.triggerPWAInstall()" style="white-space:nowrap;">
+        📲 Spara som App
       </button>
     </section>
 
@@ -109,74 +133,25 @@
       
       <!-- KORT 1: Kommande Rutiner & Check-off -->
       <section class="portal-card upcoming-routines-card">
-        <div class="card-heading">
+        <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
-            <p class="card-label">RUTINER & VÅRD</p>
-            <h2>Vad händer härnäst?</h2>
+            <p class="card-label">RUTINER &amp; VÅRD</p>
+            <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Vad händer härnäst?</h2>
           </div>
-          <a href="calendar.html" class="text-link-sm">Öppna kalendern →</a>
+          <a href="calendar.html" class="text-link-sm" style="color:var(--green-dark); font-weight:700; font-size:13px;">Öppna kalendern →</a>
         </div>
 
         <div class="upcoming-routines-list" id="upcomingRoutinesList">
-          <!-- Rutin 1: Kloklippning -->
-          <article class="routine-item" id="routine-claw">
-            <span class="date-chip">
-              <b>31</b>
-              <small>JUL</small>
-            </span>
-            <span class="routine-icon pink-icon">✂</span>
-            <div class="routine-info">
-              <strong>Kloklippning</strong>
-              <small>För Bella · <span class="due-tag">om 3 dagar</span></small>
-            </div>
-            <button type="button" class="btn-check-routine" data-routine-id="claw" title="Markera som klar">
-              <span class="check-box-icon">○</span>
-              <span class="check-text">Klar</span>
-            </button>
-          </article>
-
-          <!-- Rutin 2: Fästingmedel -->
-          <article class="routine-item" id="routine-tick">
-            <span class="date-chip">
-              <b>04</b>
-              <small>AUG</small>
-            </span>
-            <span class="routine-icon yellow-icon">🩺</span>
-            <div class="routine-info">
-              <strong>Fästingmedel</strong>
-              <small>För Bella · <span class="due-tag">om 7 dagar</span></small>
-            </div>
-            <button type="button" class="btn-check-routine" data-routine-id="tick" title="Markera som klar">
-              <span class="check-box-icon">○</span>
-              <span class="check-text">Klar</span>
-            </button>
-          </article>
-
-          <!-- Rutin 3: Årlig hälsokontroll -->
-          <article class="routine-item" id="routine-vet">
-            <span class="date-chip">
-              <b>12</b>
-              <small>AUG</small>
-            </span>
-            <span class="routine-icon green-icon">♥</span>
-            <div class="routine-info">
-              <strong>Årlig hälsokontroll</strong>
-              <small>Veterinärbesök · <span class="due-tag">om 15 dagar</span></small>
-            </div>
-            <button type="button" class="btn-check-routine" data-routine-id="vet" title="Markera som klar">
-              <span class="check-box-icon">○</span>
-              <span class="check-text">Klar</span>
-            </button>
-          </article>
+          <!-- Renderas dynamiskt i app.js -->
         </div>
       </section>
 
       <!-- KORT 2: Matallergi & Specialkost (Hundens Trygghet) -->
       <section class="portal-card allergy-safety-card">
-        <div class="card-heading">
+        <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
-            <p class="card-label">HÄLSA & FODER</p>
-            <h2>Matallergi & Specialkost</h2>
+            <p class="card-label">HÄLSA &amp; FODER</p>
+            <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Matallergi &amp; Specialkost</h2>
           </div>
           <button type="button" class="btn btn-outline btn-xs" id="editAllergyBtn">✏️ Redigera</button>
         </div>
@@ -188,15 +163,17 @@
           </div>
 
           <div class="diet-info-box">
-            <strong class="diet-title">🥣 Aktuellt foder:</strong>
-            <p id="portalDietText" class="diet-desc">Veterinärfoder: Hypoallergent Lamm & Ris (Spannmålsfritt).</p>
+            <strong class="diet-title" style="font-size:13px; color:var(--ink); display:block; margin-bottom:2px;">🥣 Aktuellt foder:</strong>
+            <p id="portalDietText" class="diet-desc" style="margin:0; font-size:13px; color:var(--muted);">Veterinärfoder: Hypoallergent Lamm &amp; Ris (Spannmålsfritt).</p>
           </div>
 
           <div class="safety-warning-box">
-            <span class="safety-icon">💡</span>
+            <span class="safety-icon" style="font-size:20px;">💡</span>
             <div class="safety-text">
-              <strong>Information till hundvakter & familj:</strong>
-              <p id="portalAllergyNotes">Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.</p>
+              <strong style="display:block; font-size:12.5px; color:#c2410c;">Information till hundvakter &amp; familj:</strong>
+              <p id="portalAllergyNotes" style="margin:2px 0 0; font-size:12px; color:#9a3412; line-height:1.4;">
+                Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.
+              </p>
             </div>
           </div>
         </div>
@@ -204,96 +181,101 @@
 
       <!-- KORT 3: Denna vecka i siffror (Widget till Statistik) -->
       <section class="portal-card week-stats-card">
-        <div class="card-heading">
+        <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
             <p class="card-label">DENNA VECKA</p>
-            <h2>Rörelse & Motion</h2>
+            <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Rörelse &amp; Motion</h2>
           </div>
-          <a href="statistics.html" class="text-link-sm">Full statistik →</a>
+          <a href="statistics.html" class="text-link-sm" style="color:var(--green-dark); font-weight:700; font-size:13px;">Full statistik →</a>
         </div>
 
-        <div class="week-stat-top-row">
+        <div class="week-stat-top-row" style="display:flex; justify-content:space-between; margin-bottom:16px;">
           <div class="stat-highlight-item">
-            <b id="portalWeekWalksCount">6</b>
-            <span>promenader</span>
+            <b id="portalWeekWalksCount" style="font-size:24px; font-weight:800; color:var(--green-dark);">4</b>
+            <span style="display:block; font-size:11.5px; color:var(--muted);">promenader</span>
           </div>
           <div class="stat-highlight-item">
-            <b id="portalWeekDistanceKm">13,8</b>
-            <span>km totalt</span>
+            <b id="portalWeekDistanceKm" style="font-size:24px; font-weight:800; color:var(--green-dark);">9,7</b>
+            <span style="display:block; font-size:11.5px; color:var(--muted);">km totalt</span>
           </div>
           <div class="stat-highlight-item">
-            <b id="portalWeekActiveHours">4 h 25 m</b>
-            <span>tid ute</span>
+            <b id="portalWeekActiveHours" style="font-size:24px; font-weight:800; color:var(--green-dark);">2 h 38 min</b>
+            <span style="display:block; font-size:11.5px; color:var(--muted);">tid ute</span>
           </div>
         </div>
 
         <!-- Visuella veckostaplar -->
-        <div class="portal-week-bars" aria-label="Aktivitet per veckodag">
-          <div class="bar-col"><i style="height:45%"></i><span>M</span></div>
-          <div class="bar-col"><i style="height:70%"></i><span>T</span></div>
-          <div class="bar-col"><i style="height:35%"></i><span>O</span></div>
-          <div class="bar-col"><i style="height:90%"></i><span>T</span></div>
-          <div class="bar-col active-today"><i style="height:55%"></i><span>F</span></div>
-          <div class="bar-col"><i style="height:80%"></i><span>L</span></div>
-          <div class="bar-col"><i style="height:30%"></i><span>S</span></div>
+        <div class="portal-week-bars" style="display:flex; justify-content:space-between; align-items:flex-end; height:80px; padding:10px 0; border-top:1px solid var(--line);" aria-label="Aktivitet per veckodag">
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:45%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">M</span></div>
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:70%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">T</span></div>
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:35%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">O</span></div>
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:90%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">T</span></div>
+          <div class="bar-col active-today" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:65%; width:16px; background:var(--green-dark); border-radius:4px; display:block;"></i><span style="font-size:11px; font-weight:800; color:var(--green-dark);">F</span></div>
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:80%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">L</span></div>
+          <div class="bar-col" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;"><i style="height:40%; width:16px; background:var(--mint); border-radius:4px; display:block;"></i><span style="font-size:11px; color:var(--muted);">S</span></div>
         </div>
 
-        <p class="week-footer-summary">
-          ↗ <b>+14%</b> mer rörelse än föregående vecka. Snyggt jobbat!
+        <p class="week-footer-summary" style="margin:12px 0 0; font-size:12.5px; color:var(--muted);">
+          ↗ <b>+12%</b> mer rörelse än föregående vecka. Snyggt jobbat!
         </p>
       </section>
 
       <!-- KORT 4: Senaste Händelser (Live Flöde) -->
       <section class="portal-card recent-activity-card">
-        <div class="card-heading">
+        <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div>
             <p class="card-label">SENASTE LOGGADE</p>
-            <h2>Bellas vardagshistorik</h2>
+            <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Vardagshistorik</h2>
           </div>
-          <a href="walks.html" class="text-link-sm">Visa loggbok →</a>
+          <a href="walks.html" class="text-link-sm" style="color:var(--green-dark); font-weight:700; font-size:13px;">Visa loggbok →</a>
         </div>
 
         <div class="recent-events-list" id="portalRecentList">
-          <article class="recent-item">
-            <span class="recent-icon green-dot">🐾</span>
-            <div class="recent-text">
-              <strong>Morgonpromenad i parken</strong>
-              <small>32 min · 2,4 km · Jämnt tempo</small>
-            </div>
-            <time>I dag, 08:14</time>
-          </article>
-
-          <article class="recent-item">
-            <span class="recent-icon purple-dot">👃</span>
-            <div class="recent-text">
-              <strong>Nosarbete & Godissök</strong>
-              <small>15 min · Mental berikning</small>
-            </div>
-            <time>I går, 18:30</time>
-          </article>
-
-          <article class="recent-item">
-            <span class="recent-icon peach-dot">⚖️</span>
-            <div class="recent-text">
-              <strong>Vägning registrerad (27,4 kg)</strong>
-              <small>Stabil och fin idealvikt</small>
-            </div>
-            <time>20 juli</time>
-          </article>
+          <!-- Renderas dynamiskt i app.js -->
         </div>
       </section>
 
-      <!-- KORT 5: Dagens Omtänksamma Hundtips -->
-      <aside class="portal-card daily-tip-portal-card">
+      <!-- KORT 5: Interaktiv Fodersäkerhet & Toxinsökning -->
+      <section class="portal-card food-safety-card" style="grid-column: 1 / -1;">
+        <div class="card-heading" style="margin-bottom:8px;">
+          <p class="card-label">SNABBKOLL HUNDMAT</p>
+          <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Kan min hund äta detta? 🥕 🍫</h2>
+          <p style="margin:4px 0 0; font-size:13.5px; color:var(--muted);">Sök snabbt på livsmedel för att se om det är hälsosamt eller giftigt för din hund.</p>
+        </div>
+
+        <div class="food-search-row">
+          <input type="text" id="food-search-input" class="food-search-input" placeholder="Sök t.ex. morot, äpple, vindruvor, choklad, lök...">
+        </div>
+
+        <div id="food-search-results" class="food-results-container" style="display:none;"></div>
+      </section>
+
+      
+      <!-- KORT 7: Tass-Streaks & Belöningar -->
+      <section class="portal-card badges-showcase-section" style="grid-column: 1 / -1; padding:24px;">
+        <div class="card-heading" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <p class="card-label">GAMIFIERING &amp; MOTIVATION</p>
+            <h2 style="font-family:'Fraunces',serif; font-size:20px; margin:2px 0 0; color:var(--ink);">Tass-Streaks &amp; Framsteg</h2>
+          </div>
+          <span class="badge-unlocked-tag">🏆 Framsteg för aktiv hund</span>
+        </div>
+        <div class="badges-grid" id="portalBadgesShowcase">
+          <!-- Renderas dynamiskt i JavaScript -->
+        </div>
+      </section>
+
+      <!-- KORT 6: Dagens Omtänksamma Hundtips -->
+      <aside class="portal-card daily-tip-portal-card" style="grid-column: 1 / -1; background:linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%); color:#fff; border-radius:20px; padding:28px;">
         <div class="tip-card-inner">
-          <span class="tip-sparkle-icon">🌿</span>
-          <p class="card-label">DAGENS UTVALDA HUNDTIPS</p>
-          <h2 id="portalDailyTipTitle">En lugn stund kan vara dagens bästa aktivering</h2>
-          <p id="portalDailyTipBody">
-            Mental stimulans genom nosarbete sänker hundens stressnivåer och puls mer effektivt än enbart långa promenader. Låt Bella söka efter några doftande godisar i en hoprullad handduk idag!
+          <span style="font-size:28px; display:block; margin-bottom:8px;">🌿</span>
+          <p class="card-label" style="color:#d8f3dc;">DAGENS UTVALDA HUNDTIPS</p>
+          <h2 id="portalDailyTipTitle" style="font-family:'Fraunces',serif; color:#fff; font-size:22px; margin:4px 0 8px;">En lugn stund kan vara dagens bästa aktivering</h2>
+          <p id="portalDailyTipBody" style="color:#d8f3dc; font-size:14px; line-height:1.5; margin:0 0 16px; max-width:720px;">
+            Mental stimulans genom nosarbete sänker hundens stressnivåer och puls mer effektivt än enbart långa promenader. Låt hunden söka efter några doftande godisar i en hoprullad handduk idag!
           </p>
           <div class="tip-card-action">
-            <a href="tips.html" class="btn btn-outline" style="background:var(--white); font-size:0.85rem;">📚 Läs fler tips i biblioteket →</a>
+            <a href="tips.html" class="btn btn-primary" style="background:#fff; color:var(--green-dark); font-weight:800; border:none; font-size:13px;">📚 Läs fler tips i biblioteket →</a>
           </div>
         </div>
       </aside>
@@ -303,67 +285,62 @@
 
   <!-- MODAL: REGISTRERA / REDIGERA MATALLERGI & SPECIALKOST -->
   <div id="allergy-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="allergy-modal-title">
-    <div class="modal-card" style="max-width: 540px;">
-      <div class="modal-header">
-        <h3 id="allergy-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🌾 Hantera Matallergier & Specialkost</h3>
-        <button class="modal-close" id="close-allergy-modal-btn" type="button" aria-label="Stäng">×</button>
-      </div>
+    <div class="modal-box form-modal" style="width:min(100%, 540px); background:#fff; border-radius:20px; padding:32px; max-height:90vh; overflow-y:auto;">
+      <button class="modal-close" id="close-allergy-modal-btn" type="button" aria-label="Stäng">&times;</button>
+      <span class="modal-icon">🌾</span>
+      <p class="eyebrow">Kost &amp; Hälsa</p>
+      <h2 id="allergy-modal-title" style="margin:4px 0 10px; font-family:'Fraunces',serif;">Hantera matallergier &amp; kost</h2>
+      <p style="font-size:13.5px; color:var(--muted); margin:0 0 16px; line-height:1.5;">
+        Håll koll på ingredienser som din hund inte tål. Detta visas tydligt i portalen och underlättar för hundvakter och familj.
+      </p>
 
-      <form id="allergy-form" class="modal-body" style="padding: 20px 24px;">
-        <p style="font-size: 0.88rem; color: var(--muted); margin: 0 0 16px; line-height: 1.5;">
-          Håll koll på ingredienser och råvaror som Bella inte tål. Detta visas tydligt i portalen och underlättar för hundvakter och familjemedlemmar.
-        </p>
-
-        <!-- Vanliga allergener (Checkboxes) -->
-        <label style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 8px;">Kända överkänsligheter & allergier:</label>
-        <div class="allergen-checkbox-grid">
-          <label class="allergen-checkbox-item">
-            <input type="checkbox" name="allergens" value="Kyckling" checked>
+      <form id="allergy-form">
+        <label style="font-size:13px; font-weight:700; display:block; margin-bottom:8px;">Kända överkänsligheter &amp; allergier:</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
+            <input type="checkbox" name="allergens" value="Kycklingprotein" checked>
             <span>🐔 Kycklingprotein</span>
           </label>
-          <label class="allergen-checkbox-item">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
             <input type="checkbox" name="allergens" value="Spannmål" checked>
             <span>🌾 Spannmål / Vete</span>
           </label>
-          <label class="allergen-checkbox-item">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
             <input type="checkbox" name="allergens" value="Nötkött">
             <span>🥩 Nötkött</span>
           </label>
-          <label class="allergen-checkbox-item">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
             <input type="checkbox" name="allergens" value="Ägg">
             <span>🥚 Ägg</span>
           </label>
-          <label class="allergen-checkbox-item">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
             <input type="checkbox" name="allergens" value="Mejeri">
             <span>🥛 Mjölk / Mejeri</span>
           </label>
-          <label class="allergen-checkbox-item">
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; background:var(--surface); padding:8px 12px; border-radius:8px; border:1px solid var(--line); cursor:pointer;">
             <input type="checkbox" name="allergens" value="Fisk">
             <span>🐟 Fisk</span>
           </label>
         </div>
 
-        <!-- Egna övriga allergier -->
-        <div class="form-group" style="margin: 16px 0;">
-          <label for="custom-allergy-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Övriga ingredienser eller ämnen (valfritt):</label>
-          <input type="text" id="custom-allergy-input" class="form-control" placeholder="t.ex. Griskött, Soja, Konserveringsmedel">
+        <div class="walk-form-group">
+          <label for="custom-allergy-input">Övriga ingredienser (valfritt):</label>
+          <input type="text" id="custom-allergy-input" class="form-control" placeholder="T.ex. Griskött, Soja, Konserveringsmedel" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
         </div>
 
-        <!-- Aktuellt foder -->
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label for="diet-name-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Aktuellt foder / diet:</label>
-          <input type="text" id="diet-name-input" class="form-control" value="Veterinärfoder: Hypoallergent Lamm & Ris (Spannmålsfritt)" placeholder="t.ex. Royal Canin Hypoallergenic, Acana Lamm...">
+        <div class="walk-form-group">
+          <label for="diet-name-input">Aktuellt foder / diet:</label>
+          <input type="text" id="diet-name-input" class="form-control" value="Veterinärfoder: Hypoallergent Lamm & Ris (Spannmålsfritt)" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
         </div>
 
-        <!-- Säkerhetsinstruktion till hundvakter -->
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label for="safety-notes-input" style="font-size: 0.88rem; font-weight: 700; display: block; margin-bottom: 6px;">Instruktion till hundvakter / familj:</label>
-          <textarea id="safety-notes-input" class="form-control" rows="2" placeholder="t.ex. Ge absolut inte godis med kyckling. Vid belöning: använd lammgodis.">Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.</textarea>
+        <div class="walk-form-group">
+          <label for="safety-notes-input">Instruktion till hundvakter / familj:</label>
+          <textarea id="safety-notes-input" rows="2" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line); font-family:inherit; font-size:13px;">Ge inte godisbitar med kycklingbuljong eller vetemjöl. Vid belöning: använd torkat lamm eller nötöra.</textarea>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
           <button type="button" class="btn btn-outline" id="cancel-allergy-modal-btn">Avbryt</button>
-          <button type="submit" class="btn btn-primary">Spara hälsoinformation</button>
+          <button type="submit" class="btn btn-primary">Spara hälsoinformation ✓</button>
         </div>
       </form>
     </div>
@@ -371,33 +348,18 @@
 
   <!-- MODAL: BYT HUND -->
   <div id="dog-switch-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dog-switch-modal-title">
-    <div class="modal-card" style="max-width: 440px;">
-      <div class="modal-header">
-        <h3 id="dog-switch-modal-title" style="margin: 0; font-family: 'Fraunces', serif;">🐾 Välj aktiv hund</h3>
-        <button class="modal-close" id="close-dog-switch-modal-btn" type="button" aria-label="Stäng">×</button>
+    <div class="modal-box form-modal" style="width:min(100%, 460px); background:#fff; border-radius:20px; padding:28px;">
+      <button class="modal-close" id="close-dog-switch-modal-btn" type="button" aria-label="Stäng">&times;</button>
+      <span class="modal-icon">🐾</span>
+      <p class="eyebrow">Välj hund</p>
+      <h2 id="dog-switch-modal-title" style="margin:4px 0 16px; font-family:'Fraunces',serif;">Byt aktiv hund</h2>
+
+      <div class="dog-select-list">
+        <!-- Renderas dynamiskt i JavaScript via populateDogSwitchModal() -->
       </div>
-      <div class="modal-body" style="padding: 16px 20px;">
-        <div class="dog-select-list">
-          <button type="button" class="dog-select-item active" data-dog="bella">
-            <span style="font-size: 28px;">🐶</span>
-            <div style="text-align: left; flex: 1;">
-              <strong>Bella</strong>
-              <small style="display: block; color: var(--muted);">Golden retriever · 3 år</small>
-            </div>
-            <span style="color: var(--green); font-weight: 700;">Aktiv ✓</span>
-          </button>
-          <button type="button" class="dog-select-item" data-dog="max">
-            <span style="font-size: 28px;">🐕</span>
-            <div style="text-align: left; flex: 1;">
-              <strong>Max</strong>
-              <small style="display: block; color: var(--muted);">Border collie · 1 år</small>
-            </div>
-            <span style="color: var(--muted); font-size: 12px;">Välj</span>
-          </button>
-        </div>
-      </div>
-      <div class="modal-footer" style="padding: 12px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between;">
-        <a href="dogs.html" class="btn btn-outline btn-sm">+ Hantera hundar</a>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+        <a href="dogs.html" class="btn btn-outline btn-xs">+ Hantera hundar</a>
         <button type="button" class="btn btn-primary btn-sm" id="confirm-dog-switch-btn">Klar</button>
       </div>
     </div>
@@ -411,10 +373,12 @@
 
   <!-- Sidfot -->
   <footer class="portal-footer">
-    <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
-    <span>Kundportal v1.4</span>
+    <div style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:20px;">
+      <span>© 2026 HundApp Sverige · Din personliga hunddashboard</span>
+      <span>Håll koll på rutiner, hälsa och promenader</span>
+    </div>
   </footer>
 
   <script src="app.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3324c6fef684434',t:'MTc4ODA3NzIxMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
