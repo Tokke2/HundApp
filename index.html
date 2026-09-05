@@ -236,7 +236,7 @@
           <div class="calc-input-row">
             <label for="calc-birthdate" class="sr-only">Födelsedatum</label>
             <input type="date" id="calc-birthdate" value="2023-04-12">
-            <button type="button" class="btn btn-primary" id="calc-age-btn">Beräkna ålder 🐾</button>
+            <button type="button" class="btn btn-primary" id="calc-age-btn" onclick="window.calculateDogAgeOnHome()">Beräkna ålder 🐾</button>
           </div>
 
           <div id="calc-result-box" class="calc-result-box" style="display:none;">
@@ -502,5 +502,5 @@
   </footer>
 
   <script src="app.js"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3670a74ac1bcb47',t:'MTc4ODYzMDI1NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
