@@ -9,6 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 </head>
 <body>
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -17,8 +26,7 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>HundApp</span>
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
@@ -30,7 +38,7 @@
         <a href="#sa-fungerar-det">Så fungerar det</a>
         <a href="#funktioner">Funktioner</a>
         <a href="tips.html">Hundtips</a>
-        <a href="suggestions.html">Förslagslåda</a>
+        <a href="suggestions.html">Förslag &amp; Roadmap</a>
         <a href="#omdomen">Omdömen</a>
         <a href="#faq">Vanliga frågor</a>
         <a class="nav-login" href="login.html">Logga in</a>
@@ -51,7 +59,7 @@
           <p class="eyebrow"><span aria-hidden="true">✦</span> För en tryggare hundvardag</p>
           <h1>Allt din hund behöver.<br><em>Samlat på ett tryggt ställe.</em></h1>
           <p class="hero-text">
-            Missa aldrig kloklippning, fästingmedel eller veterinärbesök. Logga promenader med ett klick och få full koll på din hunds hälsa, vikt, matallergier och glädje.
+            Missa aldrig kloklippning, fästingmedel eller veterinärbesök. Logga promenader med ett klick, följ distansmål och få full koll på din hunds hälsa, vikt, matallergier och glädje.
           </p>
           
           <div class="hero-actions">
@@ -62,7 +70,7 @@
           <div class="trust-row" aria-label="Fördelar">
             <span><b aria-hidden="true">✓</b> Gratis grundversion</span>
             <span><b aria-hidden="true">✓</b> Mobilanpassad</span>
-            <span><b aria-hidden="true">✓</b> 100% GDPR-säker</span>
+            <span><b aria-hidden="true">✓</b> 100% GDPR-tryggt</span>
           </div>
         </div>
 
@@ -79,7 +87,7 @@
               <span class="avatar">M</span>
             </div>
             
-            <p class="preview-date">Tisdag, 28 juli</p>
+            <p class="preview-date">Tisdag, 30 augusti</p>
             <h2>Hej, Maria! <span>👋</span></h2>
             
             <!-- Aktiv hundkort -->
@@ -98,7 +106,7 @@
               <div class="task-icon pink" aria-hidden="true">✂</div>
               <div>
                 <strong>Kloklippning</strong>
-                <span>Om 3 dagar · 31 juli</span>
+                <span>Om 3 dagar · 31 aug</span>
               </div>
               <span class="task-arrow" aria-hidden="true">›</span>
             </a>
@@ -107,7 +115,7 @@
             <a href="statistics.html" class="week-card" style="text-decoration:none;" title="Se komplett hälsostatistik">
               <div>
                 <span>DEN HÄR VECKAN</span>
-                <strong>4 <small>promenader</small></strong>
+                <strong>4 <small>promenader (9,7 km)</small></strong>
               </div>
               <div class="mini-chart" aria-hidden="true">
                 <i style="height:12px"></i>
@@ -121,7 +129,7 @@
             </a>
 
             <a href="walks.html" class="preview-add button" style="text-decoration:none; display:flex; justify-content:center; align-items:center; gap:6px;">
-              <span>+</span> Logga promenad
+              <span>+</span> Starta live-promenad
             </a>
           </div>
 
@@ -129,9 +137,9 @@
           <div class="floating-card walk-card">
             <span class="float-icon">🐾</span>
             <span>
-              <span class="pulse-badge"><span class="pulse-dot"></span> Ny händelse</span>
+              <span class="pulse-badge"><span class="pulse-dot"></span> Live-notis</span>
               <b>Morgonpromenad loggad</b>
-              <small>32 minuter · 2,4 km i parken</small>
+              <small>3,4 km · 45 min i skogen</small>
             </span>
           </div>
 
@@ -170,9 +178,9 @@
       <div class="container proof-wrap">
         <p>En samlad plats för allt som får hundlivet att fungera smidigt:</p>
         <div class="proof-items">
-          <span>🐕 Vård & Rutiner</span>
-          <span>🐾 Promenader & GPS</span>
-          <span>♡ Vikt & Hälsa</span>
+          <span>🐕 Vård &amp; Rutiner</span>
+          <span>🐾 Promenader &amp; Live-tidtagare</span>
+          <span>♡ Viktkurva &amp; Hälsa</span>
           <span>✦ Mental aktivering</span>
           <span>🌾 Matallergier</span>
           <span>🛡️ 100% GDPR-tryggt</span>
@@ -214,6 +222,30 @@
       </div>
     </section>
 
+    <!-- ================= INTERAKTIV HUNDÅLDERSKalkylator ================= -->
+    <section class="calc-section" aria-label="Hundåldersräknare">
+      <div class="container">
+        <div class="calc-widget-card">
+          <span style="font-size:32px;">🎂</span>
+          <p class="eyebrow" style="margin-top:6px;">Interaktiv kalkylator</p>
+          <h2 style="font-family:'Fraunces',serif; font-size:26px; margin:4px 0 8px; color:var(--ink);">Hur gammal är din hund i människoår?</h2>
+          <p style="color:var(--muted); font-size:14px; margin:0 auto; max-width:520px;">
+            Ange din hunds födelsedatum för att beräkna exakt ålder och motsvarande människoår.
+          </p>
+
+          <div class="calc-input-row">
+            <label for="calc-birthdate" class="sr-only">Födelsedatum</label>
+            <input type="date" id="calc-birthdate" value="2023-04-12">
+            <button type="button" class="btn btn-primary" id="calc-age-btn">Beräkna ålder 🐾</button>
+          </div>
+
+          <div id="calc-result-box" class="calc-result-box" style="display:none;">
+            <!-- Renderas dynamiskt i JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= INTERAKTIVA FUNKTIONSPELARE ================= -->
     <section id="funktioner" class="section features-section">
       <div class="container">
@@ -226,23 +258,30 @@
         <div class="feature-pillar-grid">
           <article class="feature-pillar-card">
             <div class="pillar-icon mint">📅</div>
-            <h3>Smart kalender & påminnelser</h3>
+            <h3>Smart kalender &amp; rutiner</h3>
             <p>Missa aldrig ett viktigt datum. Ställ in återkommande intervall för klor, fästingmedel eller veterinärtid.</p>
             <a class="pillar-link" href="calendar.html">Utforska kalendern →</a>
           </article>
 
           <article class="feature-pillar-card">
-            <div class="pillar-icon peach">🐾</div>
-            <h3>Promenad- & aktivitetslogg</h3>
-            <p>Håll koll på dagens turer, minuter och kilometer. Logga även nosarbete, träning och mental stimulans.</p>
-            <a class="pillar-link" href="walks.html">Se aktivitetsloggen →</a>
+            <div class="pillar-icon peach">🦮</div>
+            <h3>Promenader &amp; Live-tracker</h3>
+            <p>Tidtagare, underlagskoll (skog, gräs, asfalt), humörsregistrering och veckodistansmål med streakräknare.</p>
+            <a class="pillar-link" href="walks.html">Se promenadloggen →</a>
           </article>
 
           <article class="feature-pillar-card">
             <div class="pillar-icon lilac">📊</div>
-            <h3>Statistik & hälsokurvor</h3>
+            <h3>Statistik &amp; hälsokurvor</h3>
             <p>Se hur ni rör er vecka för vecka i jämna SVG-kurvor. Följ hundens viktutveckling och aktivitetsfördelning.</p>
             <a class="pillar-link" href="statistics.html">Se statistikvyn →</a>
+          </article>
+
+          <article class="feature-pillar-card">
+            <div class="pillar-icon amber">📚</div>
+            <h3>25 Evidensbaserade hundtips</h3>
+            <p>Kvalitetssäkrade råd om foder, säkerhet, kloklipp och beteende granskade av veterinärer och etologer.</p>
+            <a class="pillar-link" href="tips.html">Läs alla tips →</a>
           </article>
         </div>
       </div>
@@ -291,7 +330,7 @@
             <div class="tip-image green">🦴</div>
             <div class="tip-body">
               <span>TRÄNING</span>
-              <h3>Fem enkla sätt att aktivera hemma</h3>
+              <h3>Nosaktivering tröttar ut på rätt sätt</h3>
               <a href="tips.html" aria-label="Läs tips om aktivering">Läs tipset <b>→</b></a>
             </div>
           </article>
@@ -300,7 +339,7 @@
             <div class="tip-image lavender">🪥</div>
             <div class="tip-body">
               <span>HÄLSA</span>
-              <h3>Gör tandvården till en mysig rutin</h3>
+              <h3>Gör tandvården till en trygg rutin</h3>
               <a href="tips.html" aria-label="Läs tips om tandvård">Läs tipset <b>→</b></a>
             </div>
           </article>
@@ -312,7 +351,7 @@
     <section id="faq" class="faq-section">
       <div class="container">
         <div class="section-heading centered">
-          <p class="eyebrow">Frågor & svar</p>
+          <p class="eyebrow">Frågor &amp; svar</p>
           <h2>Vanliga frågor om HundApp</h2>
           <p>Här hittar du svar på de vanligaste funderingarna om funktioner, säkerhet och användning.</p>
         </div>
@@ -340,11 +379,11 @@
 
           <details class="faq-item">
             <summary class="faq-summary">
-              Hur fungerar påminnelserna?
+              Hur fungerar påminnelserna i kalendern?
               <span aria-hidden="true">+</span>
             </summary>
             <div class="faq-content">
-              Du väljer själv intervall (t.ex. kloklippning var 21:a dag eller fästingmedel en gång i månaden). HundApp beräknar automatiskt nästa datum och påminner dig i god tid så att du kan bocka av rutinen direkt.
+              Du väljer själv intervall (t.ex. kloklippning var 21:a dag eller fästingmedel en gång i månaden). HundApp beräknar automatiskt nästa datum och flyttar fram rutinen så fort du bockar av den.
             </div>
           </details>
 
@@ -389,37 +428,42 @@
 
   <!-- MODAL: LÄMNA ETT OMDÖME -->
   <div id="review-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
-    <div class="modal-box review-modal-box">
-      <button class="modal-close" type="button" aria-label="Stäng">×</button>
+    <div class="modal-box form-modal" style="width:min(100%, 520px); background:#fff; border-radius:20px; padding:32px;">
+      <button class="modal-close" id="close-review-modal-btn" type="button" aria-label="Stäng">&times;</button>
       <span class="modal-icon">⭐</span>
       <p class="eyebrow">Tyck till om HundApp</p>
-      <h2 id="review-modal-title">Lämna ett omdöme</h2>
-      <p style="font-size:13px; color:var(--muted); margin: 6px 0 16px;">Ditt betyg och din recension uppdaterar snittbetyget och visas direkt på startsidan.</p>
+      <h2 id="review-modal-title" style="margin:4px 0 8px; font-family:'Fraunces',serif;">Lämna ett omdöme</h2>
+      <p style="font-size:13.5px; color:var(--muted); margin: 0 0 16px;">Ditt betyg och din recension uppdaterar snittbetyget och visas direkt på startsidan.</p>
       
       <form id="review-form">
-        <div class="review-form-field">
-          <label>Välj betyg (1–5 stjärnor):</label>
-          <div id="review-star-picker" class="star-picker" role="radiogroup" aria-label="Välj betyg">
-            <span data-star="1" role="radio" aria-checked="false" aria-label="1 stjärna">★</span>
-            <span data-star="2" role="radio" aria-checked="false" aria-label="2 stjärnor">★</span>
-            <span data-star="3" role="radio" aria-checked="false" aria-label="3 stjärnor">★</span>
-            <span data-star="4" role="radio" aria-checked="false" aria-label="4 stjärnor">★</span>
-            <span data-star="5" role="radio" aria-checked="false" aria-label="5 stjärnor">★</span>
+        <div class="walk-form-group">
+          <label for="review-rating-select">Välj betyg (1–5 stjärnor):</label>
+          <select id="review-rating-select" class="form-control" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line); font-size:15px; font-weight:700;">
+            <option value="5">★★★★★ (5/5 - Fantastisk!)</option>
+            <option value="4">★★★★☆ (4/5 - Mycket bra)</option>
+            <option value="3">★★★☆☆ (3/5 - Helt okej)</option>
+            <option value="2">★★☆☆☆ (2/5 - Kan bli bättre)</option>
+            <option value="1">★☆☆☆☆ (1/5 - Inte nöjd)</option>
+          </select>
+        </div>
+
+        <div class="walk-form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="walk-form-group">
+            <label for="review-author-name">Ditt namn *</label>
+            <input type="text" id="review-author-name" placeholder="T.ex. Maria" required style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
           </div>
-          <input type="hidden" id="review-rating-input" name="rating" value="5" required>
+          <div class="walk-form-group">
+            <label for="review-dog-name">Hundens namn &amp; ras</label>
+            <input type="text" id="review-dog-name" placeholder="T.ex. Bella (Golden)" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line);">
+          </div>
         </div>
 
-        <div class="review-form-field">
-          <label for="review-name">Ditt namn och hundens namn:</label>
-          <input type="text" id="review-name" placeholder="T.ex. Maria & Bella (Golden retriever)" required>
+        <div class="walk-form-group">
+          <label for="review-comment-text">Din upplevelse av HundApp *</label>
+          <textarea id="review-comment-text" rows="3" placeholder="Berätta vad du tycker om promenadloggen, kalendern eller tipsen..." required style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--line); font-family:inherit; font-size:13.5px;"></textarea>
         </div>
 
-        <div class="review-form-field">
-          <label for="review-text">Din upplevelse av HundApp:</label>
-          <textarea id="review-text" placeholder="Berätta vad du tycker om funktionerna, påminnelserna eller promenadloggen..." required></textarea>
-        </div>
-
-        <button class="button" style="width:100%; margin-top:8px;" type="submit">Publicera mitt omdöme ✨</button>
+        <button class="button" style="width:100%; margin-top:12px;" type="submit">Publicera mitt omdöme ✨</button>
       </form>
     </div>
   </div>
@@ -434,18 +478,18 @@
   <footer class="site-footer">
     <div class="container footer-top">
       <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">🐾</span>
-        <span>HundApp</span>
+        <img src="hundapp-logo-dark.svg" alt="HundApp Logotyp" class="brand-logo-img">
       </a>
       <p>För ett tryggare, friskare och enklare hundliv.</p>
       
       <nav class="footer-links" aria-label="Sidfotslänkar">
-        <a href="portal.html">Kundportal</a>
+        <a href="portal.html">Översikt</a>
         <a href="dogs.html">Mina hundar</a>
         <a href="calendar.html">Kalender</a>
         <a href="walks.html">Promenader</a>
         <a href="statistics.html">Statistik</a>
         <a href="tips.html">Tipsbibliotek</a>
+        <a href="suggestions.html">Förslagslåda</a>
         <a href="login.html">Logga in</a>
         <a href="register.html">Skapa konto</a>
       </nav>
