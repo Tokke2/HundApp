@@ -95,7 +95,7 @@
               <span class="field-icon" aria-hidden="true">✉️</span>
               <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
             </div>
-            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. namn@doman.se).</p>
+            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96f8f7fbf8d6f2f9fbf7f8b8e5f3">[email&#160;protected]</a>).</p>
           </div>
 
           <!-- Lösenordsfält -->
@@ -294,9 +294,21 @@
     <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
   </footer>
 
-  <script src="app.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="app.js"></script>
 
     <script>
+    
+    // Pre-fill email if passed from login redirect (?email=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get('email');
+    if (emailParam) {
+      const emailInput = document.getElementById('email');
+      if (emailInput) {
+        emailInput.value = emailParam;
+        emailInput.focus();
+      }
+    }
+
     function directGoogleLogin() {
       const clientId = '378881918893-fbsf9pj2flr469nmb45amegodpoj652c.apps.googleusercontent.com';
       let origin = window.location.origin;
@@ -313,5 +325,5 @@
     }
   </script>
 
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3646afd3a9b9e07',t:'MTc4ODYwMjc1MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
