@@ -106,3 +106,6 @@ Körs via `./self_healing_bot.py` och `./generate_app_structure.py`:
 - ✅ 100% Health Score över alla 12 HTML-vyer, CSS, JS, Service Worker (`sw.js`), Manifest (`manifest.json`), PWA-ikoner (`icons/`) och GitHub Actions workflows.
 - ✅ 0 JavaScript syntax- eller runtime-fel.
 - ✅ Full responsivitet och WCAG AAA/AA tillgänglighet.
+
+
+gå det att få när man regar ett konto via google att konrtot skapas direkt med  inloggning direkt på sidasbn? med robot eller utan
