@@ -55,7 +55,7 @@
 
         <!-- Snabbknappar för Social Inloggning -->
         <div class="social-auth-group">
-          <button type="button" class="btn-social google-btn" id="social-google-btn" onclick="if(window.redirectToGoogleOAuth){window.redirectToGoogleOAuth();}else{directGoogleLogin();}">
+          <button type="button" class="btn-social google-btn" id="social-google-btn" onclick="directGoogleLogin()">
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
               <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
@@ -286,54 +286,7 @@
   </div>
 
   <!-- Modal: Koppla & Logga in med Google OAuth 2.0 -->
-  <div class="modal-overlay" id="google-connect-modal" role="dialog" aria-modal="true" aria-labelledby="google-modal-title" aria-hidden="true">
-    <div class="modal-card google-oauth-modal-card">
-      <div class="google-modal-header">
-        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
-          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
-          <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
-          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
-        </svg>
-        <div style="flex: 1;">
-          <h2 id="google-modal-title" class="google-modal-title">Koppla ditt Google-konto</h2>
-          <p class="google-modal-sub">Logga in direkt via Googles officiella inloggning för att ansluta ditt riktiga konto.</p>
-        </div>
-        <button type="button" class="modal-close-btn" id="close-google-modal-btn" data-modal-close aria-label="Stäng">&times;</button>
-      </div>
-
-      <div style="background:#f8fafd; border:1px solid #d2e3fc; border-radius:12px; padding:16px; margin-bottom:20px;">
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-          <span style="font-size:20px;">🔒</span>
-          <strong style="font-size:14px; color:#1a73e8;">Officiell Google-inloggning</strong>
-        </div>
-        <p style="font-size:12.5px; color:#3c4043; line-height:1.5; margin:0;">
-          Klicka på knappen nedan för att öppna Googles inloggningssida (<code>accounts.google.com</code>) och välja ditt eget Google-konto.
-        </p>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <button type="button" class="btn btn-primary" id="open-google-login-action-btn" onclick="window.redirectToGoogleOAuth()" style="height:48px; font-size:14.5px; justify-content:center; gap:10px; width:100%;">
-          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#ffffff" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
-            <path fill="#ffffff" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
-            <path fill="#ffffff" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
-            <path fill="#ffffff" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
-          </svg>
-          Öppna Google-inloggning
-        </button>
-
-        <details style="border:1px solid #e0e0e0; border-radius:10px; padding:10px 14px; font-size:12px; color:#5f6368;">
-          <summary style="cursor:pointer; font-weight:600; color:var(--ink);">⚙️ Eget Google Cloud OAuth Client ID (Valfritt)</summary>
-          <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
-            <label for="google-custom-client-id" style="font-weight:600; color:var(--ink);">Google OAuth 2.0 Client ID:</label>
-            <input type="text" id="google-custom-client-id" class="form-control" placeholder="t.ex. 12345-abc.apps.googleusercontent.com" style="font-size:12px; height:38px;">
-            <button type="button" class="btn btn-outline btn-xs" id="save-custom-google-client-id-btn" onclick="window.saveCustomGoogleClientId()" style="align-self:flex-start;">Spara Client ID</button>
-          </div>
-        </details>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- Sidfot -->
   <footer class="simple-footer">
