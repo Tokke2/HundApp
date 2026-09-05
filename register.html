@@ -95,7 +95,7 @@
               <span class="field-icon" aria-hidden="true">✉️</span>
               <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
             </div>
-            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82ece3efecc2e6edefe3ecacf1e7">[email&#160;protected]</a>).</p>
+            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. namn@doman.se).</p>
           </div>
 
           <!-- Lösenordsfält -->
@@ -341,21 +341,24 @@
     <span>© 2026 HundApp Sverige. Skapad med kärlek till hundar.</span>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="app.js"></script>
+  <script src="app.js"></script>
 
-  <script>
+    <script>
     function directGoogleLogin() {
       const clientId = '378881918893-fbsf9pj2flr469nmb45amegodpoj652c.apps.googleusercontent.com';
-      const redirectUri = window.location.origin + window.location.pathname;
+      let origin = window.location.origin;
+      let pathname = window.location.pathname;
+      let basePath = pathname.substring(0, pathname.lastIndexOf('/'));
+      let redirectUri = origin + basePath + '/login.html';
       const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' + encodeURIComponent(clientId) +
                       '&redirect_uri=' + encodeURIComponent(redirectUri) +
-                      '&response_type=token%20id_token' +
-                      '&scope=openid%20email%20profile' +
+                      '&response_type=' + encodeURIComponent('token id_token') +
+                      '&scope=' + encodeURIComponent('openid email profile') +
                       '&nonce=' + Math.random().toString(36).substring(2, 15) +
                       '&prompt=select_account';
       window.location.href = authUrl;
     }
   </script>
 
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3643eaf5bcbdcff',t:'MTc4ODYwMDkzNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
