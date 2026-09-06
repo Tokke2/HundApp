@@ -4385,6 +4385,15 @@ function initSuggestionsPage() {
 
 const OFFICIAL_GOOGLE_CLIENT_ID = '378881918893-fbsf9pj2flr469nmb45amegodpoj652c.apps.googleusercontent.com';
 
+// ⚡ Immediate Google OAuth Token Interceptor on Script Load
+if (typeof window !== 'undefined' && (window.location.hash || window.location.search)) {
+  setTimeout(() => {
+    if (typeof checkGoogleOAuthCallback === 'function') {
+      checkGoogleOAuthCallback();
+    }
+  }, 0);
+}
+
 function getGoogleClientId() {
   const custom = safeStorage.get(STORAGE_KEYS.GOOGLE_CLIENT_ID);
   if (custom && typeof custom === 'string' && custom.trim().length > 5) {
@@ -4593,6 +4602,7 @@ function openAccountNotFoundModal(enteredInput) {
 }
 
 function initAuthSystem() {
+  checkGoogleOAuthCallback();
   if (typeof document === 'undefined') return;
 
   // 1. Real Google Sign-in Buttons
