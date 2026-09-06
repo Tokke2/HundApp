@@ -2329,8 +2329,11 @@ function initPortalPage() {
   // Verify active user session
   const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
   if (!currentUser || !currentUser.name) {
-    console.log('[HundApp Portal] Inget aktivt inloggat konto funnet. Omdirigerar till login...');
-    window.location.replace('login.html');
+    console.log('[HundApp Portal] Inget aktivt inloggat konto funnet. Öppnar välkomstguide för kontoskapande...');
+    // Open Account Required Modal
+    setTimeout(() => {
+      openAccountNotFoundModal();
+    }, 100);
     return;
   }
 
@@ -4567,25 +4570,42 @@ function openAccountNotFoundModal(enteredInput) {
     document.body.appendChild(modal);
   }
 
+  const isEn = (currentLang === 'en');
   const safeInput = String(enteredInput || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const registerUrl = 'register.html' + (enteredInput && enteredInput.includes('@') ? `?email=${encodeURIComponent(enteredInput)}` : '');
 
+  const title = isEn ? (safeInput ? `No account found for "${safeInput}"` : 'Please create an account first') : (safeInput ? `Inget konto hittades för "${safeInput}"` : 'Skapa ett konto först');
+  const eyebrow = isEn ? 'Account Required' : 'Konto krävs';
+  const desc = isEn ? 'You do not have a registered account yet. Please create a free HundApp account first to get started with your dog!' : 'Det verkar som att du inte har något registrerat konto än. Vänligen skapa ett kostnadsfritt konto först för att få tillgång till din hunds profil, promenader och kalender.';
+  const btnCreate = isEn ? 'Create free account now →' : 'Ja, skapa gratiskonto här →';
+  const btnGoogle = isEn ? 'Continue with Google' : 'Fortsätt med Google';
+  const btnRetry = isEn ? 'Try logging in again' : 'Försök logga in igen';
+
   modal.innerHTML = `
-    <div class="modal-box form-modal account-not-found-box" style="width:min(100%, 460px); background:#fff; border-radius:24px; padding:32px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.25); animation:modalPop 0.25s ease-out;">
-      <div style="font-size:48px; margin-bottom:12px;">🐾</div>
-      <p class="eyebrow" style="color:var(--green-dark, #2D6A4F); font-weight:700; margin:0 0 6px;">Inget konto hittades</p>
-      <h2 id="anf-modal-title" style="font-family:'Fraunces',serif; font-size:24px; color:var(--ink, #1c1917); margin:0 0 10px;">
-        Vi hittade inget konto för "${safeInput}"
+    <div class="modal-box form-modal account-not-found-box" style="width:min(100%, 480px); background:#fff; border-radius:24px; padding:32px 24px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.25); animation:modalPop 0.25s ease-out; margin:auto;">
+      <div style="font-size:48px; margin-bottom:10px;">🐾</div>
+      <p class="eyebrow" style="color:var(--green-dark, #2D6A4F); font-weight:700; margin:0 0 6px;">${eyebrow}</p>
+      <h2 id="anf-modal-title" style="font-family:'Fraunces',serif; font-size:23px; color:var(--ink, #1c1917); margin:0 0 10px; line-height:1.25;">
+        ${title}
       </h2>
-      <p style="font-size:14px; color:var(--muted, #64748b); line-height:1.5; margin:0 0 24px;">
-        Det verkar som att du inte har skapat något konto än. Vill du registrera ett kostnadsfritt HundApp-konto nu? Det tar under 1 minut!
+      <p style="font-size:14px; color:var(--muted, #64748b); line-height:1.55; margin:0 0 22px;">
+        ${desc}
       </p>
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <a href="${registerUrl}" class="button btn-primary" style="width:100%; text-decoration:none; padding:12px; font-weight:700; font-size:15px; border-radius:12px; text-align:center;">
-          Ja, skapa gratiskonto →
+        <a href="${registerUrl}" class="button btn-primary" style="width:100%; text-decoration:none; padding:13px; font-weight:700; font-size:15px; border-radius:12px; text-align:center; display:block;">
+          ${btnCreate}
         </a>
+        <button type="button" class="btn btn-social google-btn" onclick="if(window.redirectToGoogleOAuth){window.redirectToGoogleOAuth();}else{directGoogleLogin();}" style="width:100%; justify-content:center; padding:11px; font-weight:700; border-radius:12px; border:1px solid #e2e8f0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="margin-right:8px;">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.44 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
+          </svg>
+          <span>${btnGoogle}</span>
+        </button>
         <button type="button" class="btn btn-outline" id="close-anf-modal-btn" style="width:100%; padding:10px; border-radius:12px; font-weight:600;">
-          Försök logga in igen
+          ${btnRetry}
         </button>
       </div>
     </div>
