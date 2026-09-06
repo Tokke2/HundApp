@@ -3,6 +3,100 @@
   "short_name": "HundApp",
   "description": "Sveriges modernaste plattform för hundhälsa, promenader, rutiner och digitalt halsbandspass. Fungerar 100% offline i skogen.",
   "id": "/?source=pwa",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF7F2",
+  "theme_color": "#2D6A4F",
+  "lang": "sv",
+  "dir": "ltr",
+  "categories": [
+    "lifestyle",
+    "utilities",
+    "health"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Logga Promenad",
+      "short_name": "Promenad",
+      "description": "Starta tidtagarur och logga promenad i skogen",
+      "url": "walks.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Hundportalen",
+      "short_name": "Portal",
+      "description": "Öppna dagens översikt och rutiner",
+      "url": "portal.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mina Hundar & Nödpass",
+      "short_name": "Nödpass",
+      "description": "Öppna hundprofiler och QR-halsbandspass",
+      "url": "dogs.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Aktivitetskalender",
+      "short_name": "Kalender",
+      "description": "Se och pricka av hundens skötselrutiner",
+      "url": "calendar.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
+{
+  "name": "HundApp – Hundens Vardagsguide & Hälsoplattform",
+  "short_name": "HundApp",
+  "description": "Sveriges modernaste plattform för hundhälsa, promenader, rutiner och digitalt halsbandspass. Fungerar 100% offline i skogen.",
+  "id": "/?source=pwa",
   "start_url": "portal.html",
   "scope": "./",
   "display": "standalone",
