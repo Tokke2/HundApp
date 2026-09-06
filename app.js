@@ -4487,9 +4487,7 @@ function handleGoogleAuthSuccess(payload) {
   if (typeof celebrateConfetti === 'function') {
     celebrateConfetti();
   }
-  setTimeout(() => {
-    window.location.href = 'portal.html';
-  }, 600);
+  window.location.href = 'portal.html';
 }
 
 function logoutHundAppUser() {
@@ -4672,9 +4670,7 @@ function initAuthSystem() {
       safeStorage.set(STORAGE_KEYS.AUTH_USER, sessionUser);
       showToast(`Välkommen tillbaka, ${existingUser.name}! 🐾`, '🎉');
       celebrateConfetti();
-      setTimeout(() => {
-        window.location.href = 'portal.html';
-      }, 600);
+      window.location.href = 'portal.html';
     });
   }
 
@@ -4762,7 +4758,7 @@ function initAuthSystem() {
           authProvider: 'email',
           loggedInAt: new Date().toISOString()
         });
-        setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+        window.location.href = 'portal.html';
         return;
       }
 
@@ -4789,9 +4785,7 @@ function initAuthSystem() {
 
       showToast(`Konto skapat! Välkommen till HundApp, ${name}! 🐾`, '🎉');
       celebrateConfetti();
-      setTimeout(() => {
-        window.location.href = 'portal.html';
-      }, 700);
+      window.location.href = 'portal.html';
     });
   }
 
@@ -5258,12 +5252,15 @@ window.triggerDogPhotoUpload = function(dogId, isAvatarOnly = false) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
-    if (typeof showToast === 'function') {
-      showToast('⏳ Optimerar och komprimerar bild för skogsläge...');
-    }
+    // ⚡ 0 ms OPTIMISTIC UI: Show selected photo immediately before compression completes
+    const instantTempUrl = URL.createObjectURL(file);
+    document.querySelectorAll('.dog-portrait-avatar-img, .dog-avatar-btn img, .nav-dog-avatar img').forEach(img => {
+      img.src = instantTempUrl;
+    });
 
     try {
       const result = await window.compressDogImage(file, isAvatarOnly ? 250 : 800, isAvatarOnly ? 800 : 1600);
+      URL.revokeObjectURL(instantTempUrl);
       
       const newPhoto = {
         id: 'photo-' + Date.now(),
