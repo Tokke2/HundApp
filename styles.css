@@ -9266,3 +9266,36 @@ a {
   flex-direction: column;
   gap: 10px;
 }
+
+
+/* ==========================================================================
+   SECTION 31: LANGUAGE SELECTOR & BILINGUAL ENGINE
+   ========================================================================== */
+.lang-selector-wrap {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin: 0 4px;
+}
+
+.lang-selector {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--surface, #ffffff) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 10px center;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 9999px;
+  padding: 6px 28px 6px 12px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink, #1c1917);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.lang-selector:hover, .lang-selector:focus {
+  border-color: var(--green-dark, #2D6A4F);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
