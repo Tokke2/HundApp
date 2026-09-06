@@ -35,15 +35,20 @@
       </button>
 
       <nav id="main-nav" class="main-nav" aria-label="Huvudmeny">
-        <a href="#sa-fungerar-det">Så fungerar det</a>
-        <a href="#funktioner">Funktioner</a>
-        <a href="tips.html">Hundtips</a>
-        <a href="suggestions.html">Förslag &amp; Roadmap</a>
-        <a href="#omdomen">Omdömen</a>
-        <a href="#faq">Vanliga frågor</a>
-        <a class="nav-login" href="login.html">Logga in</a>
-        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
-        <a class="button button-small" href="register.html">Kom igång gratis</a>
+        <a href="#sa-fungerar-det" data-i18n="nav_how_it_works">Så fungerar det</a>
+        <a href="#funktioner" data-i18n="nav_features">Funktioner</a>
+        <a href="tips.html" data-i18n="nav_tips">Hundtips</a>
+        <a href="suggestions.html" data-i18n="nav_suggestions">Förslag &amp; Roadmap</a>
+        <a href="#omdomen" data-i18n="nav_reviews">Omdömen</a>
+        <a href="#faq" data-i18n="nav_faq">Vanliga frågor</a>
+        <a class="nav-login" href="login.html" data-i18n="nav_login">Logga in</a>
+        <div class="lang-selector-wrap">
+          <select class="lang-selector" id="site-lang-select" aria-label="Välj språk / Select language" onchange="setLanguage(this.value, true)">
+            <option value="sv">🇸🇪 Svenska</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </div>
+        <a class="button button-small" href="register.html" data-i18n="nav_get_started">Kom igång gratis</a>
       </nav>
     </div>
   </header>
@@ -56,7 +61,7 @@
         
         <!-- Vänster: Hero Text & CTA -->
         <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true">✦</span> För en tryggare hundvardag</p>
+          <p class="eyebrow" data-i18n="hero_eyebrow"><span aria-hidden="true">✦</span> För en tryggare hundvardag</p>
           <h1>Allt din hund behöver.<br><em>Samlat på ett tryggt ställe.</em></h1>
           <p class="hero-text">
             Missa aldrig kloklippning, fästingmedel eller veterinärbesök. Logga promenader med ett klick, följ distansmål och få full koll på din hunds hälsa, vikt, matallergier och glädje.
@@ -227,16 +232,16 @@
       <div class="container">
         <div class="calc-widget-card">
           <span style="font-size:32px;">🎂</span>
-          <p class="eyebrow" style="margin-top:6px;">Interaktiv kalkylator</p>
-          <h2 style="font-family:'Fraunces',serif; font-size:26px; margin:4px 0 8px; color:var(--ink);">Hur gammal är din hund i människoår?</h2>
+          <p class="eyebrow" style="margin-top:6px;" data-i18n="calc_eyebrow">Interaktiv kalkylator</p>
+          <h2 style="font-family:'Fraunces',serif; font-size:26px; margin:4px 0 8px; color:var(--ink);" data-i18n="calc_title">Hur gammal är din hund i människoår?</h2>
           <p style="color:var(--muted); font-size:14px; margin:0 auto; max-width:520px;">
-            Ange din hunds födelsedatum för att beräkna exakt ålder och motsvarande människoår.
+            <span data-i18n="calc_desc">Ange din hunds födelsedatum för att beräkna exakt ålder och motsvarande människoår.</span>
           </p>
 
           <div class="calc-input-row">
             <label for="calc-birthdate" class="sr-only">Födelsedatum</label>
             <input type="date" id="calc-birthdate" value="2023-04-12">
-            <button type="button" class="btn btn-primary" id="calc-age-btn" onclick="window.calculateDogAgeOnHome()">Beräkna ålder 🐾</button>
+            <button type="button" class="btn btn-primary" id="calc-age-btn" onclick="window.calculateDogAgeOnHome()" data-i18n="calc_btn">Beräkna ålder 🐾</button>
           </div>
 
           <div id="calc-result-box" class="calc-result-box" style="display:none;">
@@ -502,5 +507,5 @@
   </footer>
 
   <script src="app.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3670a74ac1bcb47',t:'MTc4ODYzMDI1NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
