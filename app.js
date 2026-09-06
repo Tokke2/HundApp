@@ -1,5 +1,38 @@
 
 /**
+ * Mobile Navigation Toggle Handler
+ */
+function initMobileNavigation() {
+  const menuBtn = document.querySelector('.menu-toggle');
+  const mainNav = document.getElementById('main-nav') || document.querySelector('.main-nav');
+
+  if (menuBtn && mainNav) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mainNav.classList.toggle('is-open');
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mainNav.classList.contains('is-open') && !mainNav.contains(e.target) && !menuBtn.contains(e.target)) {
+        mainNav.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close menu when clicking on a link
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+}
+
+
+/**
  * Interactive Dog Age & Human Years Calculator
  * Scientifically converts canine age to human equivalent (AVMA formula)
  */
@@ -642,6 +675,8 @@ const I18N_DICTIONARY = {
     toast_vote_removed: 'Röst borttagen.',
     toast_copied: 'Kopierat till urklipp!',
     toast_lang_switched: 'Språk ändrat till Svenska 🇸🇪',
+    mobile_hero_cta_btn: '📱 Öppna i mobilen – Kom igång gratis 🐾',
+    mobile_sticky_btn: 'Kom igång i mobilen',
     walk_started: 'Promenad startad! Njut av turen. 🐾',
     walk_paused: 'Promenaden är pausad.',
     walk_resumed: 'Promenaden fortsätter! 🐾',
@@ -738,6 +773,8 @@ const I18N_DICTIONARY = {
     toast_vote_removed: 'Vote removed.',
     toast_copied: 'Copied to clipboard!',
     toast_lang_switched: 'Language switched to English 🇬🇧',
+    mobile_hero_cta_btn: '📱 Open in Mobile – Get Started Free 🐾',
+    mobile_sticky_btn: 'Get started on mobile',
     walk_started: 'Walk started! Enjoy the tour. 🐾',
     walk_paused: 'Walk is paused.',
     walk_resumed: 'Walk resumed! 🐾',
