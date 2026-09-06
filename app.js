@@ -8,16 +8,21 @@ window.calculateDogAgeOnHome = function() {
   const resultBox = document.getElementById('calc-result-box');
   if (!birthInput || !resultBox) return;
 
+  const isEn = (currentLang === 'en');
   const birthDateVal = birthInput.value;
   if (!birthDateVal) {
-    if (typeof showToast === 'function') showToast('Vänligen välj ett födelsedatum först!', '⚠️');
+    if (typeof showToast === 'function') {
+      showToast(isEn ? 'Please choose a birth date first!' : 'Vänligen välj ett födelsedatum först!', '⚠️');
+    }
     return;
   }
 
   const birth = new Date(birthDateVal);
   const now = new Date();
   if (isNaN(birth.getTime()) || birth > now) {
-    if (typeof showToast === 'function') showToast('Välj ett datum som inte ligger i framtiden!', '⚠️');
+    if (typeof showToast === 'function') {
+      showToast(isEn ? 'Please select a date not in the future!' : 'Välj ett datum som inte ligger i framtiden!', '⚠️');
+    }
     return;
   }
 
@@ -34,10 +39,7 @@ window.calculateDogAgeOnHome = function() {
 
   const totalDecimalYears = years + (months / 12);
 
-  // AVMA / Vet standard conversion:
-  // Year 1 = ~15 human years
-  // Year 2 = ~9 human years (Total 24)
-  // Each subsequent year = ~4.5 human years
+  // AVMA / Vet standard conversion
   let humanYears = 0;
   if (totalDecimalYears <= 1) {
     humanYears = Math.round(totalDecimalYears * 15);
@@ -47,52 +49,69 @@ window.calculateDogAgeOnHome = function() {
     humanYears = Math.round(24 + (totalDecimalYears - 2) * 4.8);
   }
 
-  // Life phase determination
-  let phaseName = 'Vuxen hund';
+  // Life phase
+  let phaseName = isEn ? 'Adult Dog' : 'Vuxen hund';
   let phaseEmoji = '🐕';
-  let phaseDesc = 'I sin bästa ålder med full energi och stabil personlighet.';
+  let phaseDesc = isEn ? 'In prime life with full energy, balanced confidence, and stable temperament.' : 'I sin bästa ålder med full energi och stabil personlighet.';
 
   if (totalDecimalYears < 0.6) {
-    phaseName = 'Valp';
+    phaseName = isEn ? 'Puppy' : 'Valp';
     phaseEmoji = '🐾';
-    phaseDesc = 'Viktigaste perioden för socialisering, trygghet och rumsrenhet.';
+    phaseDesc = isEn ? 'Critical phase for socialization, trust building, and house training.' : 'Viktigaste perioden för socialisering, trygghet och rumsrenhet.';
   } else if (totalDecimalYears < 1.5) {
-    phaseName = 'Unghund / Slyngelålder';
+    phaseName = isEn ? 'Adolescent / Teenage Dog' : 'Unghund / Slyngelålder';
     phaseEmoji = '⚡';
-    phaseDesc = 'Hormoner och upptäckarglädje sprudlar – fokusera på tålamod och kontaktövningar.';
+    phaseDesc = isEn ? 'Hormones and curiosity thrive – prioritize patience, focus, and connection exercises.' : 'Hormoner och upptäckarglädje sprudlar – fokusera på tålamod och kontaktövningar.';
   } else if (totalDecimalYears >= 8) {
-    phaseName = 'Senior & Klok';
+    phaseName = isEn ? 'Senior & Wise' : 'Senior & Klok';
     phaseEmoji = '👑';
-    phaseDesc = 'Dags för mjuka underlag, ledtillskott och regelbundna seniorkontroller hos veterinären.';
+    phaseDesc = isEn ? 'Time for cozy orthopedic bedding, joint supplements, and regular vet health checks.' : 'Dags för mjuka underlag, ledtillskott och regelbundna seniorkontroller hos veterinären.';
   }
 
   let ageText = '';
-  if (years === 0) {
-    ageText = `${months} ${months === 1 ? 'månad' : 'månader'}`;
-  } else if (months === 0) {
-    ageText = `${years} ${years === 1 ? 'år' : 'år'}`;
+  if (isEn) {
+    if (years === 0) {
+      ageText = `${months} ${months === 1 ? 'month' : 'months'}`;
+    } else if (months === 0) {
+      ageText = `${years} ${years === 1 ? 'year' : 'years'}`;
+    } else {
+      ageText = `${years} ${years === 1 ? 'year' : 'years'} and ${months} ${months === 1 ? 'month' : 'months'}`;
+    }
   } else {
-    ageText = `${years} år och ${months} månader`;
+    if (years === 0) {
+      ageText = `${months} ${months === 1 ? 'månad' : 'månader'}`;
+    } else if (months === 0) {
+      ageText = `${years} ${years === 1 ? 'år' : 'år'}`;
+    } else {
+      ageText = `${years} år och ${months} månader`;
+    }
   }
+
+  const prefix = isEn ? 'Equals approx' : 'Motsvarar ca';
+  const suffix = isEn ? 'human years!' : 'människoår!';
+  const dogIs = isEn ? 'Your dog is' : 'Din hund är';
+  const oldText = isEn ? 'old' : 'gammal';
+  const phaseLabel = isEn ? 'Life phase:' : 'Livsfas:';
+  const portalBtnText = isEn ? 'Open health dashboard for your dog →' : 'Öppna hälsodashboard för din hund →';
 
   resultBox.style.display = 'block';
   resultBox.innerHTML = `
     <div class="calc-result-card" style="background:linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); color:#FAF7F2; border-radius:18px; padding:22px; text-align:center; box-shadow:0 12px 30px rgba(27,67,50,0.25); animation:slideInUp 0.3s cubic-bezier(0.16,1,0.3,1); margin-top:20px;">
       <div style="font-size:36px; margin-bottom:6px;">${phaseEmoji}</div>
       <h3 style="font-family:'Fraunces',serif; font-size:24px; margin:0 0 4px; color:#F4D35E;">
-        Motsvarar ca ${humanYears} människoår!
+        ${prefix} ${humanYears} ${suffix}
       </h3>
       <p style="font-size:15px; margin:0 0 14px; color:#d8f3dc;">
-        Din hund är <strong>${ageText}</strong> gammal (${phaseName}).
+        ${dogIs} <strong>${ageText}</strong> ${oldText} (${phaseName}).
       </p>
       
       <div style="background:rgba(255,255,255,0.12); border-radius:12px; padding:12px 16px; font-size:13px; line-height:1.5; color:#ffffff; max-width:480px; margin:0 auto;">
-        💡 <strong>Livsfas:</strong> ${phaseDesc}
+        💡 <strong>${phaseLabel}</strong> ${phaseDesc}
       </div>
 
       <div style="margin-top:16px;">
         <a href="portal.html" class="btn btn-secondary btn-sm" style="font-weight:700;">
-          Öppna hälsodashboard för din hund →
+          ${portalBtnText}
         </a>
       </div>
     </div>
@@ -521,53 +540,208 @@ function celebrateConfetti() {
 }
 
 /* ============================================================================
-   SECTION 02: i18n TRANSLATION DICTIONARY
-   ============================================================================ */
+   /* ==========================================================================
+   SECTION 02: i18n TRANSLATION DICTIONARY & MULTILINGUAL ENGINE
+   100% Comprehensive Swedish & English Dictionary with Real-time DOM Swapping
+   ========================================================================== */
 
 let currentLang = safeStorage.get(STORAGE_KEYS.LANGUAGE, 'sv');
+if (currentLang !== 'sv' && currentLang !== 'en') {
+  currentLang = 'sv';
+}
 
 const I18N_DICTIONARY = {
   sv: {
+    // Navigation & Header
+    nav_how_it_works: 'Så fungerar det',
+    nav_features: 'Funktioner',
+    nav_tips: 'Hundtips',
+    nav_suggestions: 'Förslag & Roadmap',
+    nav_reviews: 'Omdömen',
+    nav_faq: 'Vanliga frågor',
+    nav_login: 'Logga in',
+    nav_register: 'Skapa konto',
+    nav_get_started: 'Kom igång gratis',
     nav_overview: 'Översikt',
     nav_dogs: 'Mina hundar',
     nav_walks: 'Promenader',
     nav_calendar: 'Kalender',
     nav_stats: 'Statistik',
-    nav_tips: 'Tips',
-    nav_suggestions: 'Förslag & Idéer',
-    nav_login: 'Logga in',
-    nav_register: 'Skapa konto',
+    nav_merch: 'Supporter-shop',
     nav_logout: 'Logga ut',
+
+    // Hero Section
+    hero_eyebrow: '✦ För en tryggare hundvardag',
+    hero_title: 'Allt din hund behöver.<br><em>Samlat på ett ställe.</em>',
+    hero_desc: 'Sveriges modernaste plattform för hundhälsa, promenader och rutiner. 100% offline, gratis och skapad med kärlek till hundar.',
+    cta_register: 'Skapa gratiskonto ➔',
+    cta_explore: 'Utforska funktioner ↓',
+
+    // Stats Strip
+    stat_rating_label: 'Betyg från hundägare',
+    stat_rating_empty: '— / 5',
+    stat_tips_label: 'Kvalitetssäkrade tips',
+    stat_focus_label: 'Fokus på hundglädje',
+    stat_free_label: 'Gratis grundversion',
+
+    // Age Calculator
+    calc_eyebrow: 'Interaktiv kalkylator',
+    calc_title: 'Hur gammal är din hund i människoår?',
+    calc_desc: 'Ange din hunds födelsedatum för att beräkna exakt ålder och motsvarande människoår.',
+    calc_birth_label: 'Födelsedatum',
+    calc_btn: 'Beräkna ålder 🐾',
+    calc_btn_portal: 'Öppna hälsodashboard för din hund →',
+    calc_life_stage_title: 'Livsfas:',
+    calc_human_years_prefix: 'Motsvarar ca',
+    calc_human_years_suffix: 'människoår!',
+    calc_dog_age_is: 'Din hund är',
+    calc_old: 'gammal',
+    calc_phase_puppy: 'Valp',
+    calc_phase_puppy_desc: 'Viktigaste perioden för socialisering, trygghet och rumsrenhet.',
+    calc_phase_young: 'Unghund / Slyngelålder',
+    calc_phase_young_desc: 'Hormoner och upptäckarglädje sprudlar – fokusera på tålamod och kontaktövningar.',
+    calc_phase_adult: 'Vuxen hund',
+    calc_phase_adult_desc: 'I sin bästa ålder med full energi och stabil personlighet.',
+    calc_phase_senior: 'Senior & Klok',
+    calc_phase_senior_desc: 'Dags för mjuka underlag, ledtillskott och regelbundna seniorkontroller hos veterinären.',
+
+    // Features Section
+    features_eyebrow: 'Varför välja HundApp?',
+    features_title: 'Skapad för dig som sätter hunden i första rummet',
+    features_desc: 'Från skogspromenader utan täckning till veterinärhistorik och kloklippspåminnelser – allt fungerar direkt i din webbläsare.',
+
+    // Auth Views (login & register)
+    login_heading: 'Logga in till HundApp',
+    login_eyebrow: 'Välkommen tillbaka',
+    login_intro: 'Få direkt tillgång till din hunds profil, hälsojournal, påminnelser och promenadlogg.',
+    register_heading: 'Skapa ditt gratiskonto',
+    register_eyebrow: 'Börja med ett tassavtryck',
+    register_intro: 'Kom igång på under 1 minut. Du lägger enkelt till din hund på nästa sida.',
+    social_google_btn: 'Fortsätt med Google',
+    auth_divider_login: 'eller logga in med e-post & lösenord',
+    auth_divider_register: 'eller skapa konto med e-post & användarnamn',
+    label_email_or_user: 'E-postadress eller Användarnamn',
+    label_username: 'Användarnamn / Namn',
+    label_email: 'E-postadress',
+    label_password: 'Lösenord',
+    label_password_choose: 'Välj ett säkert lösenord',
+    label_password_confirm: 'Bekräfta lösenord',
+    remember_me: 'Kom ihåg mig på den här enheten',
+    forgot_password: 'Glömt lösenord?',
+    btn_submit_login: 'Logga in',
+    btn_submit_register: 'Skapa gratiskonto',
+    new_here: 'Ny här?',
+    already_account: 'Har du redan konto?',
+    create_account_free: 'Skapa konto gratis',
+    back_to_home: '← Tillbaka till startsidan',
+
+    // Common Toasts & Feedback
     toast_saved: 'Sparat!',
     toast_deleted: 'Borttaget.',
     toast_vote_added: 'Tack för din röst!',
     toast_vote_removed: 'Röst borttagen.',
     toast_copied: 'Kopierat till urklipp!',
+    toast_lang_switched: 'Språk ändrat till Svenska 🇸🇪',
     walk_started: 'Promenad startad! Njut av turen. 🐾',
     walk_paused: 'Promenaden är pausad.',
     walk_resumed: 'Promenaden fortsätter! 🐾',
-    stat_rating_empty: '— / 5'
+    walk_stopped: 'Promenad avslutad och sparad! 🐾'
   },
   en: {
+    // Navigation & Header
+    nav_how_it_works: 'How it works',
+    nav_features: 'Features',
+    nav_tips: 'Dog Tips',
+    nav_suggestions: 'Ideas & Roadmap',
+    nav_reviews: 'Reviews',
+    nav_faq: 'FAQ',
+    nav_login: 'Log in',
+    nav_register: 'Sign up',
+    nav_get_started: 'Get started free',
     nav_overview: 'Overview',
     nav_dogs: 'My Dogs',
     nav_walks: 'Walks',
     nav_calendar: 'Calendar',
     nav_stats: 'Statistics',
-    nav_tips: 'Tips',
-    nav_suggestions: 'Ideas & Roadmap',
-    nav_login: 'Log in',
-    nav_register: 'Sign up',
+    nav_merch: 'Supporter Shop',
     nav_logout: 'Log out',
+
+    // Hero Section
+    hero_eyebrow: '✦ For a safer daily dog life',
+    hero_title: 'Everything your dog needs.<br><em>All in one place.</em>',
+    hero_desc: "Sweden's most modern platform for dog health, walks, and routines. 100% offline, free, and crafted with love for dogs.",
+    cta_register: 'Create free account ➔',
+    cta_explore: 'Explore features ↓',
+
+    // Stats Strip
+    stat_rating_label: 'Rating from dog owners',
+    stat_rating_empty: '— / 5',
+    stat_tips_label: 'Quality assured tips',
+    stat_focus_label: 'Focus on dog happiness',
+    stat_free_label: 'Free base version',
+
+    // Age Calculator
+    calc_eyebrow: 'Interactive Calculator',
+    calc_title: 'How old is your dog in human years?',
+    calc_desc: "Enter your dog's birth date to calculate exact age and equivalent human years.",
+    calc_birth_label: 'Birth date',
+    calc_btn: 'Calculate age 🐾',
+    calc_btn_portal: 'Open health dashboard for your dog →',
+    calc_life_stage_title: 'Life phase:',
+    calc_human_years_prefix: 'Equals approx',
+    calc_human_years_suffix: 'human years!',
+    calc_dog_age_is: 'Your dog is',
+    calc_old: 'old',
+    calc_phase_puppy: 'Puppy',
+    calc_phase_puppy_desc: 'Critical phase for socialization, trust building, and house training.',
+    calc_phase_young: 'Adolescent / Teenage Dog',
+    calc_phase_young_desc: 'Hormones and curiosity thrive – prioritize patience, focus, and connection exercises.',
+    calc_phase_adult: 'Adult Dog',
+    calc_phase_adult_desc: 'In prime life with full energy, balanced confidence, and stable temperament.',
+    calc_phase_senior: 'Senior & Wise',
+    calc_phase_senior_desc: 'Time for cozy orthopedic bedding, joint supplements, and regular vet health checks.',
+
+    // Features Section
+    features_eyebrow: 'Why choose HundApp?',
+    features_title: 'Crafted for owners who put their dog first',
+    features_desc: 'From forest walks without reception to vaccination tracking and claw trimming alerts – all running right in your browser.',
+
+    // Auth Views (login & register)
+    login_heading: 'Log in to HundApp',
+    login_eyebrow: 'Welcome back',
+    login_intro: 'Get instant access to your dog profile, health journal, reminders, and activity log.',
+    register_heading: 'Create your free account',
+    register_eyebrow: 'Start with a paw print',
+    register_intro: 'Get started in under 1 minute. Easily add your dog profile on the next page.',
+    social_google_btn: 'Continue with Google',
+    auth_divider_login: 'or log in with email & password',
+    auth_divider_register: 'or create account with email & username',
+    label_email_or_user: 'Email address or Username',
+    label_username: 'Username / Full Name',
+    label_email: 'Email address',
+    label_password: 'Password',
+    label_password_choose: 'Choose a secure password',
+    label_password_confirm: 'Confirm password',
+    remember_me: 'Remember me on this device',
+    forgot_password: 'Forgot password?',
+    btn_submit_login: 'Log In',
+    btn_submit_register: 'Create Free Account',
+    new_here: 'New here?',
+    already_account: 'Already have an account?',
+    create_account_free: 'Sign up free',
+    back_to_home: '← Back to home page',
+
+    // Common Toasts & Feedback
     toast_saved: 'Saved!',
     toast_deleted: 'Deleted.',
     toast_vote_added: 'Thanks for your vote!',
     toast_vote_removed: 'Vote removed.',
     toast_copied: 'Copied to clipboard!',
-    walk_started: 'Walk started! Enjoy the trip. 🐾',
+    toast_lang_switched: 'Language switched to English 🇬🇧',
+    walk_started: 'Walk started! Enjoy the tour. 🐾',
     walk_paused: 'Walk is paused.',
     walk_resumed: 'Walk resumed! 🐾',
-    stat_rating_empty: '— / 5'
+    walk_stopped: 'Walk finished and saved! 🐾'
   }
 };
 
@@ -576,40 +750,81 @@ function t(key, fallback = '') {
   return dict[key] || fallback || key;
 }
 
-function setLanguage(lang) {
+/**
+ * Apply selected language immediately across the entire DOM
+ */
+window.applyLanguage = function(lang) {
   if (lang !== 'sv' && lang !== 'en') lang = 'sv';
   currentLang = lang;
   safeStorage.set(STORAGE_KEYS.LANGUAGE, lang);
 
   if (typeof document === 'undefined') return;
 
-  // Update language toggle buttons
-  const toggles = document.querySelectorAll('.language-toggle, #language-toggle-btn');
-  toggles.forEach(btn => {
+  // 1. Update html lang attribute
+  document.documentElement.lang = lang;
+
+  const dict = I18N_DICTIONARY[lang] || I18N_DICTIONARY.sv;
+
+  // 2. Localize all [data-i18n] elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key && dict[key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.value = dict[key];
+      } else {
+        el.innerHTML = dict[key];
+      }
+    }
+  });
+
+  // 3. Localize all [data-i18n-placeholder] elements
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (key && dict[key]) {
+      el.placeholder = dict[key];
+    }
+  });
+
+  // 4. Localize all [data-i18n-aria] elements
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (key && dict[key]) {
+      el.setAttribute('aria-label', dict[key]);
+    }
+  });
+
+  // 5. Update language select dropdowns
+  document.querySelectorAll('.lang-selector, #site-lang-select').forEach(sel => {
+    sel.value = lang;
+  });
+
+  // 6. Update language toggle buttons
+  document.querySelectorAll('.language-toggle, #language-toggle-btn').forEach(btn => {
     btn.textContent = (lang === 'sv') ? 'EN' : 'SV';
     btn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
     btn.setAttribute('title', lang === 'sv' ? 'Switch to English' : 'Växla till svenska');
   });
 
-  // Localize data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (key && I18N_DICTIONARY[lang] && I18N_DICTIONARY[lang][key]) {
-      el.textContent = I18N_DICTIONARY[lang][key];
-    }
-  });
+  // 7. Dispatch custom event for components
+  window.dispatchEvent(new CustomEvent('hundapp:languageChanged', { detail: { lang } }));
+};
 
-  // Localize placeholders
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (key && I18N_DICTIONARY[lang] && I18N_DICTIONARY[lang][key]) {
-      el.setAttribute('placeholder', I18N_DICTIONARY[lang][key]);
-    }
-  });
-}
+/**
+ * Switch language function called by dropdowns or buttons
+ */
+window.setLanguage = function(lang, notify = false) {
+  if (lang !== 'sv' && lang !== 'en') {
+    lang = (currentLang === 'sv') ? 'en' : 'sv';
+  }
+  applyLanguage(lang);
+  if (notify && typeof showToast === 'function') {
+    const msg = (lang === 'sv') ? 'Språk ändrat till Svenska 🇸🇪' : 'Language switched to English 🇬🇧';
+    showToast(msg, '🌐');
+  }
+};
 
-/* ============================================================================
-   SECTION 03: GLOBAL NAVIGATION & MODAL MANAGEMENT
+
+SECTION 03: GLOBAL NAVIGATION & MODAL MANAGEMENT
    ============================================================================ */
 
 function initGlobalNavigation() {
@@ -4233,26 +4448,48 @@ async function checkGoogleOAuthCallback() {
   return false;
 }
 
+
 function handleGoogleAuthSuccess(payload) {
-  const user = {
-    id: generateId('user-g'),
-    name: payload.name || payload.given_name || payload.email.split('@')[0],
-    email: payload.email,
-    picture: payload.picture || '',
+  const email = payload.email;
+  const name = payload.name || payload.given_name || email.split('@')[0];
+  const picture = payload.picture || '';
+
+  let users = safeStorage.get(STORAGE_KEYS.REGISTERED_USERS, []);
+  if (!Array.isArray(users)) users = [];
+
+  let existingUser = users.find(u => u.email && u.email.toLowerCase() === email.toLowerCase());
+  if (!existingUser) {
+    existingUser = {
+      id: generateId('user-g'),
+      name: name,
+      email: email,
+      picture: picture,
+      authProvider: 'google',
+      createdAt: new Date().toISOString()
+    };
+    users.push(existingUser);
+    safeStorage.set(STORAGE_KEYS.REGISTERED_USERS, users);
+  }
+
+  const activeUser = {
+    id: existingUser.id,
+    name: existingUser.name,
+    email: existingUser.email,
+    picture: picture || existingUser.picture || '',
     authProvider: 'google',
     loggedInAt: new Date().toISOString()
   };
 
-  safeStorage.set(STORAGE_KEYS.AUTH_USER, user);
+  safeStorage.set(STORAGE_KEYS.AUTH_USER, activeUser);
   if (typeof showToast === 'function') {
-    showToast(`Välkommen, ${user.name}! Inloggad med Google 🐾`, '🎉');
+    showToast(`Välkommen, ${activeUser.name}! Inloggad med Google 🐾`, '🎉');
   }
   if (typeof celebrateConfetti === 'function') {
     celebrateConfetti();
   }
   setTimeout(() => {
     window.location.href = 'portal.html';
-  }, 700);
+  }, 600);
 }
 
 function logoutHundAppUser() {
@@ -4265,6 +4502,61 @@ function logoutHundAppUser() {
   }, 500);
 }
 
+function openAccountNotFoundModal(enteredInput) {
+  let modal = document.getElementById('account-not-found-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'account-not-found-modal';
+    modal.className = 'modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'anf-modal-title');
+    document.body.appendChild(modal);
+  }
+
+  const safeInput = String(enteredInput || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const registerUrl = 'register.html' + (enteredInput && enteredInput.includes('@') ? `?email=${encodeURIComponent(enteredInput)}` : '');
+
+  modal.innerHTML = `
+    <div class="modal-box form-modal account-not-found-box" style="width:min(100%, 460px); background:#fff; border-radius:24px; padding:32px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.25); animation:modalPop 0.25s ease-out;">
+      <div style="font-size:48px; margin-bottom:12px;">🐾</div>
+      <p class="eyebrow" style="color:var(--green-dark, #2D6A4F); font-weight:700; margin:0 0 6px;">Inget konto hittades</p>
+      <h2 id="anf-modal-title" style="font-family:'Fraunces',serif; font-size:24px; color:var(--ink, #1c1917); margin:0 0 10px;">
+        Vi hittade inget konto för "${safeInput}"
+      </h2>
+      <p style="font-size:14px; color:var(--muted, #64748b); line-height:1.5; margin:0 0 24px;">
+        Det verkar som att du inte har skapat något konto än. Vill du registrera ett kostnadsfritt HundApp-konto nu? Det tar under 1 minut!
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <a href="${registerUrl}" class="button btn-primary" style="width:100%; text-decoration:none; padding:12px; font-weight:700; font-size:15px; border-radius:12px; text-align:center;">
+          Ja, skapa gratiskonto →
+        </a>
+        <button type="button" class="btn btn-outline" id="close-anf-modal-btn" style="width:100%; padding:10px; border-radius:12px; font-weight:600;">
+          Försök logga in igen
+        </button>
+      </div>
+    </div>
+  `;
+
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden', 'false');
+
+  const closeBtn = document.getElementById('close-anf-modal-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+}
+
 function initAuthSystem() {
   if (typeof document === 'undefined') return;
 
@@ -4273,7 +4565,11 @@ function initAuthSystem() {
   googleBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      redirectToGoogleOAuth();
+      if (typeof window.redirectToGoogleOAuth === 'function') {
+        window.redirectToGoogleOAuth();
+      } else if (typeof directGoogleLogin === 'function') {
+        directGoogleLogin();
+      }
     });
   });
 
@@ -4303,34 +4599,14 @@ function initAuthSystem() {
     });
   }
 
-  // 3. Quick Demo Login Button
-  const demoLoginBtn = document.getElementById('quick-demo-login-btn');
-  if (demoLoginBtn) {
-    demoLoginBtn.addEventListener('click', () => {
-      const demoUser = {
-        id: 'user-demo-maria',
-        name: 'Maria',
-        email: 'maria@hundapp.se',
-        authProvider: 'demo',
-        loggedInAt: new Date().toISOString()
-      };
-      safeStorage.set(STORAGE_KEYS.AUTH_USER, demoUser);
-      showToast('Inloggad som Maria & Bella! 🐾', '🎉');
-      celebrateConfetti();
-      setTimeout(() => {
-        window.location.href = 'portal.html';
-      }, 700);
-    });
-  }
-
-  // 4. Login Form Handler
+  // 3. Login Form Handler
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.getElementById('email')?.value.trim();
       const password = document.getElementById('password')?.value;
-      const remember = document.getElementById('remember')?.checked || document.getElementById('remember-me')?.checked;
+      const remember = document.getElementById('remember-me')?.checked || document.getElementById('remember')?.checked;
 
       const emailErr = document.getElementById('login-email-error');
       const passErr = document.getElementById('login-pass-error');
@@ -4359,107 +4635,167 @@ function initAuthSystem() {
         safeStorage.remove(STORAGE_KEYS.REMEMBERED_EMAIL);
       }
 
-      const DEFAULT_USERS = [
-        { id: 'user-maria-1', email: 'maria@hundapp.se', name: 'Maria', password: 'Password1!' }
-      ];
-      let users = safeStorage.get(STORAGE_KEYS.REGISTERED_USERS, DEFAULT_USERS);
-      if (!Array.isArray(users) || users.length === 0) {
-        users = DEFAULT_USERS;
-      }
+      let users = safeStorage.get(STORAGE_KEYS.REGISTERED_USERS, []);
+      if (!Array.isArray(users)) users = [];
 
       const emailLower = email.toLowerCase();
-      const existingUser = users.find(u => (u.email && u.email.toLowerCase() === emailLower) || (u.name && u.name.toLowerCase() === emailLower));
+      const existingUser = users.find(u => 
+        (u.email && u.email.toLowerCase() === emailLower) || 
+        (u.name && u.name.toLowerCase() === emailLower)
+      );
 
+      // If user does not exist in safeStorage -> Open modal prompting to register
       if (!existingUser) {
-        // Visa popup om att inget konto existerar och fråga om användaren vill skapa ett
-        window.openAccountNotFoundModal(email);
+        openAccountNotFoundModal(email);
         return;
       }
 
-      // Kontrollera lösenord
+      // If user exists, verify password
       if (existingUser.password && existingUser.password !== password) {
         if (passErr) {
-          passErr.textContent = 'Felaktigt lösenord för detta konto. Vänligen kontrollera dina uppgifter.';
+          passErr.textContent = 'Felaktigt lösenord. Vänligen försök igen.';
           passErr.removeAttribute('hidden');
           passErr.style.display = 'block';
         }
-        if (typeof showToast === 'function') {
-          showToast('⚠️ Felaktigt lösenord. Försök igen.', '🔒');
-        }
+        showToast('Felaktigt lösenord. Försök igen eller återställ det.', '⚠️');
         return;
       }
 
-      const user = {
-        id: existingUser.id || generateId('user'),
-        name: existingUser.name || (email.includes('@') ? email.split('@')[0] : email),
-        email: existingUser.email || email,
+      // Password matches -> log in user directly
+      const sessionUser = {
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        authProvider: existingUser.authProvider || 'email',
         loggedInAt: new Date().toISOString()
       };
-
-      safeStorage.set(STORAGE_KEYS.AUTH_USER, user);
-      if (typeof showToast === 'function') {
-        showToast(`Välkommen tillbaka, ${user.name}! 🐾`, '🎉');
-      }
-      if (typeof celebrateConfetti === 'function') {
-        celebrateConfetti();
-      }
+      safeStorage.set(STORAGE_KEYS.AUTH_USER, sessionUser);
+      showToast(`Välkommen tillbaka, ${existingUser.name}! 🐾`, '🎉');
+      celebrateConfetti();
       setTimeout(() => {
         window.location.href = 'portal.html';
-      }, 700);
+      }, 600);
     });
-
-    // Prefill remembered email
-    const remEmail = safeStorage.get(STORAGE_KEYS.REMEMBERED_EMAIL);
-    if (remEmail) {
-      const emailInput = document.getElementById('email');
-      const remBox = document.getElementById('remember') || document.getElementById('remember-me');
-      if (emailInput) emailInput.value = remEmail;
-      if (remBox) remBox.checked = true;
-    }
   }
 
-  // 5. Register Form Handler
+  // 4. Registration Form Handler
   const registerForm = document.getElementById('register-form');
   if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('username')?.value.trim();
-      const email = document.getElementById('email')?.value.trim();
-      const password = document.getElementById('password')?.value;
-      const terms = document.getElementById('terms')?.checked;
+      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const confirmInput = document.getElementById('password-confirm');
+      const termsCheck = document.getElementById('terms-consent') || document.getElementById('terms');
 
-      if (!name || !email || !password) {
-        showToast('Fyll i alla obligatoriska fält!', '⚠️');
-        return;
+      const name = usernameInput?.value.trim();
+      const email = emailInput?.value.trim();
+      const password = passwordInput?.value;
+      const confirm = confirmInput?.value;
+      const terms = termsCheck?.checked;
+
+      const userErr = document.getElementById('username-error');
+      const emailErr = document.getElementById('email-error');
+      const passErr = document.getElementById('password-error');
+      const confErr = document.getElementById('confirm-error');
+      const termsErr = document.getElementById('terms-error');
+
+      let hasError = false;
+
+      if (!name || name.length < 2) {
+        if (userErr) { userErr.removeAttribute('hidden'); userErr.style.display = 'block'; }
+        hasError = true;
+      } else if (userErr) {
+        userErr.setAttribute('hidden', 'true');
+        userErr.style.display = 'none';
+      }
+
+      if (!email || !email.includes('@')) {
+        if (emailErr) { emailErr.removeAttribute('hidden'); emailErr.style.display = 'block'; }
+        hasError = true;
+      } else if (emailErr) {
+        emailErr.setAttribute('hidden', 'true');
+        emailErr.style.display = 'none';
+      }
+
+      if (!password || password.length < 6) {
+        if (passErr) { passErr.removeAttribute('hidden'); passErr.style.display = 'block'; }
+        hasError = true;
+      } else if (passErr) {
+        passErr.setAttribute('hidden', 'true');
+        passErr.style.display = 'none';
+      }
+
+      if (password && confirm && password !== confirm) {
+        if (confErr) { confErr.removeAttribute('hidden'); confErr.style.display = 'block'; }
+        hasError = true;
+      } else if (confErr) {
+        confErr.setAttribute('hidden', 'true');
+        confErr.style.display = 'none';
       }
 
       if (!terms) {
-        showToast('Du måste godkänna användarvillkoren.', '⚠️');
+        if (termsErr) { termsErr.removeAttribute('hidden'); termsErr.style.display = 'block'; }
+        hasError = true;
+      } else if (termsErr) {
+        termsErr.setAttribute('hidden', 'true');
+        termsErr.style.display = 'none';
+      }
+
+      if (hasError) {
+        showToast('Vänligen åtgärda felen i formuläret.', '⚠️');
         return;
       }
 
-      const users = safeStorage.get(STORAGE_KEYS.REGISTERED_USERS, []);
+      let users = safeStorage.get(STORAGE_KEYS.REGISTERED_USERS, []);
+      if (!Array.isArray(users)) users = [];
+
+      // Check if user already exists
+      const existingUser = users.find(u => u.email && u.email.toLowerCase() === email.toLowerCase());
+      if (existingUser) {
+        showToast('Ett konto med denna e-post finns redan! Loggar in...', 'ℹ️');
+        safeStorage.set(STORAGE_KEYS.AUTH_USER, {
+          id: existingUser.id,
+          name: existingUser.name,
+          email: existingUser.email,
+          authProvider: 'email',
+          loggedInAt: new Date().toISOString()
+        });
+        setTimeout(() => { window.location.href = 'portal.html'; }, 600);
+        return;
+      }
+
       const newUser = {
         id: generateId('user'),
-        name,
-        email,
-        password,
+        name: name,
+        email: email,
+        password: password,
+        authProvider: 'email',
         createdAt: new Date().toISOString()
       };
 
       users.push(newUser);
       safeStorage.set(STORAGE_KEYS.REGISTERED_USERS, users);
-      safeStorage.set(STORAGE_KEYS.AUTH_USER, { id: newUser.id, name: newUser.name, email: newUser.email });
+
+      // Immediately log in new user and redirect straight to portal.html
+      safeStorage.set(STORAGE_KEYS.AUTH_USER, {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        authProvider: 'email',
+        loggedInAt: new Date().toISOString()
+      });
 
       showToast(`Konto skapat! Välkommen till HundApp, ${name}! 🐾`, '🎉');
       celebrateConfetti();
       setTimeout(() => {
         window.location.href = 'portal.html';
-      }, 900);
+      }, 700);
     });
   }
 
-  // 6. Forgot Password Modal
+  // 5. Forgot Password Modal
   const forgotBtn = document.getElementById('open-forgot-modal-btn');
   const forgotModal = document.getElementById('forgot-password-modal') || document.getElementById('forgot-modal');
   const forgotForm = document.getElementById('forgot-password-form') || document.getElementById('forgot-form');
@@ -4484,27 +4820,14 @@ function initAuthSystem() {
         showToast('Ange din e-postadress eller användarnamn!', '⚠️');
         return;
       }
-
-      const feedbackBox = document.getElementById('forgot-password-feedback');
-      if (feedbackBox) {
-        feedbackBox.innerHTML = `
-          <div style="background:#dcfce7; border:1px solid #86efac; border-radius:10px; padding:12px; color:#15803d; font-size:13px;">
-            ✓ En återställningslänk har skickats till <b>${escapeHtml(resetEmail)}</b>.
-          </div>
-        `;
-      }
-
-      showToast(`Återställningslänk skickad till ${resetEmail} ✉️`, '📬');
-      setTimeout(() => {
-        closeModal(forgotModal);
-        if (feedbackBox) feedbackBox.innerHTML = '';
-      }, 2000);
+      showToast('Återställningsinstruktioner har skickats till ' + resetEmail + ' ✉️', '✓');
+      closeModal(forgotModal);
     });
   }
 }
 
-/* ============================================================================
-   SECTION 14: GLOBAL APPLICATION BOOTSTRAPPER & EXPORTS
+
+SECTION 14: GLOBAL APPLICATION BOOTSTRAPPER & EXPORTS
    ============================================================================ */
 
 /**
