@@ -20,6 +20,56 @@
   <meta name="apple-mobile-web-app-title" content="HundApp">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <script>
+    // ⚡ Instant Google OAuth Callback Interceptor
+    (function() {
+      try {
+        const hash = window.location.hash || window.location.search;
+        if (hash && (hash.includes('id_token=') || hash.includes('access_token='))) {
+          const params = new URLSearchParams(hash.startsWith('#') ? hash.substring(1) : hash);
+          const idToken = params.get('id_token');
+          const accessToken = params.get('access_token');
+          
+          if (idToken) {
+            try {
+              const base64Url = idToken.split('.')[1];
+              const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+              const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+              }).join(''));
+              const payload = JSON.parse(jsonPayload);
+              if (payload && payload.email) {
+                const user = {
+                  id: 'user-g-' + (payload.sub || Date.now()),
+                  name: payload.name || payload.given_name || payload.email.split('@')[0],
+                  email: payload.email,
+                  picture: payload.picture || '',
+                  authProvider: 'google',
+                  loggedInAt: new Date().toISOString()
+                };
+                localStorage.setItem('hundapp_auth_user', JSON.stringify(user));
+                
+                // Add to registered users
+                let registered = [];
+                try {
+                  registered = JSON.parse(localStorage.getItem('hundapp_registered_users') || '[]');
+                } catch(e) { registered = []; }
+                if (!registered.some(u => u.email === user.email)) {
+                  registered.push(user);
+                  localStorage.setItem('hundapp_registered_users', JSON.stringify(registered));
+                }
+                
+                // Redirect immediately to portal
+                window.location.replace('portal.html');
+              }
+            } catch(e) {
+              console.warn('[Google OAuth Interceptor] Error parsing token:', e);
+            }
+          }
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body class="account-page">
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -100,7 +150,7 @@
               <span class="field-icon" aria-hidden="true">✉️</span>
               <input id="email" name="email" type="email" autocomplete="email" placeholder="din@email.se" required class="form-control-icon">
             </div>
-            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85ebe4e8ebc5e1eae8e4ebabf6e0">[email&#160;protected]</a>).</p>
+            <p class="field-error-msg" id="email-error" hidden>Ange en giltig e-postadress (t.ex. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6907080407290d06040807471a0c">[email&#160;protected]</a>).</p>
           </div>
 
           <!-- Lösenordsfält -->
@@ -330,5 +380,5 @@
     }
   </script>
 
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a36c4cf4d922dc47',t:'MTc4ODY4NTQwNw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a36e86cfd8582e10',t:'MTc4ODcwODc0OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
