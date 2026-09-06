@@ -9299,3 +9299,293 @@ a {
   outline: none;
   box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
 }
+
+
+/* ==========================================================================
+   SECTION 32: STRICT MOBILE RESPONSIVE ENGINE & ZERO HORIZONTAL SCROLL
+   Enforces strict vertical scrolling only (0px side-scroll on all mobile devices)
+   ========================================================================== */
+
+html, body {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+img, svg, video, canvas, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+pre, code, table {
+  max-width: 100%;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Visibility toggles for Mobile vs Desktop */
+.mobile-only, .mobile-only-btn, .mobile-sticky-quick-launch {
+  display: none !important;
+}
+
+.desktop-only {
+  display: flex !important;
+}
+
+/* ==========================================================================
+   MOBILE BREAKPOINT: <= 768px (Smartphones & Tablets)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  
+  /* Mobile-only button visibility */
+  .mobile-only, .mobile-only-btn {
+    display: flex !important;
+  }
+  
+  .mobile-sticky-quick-launch {
+    display: flex !important;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 9998;
+    background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+    color: #FAF7F2;
+    padding: 14px 20px;
+    border-radius: 9999px;
+    box-shadow: 0 10px 25px rgba(27, 67, 50, 0.4);
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14.5px;
+    animation: bounceInUp 0.4s ease-out;
+  }
+
+  .mobile-sticky-quick-launch:active {
+    transform: scale(0.98);
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Container padding for mobile */
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* Header & Navigation on Mobile */
+  .site-header {
+    padding: 0;
+  }
+
+  .nav-wrap {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .brand-logo-img {
+    height: 32px;
+    width: auto;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #FAF7F2;
+    flex-direction: column;
+    padding: 20px;
+    gap: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .main-nav.is-open {
+    display: flex !important;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+
+  .menu-toggle span:not(.sr-only) {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: var(--ink, #1c1917);
+    border-radius: 2px;
+  }
+
+  /* Hero Section Mobile Grid */
+  .hero {
+    padding: 30px 0 20px !important;
+  }
+
+  .hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    text-align: center;
+  }
+
+  .hero-copy {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
+
+  .hero .lead {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  .hero-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .hero-actions .button {
+    width: 100% !important;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 20px !important;
+  }
+
+  /* Mobile-only Hero Button */
+  .mobile-hero-cta {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: #F4D35E;
+    color: #1B4332;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(244, 211, 94, 0.4);
+    margin-top: 6px;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Stats Strip on Mobile: 2x2 grid */
+  .stats-strip {
+    padding: 20px 0 !important;
+  }
+
+  .stats-strip-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  .stats-strip-item strong, .stat-num {
+    font-size: 26px !important;
+  }
+
+  .stat-label {
+    font-size: 12px !important;
+  }
+
+  /* Age Calculator on Mobile */
+  .calc-wrapper {
+    padding: 20px 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .calc-input-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .calc-input-row input[type="date"],
+  .calc-input-row button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Features & How-it-works Grids */
+  .features-grid, .how-steps-grid, .tips-grid, .faq-grid, .testimonials-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .how-step-card, .feature-card, .tip-card, .faq-item {
+    padding: 18px 16px !important;
+  }
+
+  /* Split auth pages on mobile */
+  .register-split-container {
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 10px !important;
+  }
+
+  .register-panel-card, .register-sidebar-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px 16px !important;
+  }
+
+  /* Portal dashboard on mobile */
+  .portal-grid, .walks-dashboard-grid, .stats-hero-grid, .dogs-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .dog-quick-switcher-strip {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+}
+
+@keyframes bounceInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
