@@ -916,7 +916,7 @@ function renderUserDropdown(show) {
     return;
   }
 
-  const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, { name: 'Maria & Bella', email: 'maria@hundapp.se' });
+  const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
   const activeDog = getActiveDog();
 
   if (!menu) {
@@ -1057,13 +1057,13 @@ function setActiveDog(dogId) {
 function updateActiveDogGlobalUI() {
   if (typeof document === 'undefined') return;
   const dog = getActiveDog();
-  const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, { name: 'Maria' });
+  const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
 
   const avatarLetters = document.querySelectorAll('#userAvatarLetter, .user-avatar-letter');
   avatarLetters.forEach(el => el.textContent = (currentUser.name ? currentUser.name[0] : 'M').toUpperCase());
 
   const userNavNames = document.querySelectorAll('#userNavName, .user-nav-name');
-  userNavNames.forEach(el => el.textContent = currentUser.name || 'Maria');
+  userNavNames.forEach(el => el.textContent = (currentUser && currentUser.name) ? currentUser.name : (currentLang === 'en' ? 'Account' : 'Mitt konto'));
 
   // Eyebrows & dog label elements
   const walksEyebrow = document.getElementById('walksDogEyebrow');
@@ -2326,6 +2326,14 @@ function initPortalPage() {
   const portalMain = document.querySelector('.portal-main') || document.getElementById('portalGreetingHeading');
   if (!portalMain) return;
 
+  // Verify active user session
+  const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
+  if (!currentUser || !currentUser.name) {
+    console.log('[HundApp Portal] Inget aktivt inloggat konto funnet. Omdirigerar till login...');
+    window.location.replace('login.html');
+    return;
+  }
+
   const dateEl = document.getElementById('portalCurrentDate');
   const greetingEl = document.getElementById('portalGreetingHeading');
   const greetingSub = document.getElementById('portalGreetingSub');
@@ -2357,9 +2365,10 @@ function initPortalPage() {
     else if (hour >= 17 || hour < 5) greeting = 'God kväll';
 
     const activeDog = getActiveDog();
-    const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, { name: 'Maria' });
+    const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
 
-    if (greetingEl) greetingEl.innerHTML = `${greeting}, <span id="portalGreetingName">${escapeHtml(currentUser.name || 'Maria')}</span> <span>👋</span>`;
+    const displayName = (currentUser && currentUser.name) ? currentUser.name : (currentLang === 'en' ? 'Friend' : 'Hundvän');
+    if (greetingEl) greetingEl.innerHTML = `${greeting}, <span id="portalGreetingName">${escapeHtml(displayName)}</span> <span>👋</span>`;
     if (greetingSub) greetingSub.textContent = `Här är en samlad överblick över ${activeDog.name}s dag, rutiner och välmående.`;
     if (activeDogEmoji) activeDogEmoji.textContent = activeDog.avatarEmoji || '🐶';
     if (activeDogNameEl) activeDogNameEl.textContent = activeDog.name;
@@ -3315,7 +3324,7 @@ window.openCollarPassModal = (dogId) => {
             ` : ''}
 
             <div style="font-size:12px; color:var(--muted); line-height:1.4;">
-              <b>Kontaktperson:</b> Maria<br>
+              <b>Kontaktperson:</b> Ägaren<br>
               <b>Telefon:</b> <a href="tel:0701234567" style="color:var(--green-dark); font-weight:800; text-decoration:none;">070-123 45 67</a>
             </div>
           </div>
