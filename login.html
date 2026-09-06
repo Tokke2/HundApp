@@ -33,7 +33,12 @@
       <nav class="account-nav" aria-label="Kontomeny" style="display:flex; align-items:center; gap:12px;">
         <span class="account-nav-label" style="font-size:13.5px; color:var(--muted);">Ny här?</span>
         <a href="register.html" class="btn btn-outline btn-sm">Skapa konto gratis</a>
-        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
+        <div class="lang-selector-wrap">
+          <select class="lang-selector" aria-label="Välj språk / Select language" onchange="setLanguage(this.value, true)">
+            <option value="sv">🇸🇪 Svenska</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </div>
       </nav>
     </div>
   </header>
@@ -53,9 +58,9 @@
           </div>
         </div>
 
-        <p class="eyebrow" style="margin:4px 0;">Välkommen tillbaka</p>
-        <h1 id="login-heading">Logga in till HundApp</h1>
-        <p class="account-intro">Få direkt tillgång till din hunds profil, hälsojournal, påminnelser och promenadlogg.</p>
+        <p class="eyebrow" style="margin:4px 0;" data-i18n="login_eyebrow">Välkommen tillbaka</p>
+        <h1 id="login-heading" data-i18n="login_heading">Logga in till HundApp</h1>
+        <p class="account-intro" data-i18n="login_intro">Få direkt tillgång till din hunds profil, hälsojournal, påminnelser och promenadlogg.</p>
 
         <!-- Snabbknappar för Social Inloggning -->
         <div class="social-auth-group">
@@ -66,14 +71,14 @@
               <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.57H1.24C.45 8.14 0 9.92 0 12s.45 3.86 1.24 5.43l4.04-3.14z"/>
               <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.56 1.24 6.57l4.04 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/>
             </svg>
-            <span>Fortsätt med Google</span>
+            <span data-i18n="social_google_btn">Fortsätt med Google</span>
           </button>
 
           
         </div>
 
         <div class="auth-divider">
-          <span>eller logga in med e-post &amp; lösenord</span>
+          <span data-i18n="auth_divider_login">eller logga in med e-post &amp; lösenord</span>
         </div>
 
         <!-- Inloggningsformulär -->
@@ -119,20 +124,12 @@
 
           <!-- Submit-knapp -->
           <button class="button login-button" id="submit-login-btn" type="submit">
-            <span id="login-btn-text">Logga in</span>
+            <span id="login-btn-text" data-i18n="btn_submit_login">Logga in</span>
             <span class="btn-arrow" aria-hidden="true">→</span>
           </button>
         </form>
 
-        <!-- Snabbtest Demokonto -->
-        <div class="quick-demo-card">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:22px;">🚀</span>
-            <div>
-              <strong style="font-size:12.5px; color:var(--ink); display:block;">Snabbtesta prototypen</strong>
-              <small style="font-size:11.5px; color:var(--muted); line-height:1.3;">Klicka för att logga in direkt som Maria &amp; Bella</small>
-            </div>
-          </div>
+        
           <button type="button" class="btn btn-outline btn-xs" id="quick-demo-login-btn" style="white-space:nowrap; font-weight:700;">
             Logga in direkt ➔
           </button>
@@ -267,5 +264,5 @@
     }
   </script>
 
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a364456f79c270d7',t:'MTc4ODYwMTIxMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a36c4b754803b000',t:'MTc4ODY4NTM0Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
