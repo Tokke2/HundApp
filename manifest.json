@@ -3,7 +3,7 @@
   "short_name": "HundApp",
   "description": "Sveriges modernaste plattform för hundhälsa, promenader, rutiner och digitalt halsbandspass. Fungerar 100% offline i skogen.",
   "id": "/?source=pwa",
-  "start_url": "portal.html",
+  "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
