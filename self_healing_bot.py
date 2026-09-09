@@ -35,6 +35,44 @@ def print_banner():
     print(f"{BotColor.RESET}")
 
 def heal_pwa_icons():
+    if not os.path.exists('visitkort-preview.html'):
+        with open('visitkort-preview.html', 'w', encoding='utf-8') as pf:
+            pf.write('<!doctype html><html lang="sv"><head><meta charset="utf-8"><title>HundApp Visitkort</title><link rel="stylesheet" href="styles.css"></head><body><div class="container"><h1>🐾 HundApp Digitalt Visitkort</h1><p><a href="merch.html">Tillbaka</a></p></div></body></html>')
+
+    # 4. Heal print and vector assets
+    vector_defaults = {
+        'merch-tshirt-print.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="100%" height="100%" fill="#2D6A4F"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="32" fill="#FAF7F2" font-family="sans-serif">🐾 HUNDAPP VANDRARE</text></svg>',
+        'merch-hoodie-embroidery.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="140" fill="#1B4332"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="24" fill="#D8F3DC" font-family="sans-serif">🐾 HUNDAPP</text></svg>',
+        'merch-mugg-print.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250"><rect width="100%" height="100%" fill="#FAF7F2"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="28" fill="#1B4332" font-family="sans-serif">🐾 BÄSTA HUNDVÄNNEN · HUNDAPP</text></svg>',
+        'merch-dekal-diecut.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="140" fill="#F4D35E"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="26" fill="#1B4332" font-family="sans-serif">🐾 HUND I BILEN</text></svg>',
+        'visitkort-framsida.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600"><rect width="100%" height="100%" fill="#2D6A4F"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="40" fill="#FAF7F2" font-family="sans-serif">🐾 HundApp Visitkort</text></svg>',
+        'visitkort-baksida.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600"><rect width="100%" height="100%" fill="#1B4332"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="40" fill="#FAF7F2" font-family="sans-serif">🐾 QR & Nödkontakt</text></svg>',
+        'visitkort-komplett.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="100%" height="100%" fill="#0D1117"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="40" fill="#FAF7F2" font-family="sans-serif">🐾 HundApp Print Sheet</text></svg>'
+    }
+    for vname, vsvg in vector_defaults.items():
+        if not os.path.exists(vname):
+            with open(vname, 'w', encoding='utf-8') as vf:
+                vf.write(vsvg)
+
+    # 3. Heal brand logos
+    if not os.path.exists('hundapp-logo.svg'):
+        with open('hundapp-logo.svg', 'w', encoding='utf-8') as f:
+            f.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50"><text x="10" y="35" font-family="sans-serif" font-size="28" font-weight="bold" fill="#2D6A4F">🐾 HundApp</text></svg>')
+    if not os.path.exists('hundapp-logo-dark.svg'):
+        with open('hundapp-logo-dark.svg', 'w', encoding='utf-8') as f:
+            f.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50"><text x="10" y="35" font-family="sans-serif" font-size="28" font-weight="bold" fill="#FAF7F2">🐾 HundApp</text></svg>')
+
+    # 2. Heal manifest.webmanifest synchronization
+    if os.path.exists('manifest.json'):
+        try:
+            with open('manifest.json', 'r', encoding='utf-8') as f:
+                mj = json.load(f)
+            with open('manifest.webmanifest', 'w', encoding='utf-8') as f:
+                json.dump(mj, f, indent=2, ensure_ascii=False)
+            print(f"  {BotColor.GREEN}✓ [PWA-Robot] manifest.webmanifest synkroniserad med manifest.json{BotColor.RESET}")
+        except Exception as e:
+            print(f"  {BotColor.RED}✗ [PWA-Robot] Fel vid manifest-synk: {e}{BotColor.RESET}")
+
     """Generates and modernizes all PWA & Mobile Web App icons."""
     os.makedirs('icons', exist_ok=True)
     required_icons = {
