@@ -5532,3 +5532,440 @@ window.openPhotoLightbox = function(photoUrl, caption, metaStr) {
   document.getElementById('lightboxDownloadBtn').href = photoUrl;
   modal.style.display = 'flex';
 };
+
+
+/* ============================================================================
+   SECTION 17: AUTONOMOUS TELEMETRY FLIGHT RECORDER & DEBUGGING BOT (v4.1)
+   Silent background recorder. Activates via '?logg=1' or pressing 'L' 5 times quickly.
+   Exports 'mk-logg.json' with 1-click clipboard/download for instant chat troubleshooting.
+   ============================================================================ */
+
+(function() {
+  if (typeof window === 'undefined') return;
+
+  const MAX_EVENTS = 800;
+  const STORAGE_KEY = 'hundapp_flight_recorder_logs';
+
+  // Load existing persistent logs from sessionStorage
+  let logBuffer = [];
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      logBuffer = JSON.parse(raw);
+      if (!Array.isArray(logBuffer)) logBuffer = [];
+    }
+  } catch (e) {
+    logBuffer = [];
+  }
+
+  function persistLogs() {
+    try {
+      if (logBuffer.length > MAX_EVENTS) {
+        logBuffer = logBuffer.slice(-MAX_EVENTS);
+      }
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(logBuffer));
+    } catch (e) {}
+  }
+
+  function recordEvent(type, category, summary, details) {
+    const now = new Date();
+    const timeStr = now.toTimeString().split(' ')[0] + '.' + String(now.getMilliseconds()).padStart(3, '0');
+    const entry = {
+      id: 'evt-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+      timestamp: now.toISOString(),
+      time: timeStr,
+      page: window.location.pathname.split('/').pop() || 'index.html',
+      type: type, // 'CLICK', 'TOUCH', 'INPUT', 'SUBMIT', 'NAV', 'STORAGE', 'ERROR', 'WARN', 'BOOT'
+      category: category, // 'ui', 'form', 'data', 'auth', 'system'
+      summary: summary,
+      details: details || {}
+    };
+
+    logBuffer.push(entry);
+    if (logBuffer.length > MAX_EVENTS) {
+      logBuffer.shift();
+    }
+    persistLogs();
+
+    // If debug panel is open, update live view
+    updateLiveDebugUI(entry);
+  }
+
+  // Intercept Global Errors
+  window.addEventListener('error', (event) => {
+    recordEvent('ERROR', 'system', `💥 JS Fel: ${event.message}`, {
+      filename: event.filename,
+      lineno: event.lineno,
+      colno: event.colno,
+      stack: event.error ? event.error.stack : null
+    });
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    recordEvent('ERROR', 'system', `💥 Ohanterat Promise-fel: ${event.reason}`, {
+      reason: String(event.reason)
+    });
+  });
+
+  // Intercept Clicks and Touches
+  document.addEventListener('click', (e) => {
+    try {
+      const target = e.target;
+      if (!target) return;
+      const el = (target.closest && target.closest('button, a, input, select, textarea, [data-action], .btn, .card, summary, .dog-card, .calendar-day')) || target;
+      
+      // Do not log debugger internal clicks to avoid loops
+      if ((el.closest && el.closest('#hundappDebugDrawer')) || el.id === 'hundappDebugPill') return;
+
+      const tagName = el.tagName ? el.tagName.toLowerCase() : 'unknown';
+      const id = el.id ? `#${el.id}` : '';
+      const cls = el.className && typeof el.className === 'string' ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}` : '';
+      const text = (el.innerText || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '').trim().replace(/\s+/g, ' ').slice(0, 40);
+      const href = el.getAttribute('href') || null;
+
+      const summary = `Klick på <${tagName}${id}${cls}> "${text}"`;
+      recordEvent('CLICK', 'ui', summary, {
+        tag: tagName,
+        id: el.id || null,
+        classes: el.className || null,
+        text: text,
+        href: href,
+        x: Math.round(e.clientX),
+        y: Math.round(e.clientY)
+      });
+    } catch (err) {}
+  }, true);
+
+  // Intercept Form Submissions
+  document.addEventListener('submit', (e) => {
+    try {
+      const form = e.target;
+      if (!form || !form.tagName || form.tagName.toLowerCase() !== 'form') return;
+      const formId = form.id ? `#${form.id}` : (form.name ? `[name="${form.name}"]` : 'form');
+      const action = form.getAttribute('action') || window.location.pathname;
+      
+      recordEvent('SUBMIT', 'form', `Skickade formulär <${formId}>`, {
+        formId: form.id || null,
+        action: action,
+        elementsCount: form.elements ? form.elements.length : 0
+      });
+    } catch (err) {}
+  }, true);
+
+  // Intercept Input Changes (with password masking)
+  document.addEventListener('change', (e) => {
+    try {
+      const input = e.target;
+      if (!input || !input.tagName) return;
+      if (input.closest && input.closest('#hundappDebugDrawer')) return;
+
+      const tag = input.tagName.toLowerCase();
+      if (!['input', 'select', 'textarea'].includes(tag)) return;
+
+      const id = input.id ? `#${input.id}` : (input.name ? `[name="${input.name}"]` : tag);
+      const type = (input.getAttribute('type') || tag).toLowerCase();
+      
+      let valPreview = '[VAL]';
+      if (type === 'password') {
+        valPreview = '******** (skyddat lösenord)';
+      } else if (type === 'checkbox' || type === 'radio') {
+        valPreview = input.checked ? 'ikryssad (true)' : 'urkryssad (false)';
+      } else {
+        valPreview = String(input.value || '').slice(0, 30);
+      }
+
+      recordEvent('INPUT', 'form', `Ändrade <${id}> (${type}) ➔ "${valPreview}"`, {
+        field: input.id || input.name || null,
+        type: type
+      });
+    } catch (err) {}
+  }, true);
+
+  // Page Lifecycle
+  recordEvent('BOOT', 'system', `Sida Laddad: ${window.location.pathname.split('/').pop() || 'index.html'}`, {
+    url: window.location.href,
+    userAgent: navigator.userAgent.slice(0, 100),
+    screenWidth: window.innerWidth,
+    screenHeight: window.innerHeight,
+    online: navigator.onLine
+  });
+
+  // UI Drawer & Bottom Panel
+  function createDebugUI() {
+    if (typeof document === 'undefined') return;
+    if (document.getElementById('hundappDebugDrawer')) return;
+
+    const drawer = document.createElement('div');
+    drawer.id = 'hundappDebugDrawer';
+    drawer.className = 'debug-drawer-container';
+    drawer.style.display = 'none';
+    drawer.innerHTML = `
+      <div class="debug-drawer-backdrop" onclick="window.HundAppTelemetry.close()"></div>
+      <div class="debug-drawer-panel">
+        <div class="debug-drawer-header">
+          <div class="debug-header-title">
+            <span class="debug-bot-icon">🔍</span>
+            <div>
+              <h3>HundApp Felsökningspanel (Live Flight Log)</h3>
+              <p>Tryck "⬇️ Exportera" och klistra in filen i chatten för 10000% felsökning</p>
+            </div>
+          </div>
+          <div class="debug-header-actions">
+            <button class="btn btn-sm btn-primary-debug" id="debugDownloadBtn" title="Ladda ner mk-logg.json">⬇️ Exportera mk-logg.json</button>
+            <button class="btn btn-sm btn-outline-debug" id="debugCopyJsonBtn" title="Kopiera all loggdata till urklipp">📋 Kopiera allt</button>
+            <button class="btn btn-sm btn-outline-debug" id="debugClearBtn" title="Rensa sparad logg">🧹 Rensa</button>
+            <button class="btn btn-sm btn-icon-debug" id="debugCloseBtn" title="Stäng panelen">✕</button>
+          </div>
+        </div>
+
+        <div class="debug-filter-bar">
+          <button class="debug-filter-tab active" data-filter="all">📋 Alla (<span id="dbgCountAll">0</span>)</button>
+          <button class="debug-filter-tab filter-btn-errors" data-filter="ERROR">💥 Bara fel (<span id="dbgCountError">0</span>)</button>
+          <button class="debug-filter-tab" data-filter="CLICK">🖱️ Klick (<span id="dbgCountClick">0</span>)</button>
+          <button class="debug-filter-tab" data-filter="INPUT">✍️ Formulär (<span id="dbgCountInput">0</span>)</button>
+          <button class="debug-filter-tab" data-filter="SUBMIT">📤 Skickat (<span id="dbgCountSubmit">0</span>)</button>
+          <button class="debug-filter-tab" data-filter="BOOT">🚀 System (<span id="dbgCountSys">0</span>)</button>
+          <input type="text" id="debugSearchInput" class="debug-search-input" placeholder="🔍 Sök i loggen...">
+        </div>
+
+        <div class="debug-log-list" id="debugLogList"></div>
+      </div>
+    `;
+    document.body.appendChild(drawer);
+
+    // Event handlers for drawer controls
+    const closeBtn = document.getElementById('debugCloseBtn');
+    if (closeBtn) closeBtn.onclick = () => closeDebugDrawer();
+
+    const clearBtn = document.getElementById('debugClearBtn');
+    if (clearBtn) {
+      clearBtn.onclick = () => {
+        logBuffer = [];
+        try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        renderLogsInDrawer();
+        if (typeof showToast === 'function') showToast('Loggbuffert rensad!', '🧹');
+      };
+    }
+
+    const copyJsonBtn = document.getElementById('debugCopyJsonBtn');
+    if (copyJsonBtn) {
+      copyJsonBtn.onclick = () => {
+        const jsonStr = JSON.stringify(logBuffer, null, 2);
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(jsonStr).then(() => {
+            if (typeof showToast === 'function') showToast('mk-logg kopierad till urklipp!', '📋');
+          });
+        }
+      };
+    }
+
+    const dlBtn = document.getElementById('debugDownloadBtn');
+    if (dlBtn) {
+      dlBtn.onclick = () => {
+        const blob = new Blob([JSON.stringify(logBuffer, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'mk-logg.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        if (typeof showToast === 'function') showToast('mk-logg.json sparad! Klistra in den i chatten.', '⬇️');
+      };
+    }
+
+    // Filter tabs
+    const tabs = drawer.querySelectorAll('.debug-filter-tab');
+    tabs.forEach(tab => {
+      tab.onclick = () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.getAttribute('data-filter');
+        renderLogsInDrawer();
+      };
+    });
+
+    const searchInput = document.getElementById('debugSearchInput');
+    if (searchInput) {
+      searchInput.oninput = () => renderLogsInDrawer();
+    }
+  }
+
+  let currentFilter = 'all';
+
+  function renderLogsInDrawer() {
+    const listEl = document.getElementById('debugLogList');
+    if (!listEl) return;
+
+    // Update counts
+    const countAll = document.getElementById('dbgCountAll');
+    const countClick = document.getElementById('dbgCountClick');
+    const countInput = document.getElementById('dbgCountInput');
+    const countSubmit = document.getElementById('dbgCountSubmit');
+    const countError = document.getElementById('dbgCountError');
+    const countSys = document.getElementById('dbgCountSys');
+
+    if (countAll) countAll.textContent = logBuffer.length;
+    if (countClick) countClick.textContent = logBuffer.filter(e => e.type === 'CLICK' || e.type === 'TOUCH').length;
+    if (countInput) countInput.textContent = logBuffer.filter(e => e.type === 'INPUT').length;
+    if (countSubmit) countSubmit.textContent = logBuffer.filter(e => e.type === 'SUBMIT').length;
+    if (countError) countError.textContent = logBuffer.filter(e => e.type === 'ERROR').length;
+    if (countSys) countSys.textContent = logBuffer.filter(e => e.type === 'BOOT' || e.type === 'NAV' || e.type === 'STORAGE').length;
+
+    const query = (document.getElementById('debugSearchInput')?.value || '').toLowerCase();
+
+    let filtered = logBuffer.slice().reverse(); // newest first
+    if (currentFilter !== 'all') {
+      if (currentFilter === 'BOOT') {
+        filtered = filtered.filter(e => ['BOOT', 'NAV', 'STORAGE'].includes(e.type));
+      } else if (currentFilter === 'CLICK') {
+        filtered = filtered.filter(e => ['CLICK', 'TOUCH'].includes(e.type));
+      } else {
+        filtered = filtered.filter(e => e.type === currentFilter);
+      }
+    }
+
+    if (query) {
+      filtered = filtered.filter(e => 
+        e.summary.toLowerCase().includes(query) ||
+        e.page.toLowerCase().includes(query) ||
+        e.type.toLowerCase().includes(query) ||
+        JSON.stringify(e.details).toLowerCase().includes(query)
+      );
+    }
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<div class="debug-empty-state">${currentFilter === 'ERROR' ? '🎉 Inga fel har inträffat! Allt flyter på perfekt.' : 'Inga loggade händelser i detta filter.'}</div>`;
+      return;
+    }
+
+    const frag = document.createDocumentFragment();
+    filtered.forEach(entry => {
+      const row = document.createElement('div');
+      row.className = `debug-log-row type-${entry.type.toLowerCase()}`;
+      
+      let badgeClass = 'badge-info';
+      let icon = '🔹';
+      if (entry.type === 'CLICK' || entry.type === 'TOUCH') { badgeClass = 'badge-click'; icon = '🖱️'; }
+      else if (entry.type === 'INPUT') { badgeClass = 'badge-input'; icon = '✍️'; }
+      else if (entry.type === 'SUBMIT') { badgeClass = 'badge-submit'; icon = '📤'; }
+      else if (entry.type === 'ERROR') { badgeClass = 'badge-error'; icon = '💥'; }
+      else if (entry.type === 'BOOT') { badgeClass = 'badge-boot'; icon = '🚀'; }
+      else if (entry.type === 'STORAGE') { badgeClass = 'badge-storage'; icon = '💾'; }
+
+      row.innerHTML = `
+        <div class="debug-row-time">
+          <span class="debug-tag ${badgeClass}">${icon} ${entry.type}</span>
+          <span class="debug-time-str">${entry.time}</span>
+          <span class="debug-page-tag">${entry.page}</span>
+        </div>
+        <div class="debug-row-summary">${typeof escapeHtml === 'function' ? escapeHtml(entry.summary) : entry.summary}</div>
+        ${entry.details && Object.keys(entry.details).length > 0 ? `<div class="debug-row-details"><code>${typeof escapeHtml === 'function' ? escapeHtml(JSON.stringify(entry.details)) : JSON.stringify(entry.details)}</code></div>` : ''}
+      `;
+      frag.appendChild(row);
+    });
+
+    listEl.innerHTML = '';
+    listEl.appendChild(frag);
+  }
+
+  function updateLiveDebugUI(entry) {
+    const drawer = document.getElementById('hundappDebugDrawer');
+    if (drawer && drawer.style.display !== 'none') {
+      renderLogsInDrawer();
+    }
+  }
+
+  function toggleDebugDrawer() {
+    const drawer = document.getElementById('hundappDebugDrawer');
+    if (!drawer) {
+      createDebugUI();
+    }
+    const d = document.getElementById('hundappDebugDrawer');
+    if (d.style.display === 'none' || !d.style.display) {
+      openDebugDrawer();
+    } else {
+      closeDebugDrawer();
+    }
+  }
+
+  function openDebugDrawer() {
+    createDebugUI();
+    const d = document.getElementById('hundappDebugDrawer');
+    if (d) {
+      d.style.display = 'flex';
+      renderLogsInDrawer();
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeDebugDrawer() {
+    const d = document.getElementById('hundappDebugDrawer');
+    if (d) {
+      d.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  }
+
+  // 🔑 SECRET TRIGGER 1: Press 'L' 5 times quickly (within 2 seconds)
+  let lKeyCount = 0;
+  let lKeyTimer = null;
+
+  window.addEventListener('keydown', (e) => {
+    // Ignore input fields
+    const activeEl = document.activeElement;
+    const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable);
+    
+    if (!isTyping && (e.key === 'l' || e.key === 'L')) {
+      lKeyCount++;
+      clearTimeout(lKeyTimer);
+      lKeyTimer = setTimeout(() => { lKeyCount = 0; }, 2000);
+
+      if (lKeyCount >= 5) {
+        lKeyCount = 0;
+        toggleDebugDrawer();
+      }
+    }
+
+    // Traditional Shortcut: Ctrl + Shift + L or Cmd + Shift + L
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+      e.preventDefault();
+      toggleDebugDrawer();
+    }
+  });
+
+  // 🔑 SECRET TRIGGER 2: URL parameter '?logg=1' or '?logg=true' or '?log=1'
+  if (typeof window !== 'undefined' && window.location) {
+    const search = window.location.search || '';
+    if (search.includes('logg=1') || search.includes('logg=true') || search.includes('log=1') || search.includes('debug=1')) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => setTimeout(openDebugDrawer, 300));
+      } else {
+        setTimeout(openDebugDrawer, 300);
+      }
+    }
+  }
+
+  // Public API
+  window.HundAppTelemetry = {
+    log: (type, summary, details) => recordEvent(type || 'LOG', 'custom', summary, details),
+    getLogs: () => logBuffer.slice(),
+    clear: () => {
+      logBuffer = [];
+      try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      renderLogsInDrawer();
+    },
+    exportJSON: () => JSON.stringify(logBuffer, null, 2),
+    download: () => {
+      const blob = new Blob([JSON.stringify(logBuffer, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mk-logg.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    },
+    open: openDebugDrawer,
+    close: closeDebugDrawer,
+    toggle: toggleDebugDrawer
+  };
+})();
