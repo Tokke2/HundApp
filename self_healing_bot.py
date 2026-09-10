@@ -180,6 +180,21 @@ def heal_broken_links_and_tags():
             modified = True
             print(f"  {BotColor.YELLOW}⚡ [Heal] Reparerade bruten länk products.html ➔ portal.html i {path}{BotColor.RESET}")
 
+        
+        # 4. Heal template placeholder names in navbar
+        if 'Maria' in content and 'userNavName' in content:
+            content = re.sub(r'<(b|span) id=userNavName[^>]*>[^<]+</(b|span)>', '<span id="userNavName">Mitt konto</span>', content)
+            content = re.sub(r'<span class="user-name"[^>]*>Maria</span>', '<span class="user-name">Mitt konto</span>', content)
+            content = re.sub(r'<span id="userAvatarLetter"[^>]*>M</span>', '<span id="userAvatarLetter">👤</span>', content)
+            modified = True
+            print(f"  {BotColor.YELLOW}⚡ [Heal] Rensade hårdkodat testnamn i {path}{BotColor.RESET}")
+
+        # 5. Heal Cloudflare email obfuscation link
+        if '/cdn-cgi/l/email-protection' in content:
+            content = content.replace('/cdn-cgi/l/email-protection', 'mailto:kontakt@hundapp.se')
+            modified = True
+            print(f"  {BotColor.YELLOW}⚡ [Heal] Åtgärdade Cloudflare e-postlänk i {path}{BotColor.RESET}")
+
         if modified:
             with open(path, 'w', encoding='utf-8') as f:
                 f.write(content)
