@@ -138,9 +138,9 @@ def suite_html_and_links():
         else:
             errors.append(f"{h}: Saknar korrekt lang='sv' attribut")
 
-        # Zero Test Users
-        if '<b id="userNavName">Maria</b>' in content:
-            errors.append(f"{h}: Innehåller kvarvarande hårdkodat testnamn ('Maria')")
+        # Zero Test Accounts
+        if 'test@hundapp.se' in content:
+            errors.append(f"{h}: Innehåller hårdkodat testkonto ('test@hundapp.se')")
         else:
             checks_passed += 1
 
