@@ -6181,6 +6181,12 @@ async function driveUploadBackup(silent = false) {
   try {
     const data = collectAccountBackup();
     const media = JSON.stringify(data);
+    const sizeMB = media.length / 1048576;
+    if (sizeMB > 9.5) {
+      if (!silent && typeof showToast === 'function') showToast(`Backup för stor (${sizeMB.toFixed(1)} MB). Google-appData rymmer 10 MB – ta bort några foton.`, '⚠️');
+      updateCloudStatus('För stor för molnet (' + sizeMB.toFixed(1) + ' MB / 10 MB).');
+      return false;
+    }
     const boundary = 'hundappboundary' + Date.now();
     const existing = await driveFindBackup();
     const url = existing
@@ -6277,6 +6283,9 @@ if (typeof window !== 'undefined') {
       driveDownloadBackup().then((data) => {
         if (data) { applyAccountBackup(data); }
       }).catch(() => {});
+    } else {
+      // Befintlig användare på besök: håll molnet uppdaterat med senaste lokala data.
+      setTimeout(() => { if (getGoogleAccessToken()) driveUploadBackup(true); }, 2500);
     }
   }
 })();
