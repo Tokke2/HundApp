@@ -291,6 +291,7 @@
           <button class="btn btn-secondary" id="importBackupBtn">Importera fr&aring;n fil</button>
           <button class="btn btn-primary" id="cloudUploadBtn">&#9729;&#65039; Synka till molnet nu</button>
           <button class="btn btn-secondary" id="cloudRestoreBtn">H&auml;mta fr&aring;n molnet</button>
+          <button class="btn btn-ghost" id="startGuideBtn">&#129517; Visa guiden</button>
           <input type="file" id="importBackupInput" accept="application/json" style="display:none">
         </div>
         <p id="cloudSyncStatus" style="font-size:0.85rem;opacity:0.75;margin-top:0.8rem"></p>
@@ -394,5 +395,22 @@
   </footer>
 
   <script src="app.js"></script>
+<!-- ============================ GOOGLE SYNK-GUIDE ============================ -->
+<div id="syncGuideOverlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.55); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:1.2rem;">
+  <div role="dialog" aria-modal="true" aria-labelledby="syncGuideTitle" style="background:#fff; color:#0f172a; max-width:460px; width:100%; border-radius:18px; padding:1.5rem; box-shadow:0 20px 60px rgba(0,0,0,0.35); max-height:90vh; overflow:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+      <span id="syncGuideStepLabel" style="font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#7c3aed;">Steg 1 av 4</span>
+      <button id="syncGuideClose" aria-label="Stäng" style="background:transparent; border:none; font-size:1.3rem; line-height:1; cursor:pointer; color:#94a3b8;">&times;</button>
+    </div>
+    <h2 id="syncGuideTitle" style="margin:0.2rem 0 0.6rem; font-size:1.35rem;"></h2>
+    <div id="syncGuideBody" style="font-size:0.95rem; line-height:1.55; color:#334155;"></div>
+    <div id="syncGuideChecklist" style="margin:1rem 0; display:none;"></div>
+    <div style="display:flex; gap:0.6rem; align-items:center; margin-top:1.2rem;">
+      <button id="syncGuidePrimary" class="btn btn-primary" style="flex:1;"></button>
+      <button id="syncGuideSecondary" class="btn btn-ghost" style="display:none;"></button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

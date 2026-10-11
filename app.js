@@ -6280,3 +6280,134 @@ if (typeof window !== 'undefined') {
     }
   }
 })();
+
+/* ============================================================================
+   SECTION 37: GUIDAD Google-synk i portalen (onboarding-wizard)
+   ----------------------------------------------------------------------------
+   Leder varje användare steg för steg till att koppla sitt eget Google-konto
+   så att datan alltid följer med. Körs automatiskt första gången, kan även
+   startas om via "Visa guiden".
+   ============================================================================ */
+(function initSyncGuide() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return;
+  if (!/portal\.html/.test(window.location.pathname)) return;
+
+  const GUIDE_FLAG = 'hundapp-sync-guide-done';
+  let step = 0;
+
+  const el = {
+    overlay: document.getElementById('syncGuideOverlay'),
+    label: document.getElementById('syncGuideStepLabel'),
+    title: document.getElementById('syncGuideTitle'),
+    body: document.getElementById('syncGuideBody'),
+    checklist: document.getElementById('syncGuideChecklist'),
+    primary: document.getElementById('syncGuidePrimary'),
+    secondary: document.getElementById('syncGuideSecondary'),
+    close: document.getElementById('syncGuideClose')
+  };
+  if (!el.overlay) return;
+
+  const isGoogleUser = () => {
+    try {
+      const u = JSON.parse(localStorage.getItem(STORAGE_KEYS.AUTH_USER) || 'null');
+      return !!(u && u.authProvider === 'google');
+    } catch (e) { return false; }
+  };
+  const hasToken = () => typeof getGoogleAccessToken === 'function' && !!getGoogleAccessToken();
+
+  async function hasCloudBackup() {
+    try { return !!(await driveDownloadBackup()); } catch (e) { return false; }
+  }
+
+  function row(ok, text) {
+    return '<div style="display:flex;gap:0.5rem;align-items:center;padding:0.35rem 0;">' +
+      '<span style="font-size:1.05rem;">' + (ok ? '✅' : '⬜') + '</span>' +
+      '<span style="' + (ok ? 'color:#059669;font-weight:600;' : 'color:#64748b;') + '">' + text + '</span></div>';
+  }
+
+  async function render() {
+    // Kräver en giltig access_token (inte bara authProvider) – annars kan Drive inte nås.
+    const tokenOK = hasToken();
+    const cloudOK = tokenOK ? await hasCloudBackup() : false;
+    el.label.textContent = 'Steg ' + (step + 1) + ' av 4';
+    el.secondary.style.display = 'none';
+
+    if (step === 0) {
+      el.title.textContent = 'Din data följer med dig 🐾';
+      el.body.innerHTML = 'Koppla ditt <strong>eget Google-konto</strong> så sparas allt – hundar, ' +
+        'promenader och foton – privat i ditt Google Drive. Då kommer du alltid åt din data, ' +
+        'även på en ny telefon eller dator.';
+      el.checklist.style.display = 'none';
+      el.primary.textContent = 'Kom igång';
+      el.primary.onclick = () => { step = 1; render(); };
+    } else if (step === 1) {
+      el.title.textContent = 'Steg 1 – Koppla Google-konto';
+      el.body.innerHTML = 'Logga in med Google och tillåt HundApp att spara en privat säkerhetskopia. ' +
+        'Filen syns bara för dig, i din egen Drive.';
+      el.checklist.style.display = 'block';
+      el.checklist.innerHTML = row(tokenOK, 'Google-konto kopplat');
+      if (tokenOK) {
+        el.primary.textContent = 'Fortsätt';
+        el.primary.onclick = () => { step = 2; render(); };
+      } else {
+        el.primary.textContent = 'Logga in med Google';
+        el.primary.onclick = () => {
+          if (typeof window.redirectToGoogleOAuth === 'function') window.redirectToGoogleOAuth();
+          else window.location.href = 'login.html';
+        };
+      }
+    } else if (step === 2) {
+      el.title.textContent = 'Steg 2 – Första säkerhetskopian';
+      el.body.innerHTML = 'Ladda upp din data till molnet nu. Därefter sker synken ' +
+        '<strong>automatiskt</strong> varje gång du gör en ändring.';
+      el.checklist.style.display = 'block';
+      el.checklist.innerHTML = row(true, 'Google-konto kopplat') + row(cloudOK, 'Molnbackup skapad');
+      if (cloudOK) {
+        el.primary.textContent = 'Fortsätt';
+        el.primary.onclick = () => { step = 3; render(); };
+      } else {
+        el.primary.textContent = 'Synka nu';
+        el.primary.onclick = async () => {
+          el.primary.disabled = true;
+          el.primary.textContent = 'Synkar…';
+          const ok = await driveUploadBackup(true);
+          el.primary.disabled = false;
+          if (ok) { step = 3; render(); }
+          else { el.primary.textContent = 'Försök igen'; }
+        };
+      }
+    } else {
+      el.title.textContent = 'Klart! 🎉';
+      el.body.innerHTML = 'Din data är nu kopplad till ditt Google-konto och synkas automatiskt. ' +
+        'Logga in med Google på en annan enhet så hämtas allt automatiskt.';
+      el.checklist.style.display = 'block';
+      el.checklist.innerHTML = row(true, 'Google-konto kopplat') + row(true, 'Molnbackup skapad') + row(true, 'Automatisk synk aktiv');
+      el.primary.textContent = 'Klart';
+      el.primary.onclick = finish;
+    }
+  }
+
+  function open() {
+    el.overlay.style.display = 'flex';
+    render();
+  }
+  function finish() {
+    try { localStorage.setItem(GUIDE_FLAG, '1'); } catch (e) {}
+    el.overlay.style.display = 'none';
+    if (typeof showToast === 'function') showToast('Google-synk är aktiverad ☁️', '✅');
+  }
+  function hide() { el.overlay.style.display = 'none'; }
+
+  if (el.close) el.close.addEventListener('click', hide);
+  el.overlay.addEventListener('click', (e) => { if (e.target === el.overlay) hide(); });
+
+  const startBtn = document.getElementById('startGuideBtn');
+  if (startBtn) startBtn.addEventListener('click', () => { step = 0; open(); });
+
+  // Visa automatiskt första gången (eller om användaren inte är klar)
+  let done = false;
+  try { done = localStorage.getItem(GUIDE_FLAG) === '1'; } catch (e) {}
+  if (!done) setTimeout(open, 900);
+
+  window.openSyncGuide = () => { step = 0; open(); };
+})();
