@@ -4524,7 +4524,7 @@ window.redirectToGoogleOAuth = function() {
   let basePath = pathname.substring(0, pathname.lastIndexOf('/'));
   let redirectUri = origin + basePath + '/login.html';
 
-  const scope = encodeURIComponent('openid email profile https://www.googleapis.com/auth/drive.appdata');
+  const scope = encodeURIComponent('openid email profile https://www.googleapis.com/auth/drive.file');
   const responseType = 'token id_token';
   const nonce = Math.random().toString(36).substring(2, 15);
   const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' + encodeURIComponent(clientId) +
@@ -6157,7 +6157,10 @@ function importAccountBackupFile(file) {
   reader.readAsText(file);
 }
 
-/* --- 36.3 – Google Drive (appDataFolder) --------------------------------- */
+/* --- 36.3 – Google Drive (egen "HundApp"-mapp i användarens Drive) -------- */
+const DRIVE_FOLDER_NAME = 'HundApp';
+const FOLDER_MIME = 'application/vnd.google-apps.folder';
+
 async function driveRequest(path, options = {}) {
   const token = getGoogleAccessToken();
   if (!token) throw new Error('no-token');
@@ -6168,8 +6171,29 @@ async function driveRequest(path, options = {}) {
   return res;
 }
 
+// Hitta (eller skapa) mappen "HundApp" i användarens egen Drive.
+async function driveEnsureFolder() {
+  const q = encodeURIComponent(`mimeType='${FOLDER_MIME}' and name='${DRIVE_FOLDER_NAME}' and trashed=false`);
+  try {
+    const res = await driveRequest(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,mimeType)&pageSize=1`);
+    if (res.ok) {
+      const json = await res.json();
+      if (json.files && json.files.length) return json.files[0].id;
+    }
+  } catch (e) {}
+  const cRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + getGoogleAccessToken(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: DRIVE_FOLDER_NAME, mimeType: FOLDER_MIME })
+  });
+  if (!cRes.ok) throw new Error('folder-create-failed');
+  const cJson = await cRes.json();
+  return cJson.id;
+}
+
 async function driveFindBackup() {
-  const res = await driveRequest('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)');
+  const q = encodeURIComponent(`name='${CLOUD_BACKUP_NAME}' and trashed=false`);
+  const res = await driveRequest(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`);
   if (!res.ok) return null;
   const json = await res.json();
   return (json.files || []).find(f => f.name === CLOUD_BACKUP_NAME) || null;
@@ -6181,20 +6205,16 @@ async function driveUploadBackup(silent = false) {
   try {
     const data = collectAccountBackup();
     const media = JSON.stringify(data);
-    const sizeMB = media.length / 1048576;
-    if (sizeMB > 9.5) {
-      if (!silent && typeof showToast === 'function') showToast(`Backup för stor (${sizeMB.toFixed(1)} MB). Google-appData rymmer 10 MB – ta bort några foton.`, '⚠️');
-      updateCloudStatus('För stor för molnet (' + sizeMB.toFixed(1) + ' MB / 10 MB).');
-      return false;
-    }
+    const folderId = await driveEnsureFolder();
     const boundary = 'hundappboundary' + Date.now();
     const existing = await driveFindBackup();
     const url = existing
       ? `https://www.googleapis.com/upload/drive/v3/files/${existing.id}?uploadType=multipart`
       : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    const meta = existing ? {} : { name: CLOUD_BACKUP_NAME, parents: [folderId] };
     const body =
       `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n` +
-      JSON.stringify(existing ? {} : { name: CLOUD_BACKUP_NAME, parents: ['appDataFolder'] }) +
+      JSON.stringify(meta) +
       `\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n` + media + `\r\n--${boundary}--`;
     const res = await fetch(url, {
       method: existing ? 'PATCH' : 'POST',
@@ -6203,7 +6223,7 @@ async function driveUploadBackup(silent = false) {
     });
     if (!res.ok) throw new Error('upload-failed');
     localStorage.setItem('hundapp-last-cloud-export', data.exportedAt);
-    if (!silent && typeof showToast === 'function') showToast('Säkerhetskopierat till Google Drive ☁️', '✅');
+    if (!silent && typeof showToast === 'function') showToast('Säkerhetskopierat till din Google Drive ☁️', '✅');
     updateCloudStatus('Synkad ' + new Date().toLocaleTimeString());
     return true;
   } catch (e) {
