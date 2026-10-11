@@ -5373,7 +5373,7 @@ function deleteDogPhotoFromStore(dogId, photoId) {
  * Smart Client-Side Image Compression Engine
  * Scales down massive 8–15 MB smartphone photos (4000x3000px) to crisp ~800 KB WebP/JPEG
  */
-window.compressDogImage = function(file, targetMaxKB = 800, maxDimension = 1600) {
+window.compressDogImage = function(file, targetMaxKB = 1229, maxDimension = 1600) {
   return new Promise((resolve, reject) => {
     if (!file || !file.type.startsWith('image/')) {
       return reject(new Error('Filen är inte en giltig bildfil.'));
@@ -5407,15 +5407,34 @@ window.compressDogImage = function(file, targetMaxKB = 800, maxDimension = 1600)
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Iterative quality adjustment (starts at 0.88, decreases if still > targetMaxKB)
-        let quality = 0.88;
+        // Koda med högsta möjliga kvalitet som ändå håller filen inom taket (1.2 MB).
+        // Kvaliteten sänks bara så mycket som krävs – bildens skärpa behålls.
+        let quality = 0.92;
+        const MIN_QUALITY = 0.70;
         let dataUrl = canvas.toDataURL('image/jpeg', quality);
         let compressedSizeKB = Math.round((dataUrl.length * 0.75) / 1024);
 
-        while (compressedSizeKB > targetMaxKB && quality > 0.60) {
-          quality -= 0.08;
+        while (compressedSizeKB > targetMaxKB && quality > MIN_QUALITY) {
+          quality = Math.max(MIN_QUALITY, quality - 0.06);
           dataUrl = canvas.toDataURL('image/jpeg', quality);
           compressedSizeKB = Math.round((dataUrl.length * 0.75) / 1024);
+        }
+
+        // Garantifallback: är filen fortfarande för stor vid lägsta godtagbara
+        // kvalitet, skala ner dimensionerna stegvis tills taket hålls.
+        let guard = 0;
+        while (compressedSizeKB > targetMaxKB && width > 640 && height > 640 && guard < 12) {
+          width = Math.round(width * 0.85);
+          height = Math.round(height * 0.85);
+          canvas.width = width;
+          canvas.height = height;
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.clearRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+          dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          compressedSizeKB = Math.round((dataUrl.length * 0.75) / 1024);
+          guard++;
         }
 
         const savedPercent = Math.max(0, Math.round((1 - compressedSizeKB / originalSizeKB) * 100));
@@ -5460,7 +5479,7 @@ window.triggerDogPhotoUpload = function(dogId, isAvatarOnly = false) {
     });
 
     try {
-      const result = await window.compressDogImage(file, isAvatarOnly ? 250 : 800, isAvatarOnly ? 800 : 1600);
+      const result = await window.compressDogImage(file, isAvatarOnly ? 250 : 1229, isAvatarOnly ? 800 : 1600);
       URL.revokeObjectURL(instantTempUrl);
       
       const newPhoto = {
