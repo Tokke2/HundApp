@@ -4524,7 +4524,7 @@ window.redirectToGoogleOAuth = function() {
   let basePath = pathname.substring(0, pathname.lastIndexOf('/'));
   let redirectUri = origin + basePath + '/login.html';
 
-  const scope = encodeURIComponent('openid email profile');
+  const scope = encodeURIComponent('openid email profile https://www.googleapis.com/auth/drive.appdata');
   const responseType = 'token id_token';
   const nonce = Math.random().toString(36).substring(2, 15);
   const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' + encodeURIComponent(clientId) +
@@ -4567,6 +4567,9 @@ async function checkGoogleOAuthCallback() {
     }
 
     if (payload && payload.email) {
+      // Spara access_token (om vorhanden) så molnsynken kan använda den.
+      if (accessToken) storeGoogleAccessToken(accessToken);
+
       // Clean URL hash so tokens are not exposed in history
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, '', window.location.pathname);
@@ -4618,7 +4621,15 @@ function handleGoogleAuthSuccess(payload) {
   if (typeof celebrateConfetti === 'function') {
     celebrateConfetti();
   }
-  window.location.href = 'portal.html';
+  // Hämta molnbackup före omdirigering (fallback-vägen när head-interceptorn inte körts).
+  (async function autoSyncOnLogin() {
+    const data = await driveDownloadBackup();
+    if (!data) return;
+    const localEmpty = !localStorage.getItem(STORAGE_KEYS.AUTH_USER) && !localStorage.getItem(STORAGE_KEYS.REGISTERED_USERS);
+    if (localEmpty) applyAccountBackup(data, { skipReload: true });
+  })().finally(() => {
+    window.location.href = 'portal.html';
+  });
 }
 
 function logoutHundAppUser() {
@@ -6055,4 +6066,217 @@ window.openPhotoLightbox = function(photoUrl, caption, metaStr) {
     close: closeDebugDrawer,
     toggle: toggleDebugDrawer
   };
+})();
+
+/* ============================================================================
+   SECTION 36: ACCOUNT DATA PORTABILITY & GOOGLE DRIVE AUTO-SYNC (v1.0)
+   ----------------------------------------------------------------------------
+   Låter användaren exportera/importera hela sitt konto som JSON och – när man
+   är inloggad med Google – automatiskt säkerhetskopiera allt till Googles
+   privata appData-mapp på Drive så datan följer med mellan enheter.
+   Ingen egen backend krävs; allt sker klient-side mot Googles REST-API.
+   ============================================================================ */
+
+const CLOUD_BACKUP_NAME = 'hundapp-backup.json';
+const TOKEN_KEY = 'hundapp-google-access-token';
+
+function getGoogleAccessToken() {
+  try {
+    const raw = localStorage.getItem(TOKEN_KEY);
+    if (!raw) return null;
+    const t = JSON.parse(raw);
+    if (!t.token || !t.expiresAt || Date.now() > t.expiresAt) return null;
+    return t.token;
+  } catch (e) { return null; }
+}
+
+function storeGoogleAccessToken(token) {
+  try {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify({ token, expiresAt: Date.now() + 3500 * 1000 }));
+  } catch (e) {}
+}
+
+/* --- 36.1 – Samla hela kontot -------------------------------------------- */
+function collectAccountBackup() {
+  const payload = {};
+  Object.values(STORAGE_KEYS).forEach((key) => {
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) payload[key] = JSON.parse(raw);
+    } catch (e) {}
+  });
+  return {
+    app: 'HundApp',
+    type: 'account-backup',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    payload
+  };
+}
+
+function applyAccountBackup(data, opts = {}) {
+  if (!data || data.app !== 'HundApp' || typeof data.payload !== 'object') return false;
+  Object.entries(data.payload).forEach(([key, value]) => {
+    try { localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value)); } catch (e) {}
+  });
+  if (!opts.skipReload) setTimeout(() => window.location.reload(), 400);
+  return true;
+}
+
+/* --- 36.2 – Export / Import som fil -------------------------------------- */
+function exportAccountBackup() {
+  const data = collectAccountBackup();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `hundapp-backup-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  if (typeof showToast === 'function') showToast('Backup nedladdad! ', '✅');
+  return data;
+}
+
+function importAccountBackupFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (applyAccountBackup(data)) {
+        if (typeof showToast === 'function') showToast('Backup importerad – laddar om… 🔄', '✅');
+      } else {
+        if (typeof showToast === 'function') showToast('Ogiltig backupfil.', '⚠️');
+      }
+    } catch (e) {
+      if (typeof showToast === 'function') showToast('Kunde inte läsa filen.', '⚠️');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* --- 36.3 – Google Drive (appDataFolder) --------------------------------- */
+async function driveRequest(path, options = {}) {
+  const token = getGoogleAccessToken();
+  if (!token) throw new Error('no-token');
+  const res = await fetch(path, Object.assign({
+    headers: Object.assign({ Authorization: 'Bearer ' + token }, options.headers || {})
+  }, options));
+  if (res.status === 401 || res.status === 403) throw new Error('token-expired');
+  return res;
+}
+
+async function driveFindBackup() {
+  const res = await driveRequest('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id,name)');
+  if (!res.ok) return null;
+  const json = await res.json();
+  return (json.files || []).find(f => f.name === CLOUD_BACKUP_NAME) || null;
+}
+
+async function driveUploadBackup(silent = false) {
+  const token = getGoogleAccessToken();
+  if (!token) { if (!silent) updateCloudStatus('Inte inloggad med Google.'); return false; }
+  try {
+    const data = collectAccountBackup();
+    const media = JSON.stringify(data);
+    const boundary = 'hundappboundary' + Date.now();
+    const existing = await driveFindBackup();
+    const url = existing
+      ? `https://www.googleapis.com/upload/drive/v3/files/${existing.id}?uploadType=multipart`
+      : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
+    const body =
+      `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n` +
+      JSON.stringify(existing ? {} : { name: CLOUD_BACKUP_NAME, parents: ['appDataFolder'] }) +
+      `\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n` + media + `\r\n--${boundary}--`;
+    const res = await fetch(url, {
+      method: existing ? 'PATCH' : 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': `multipart/related; boundary=${boundary}` },
+      body
+    });
+    if (!res.ok) throw new Error('upload-failed');
+    localStorage.setItem('hundapp-last-cloud-export', data.exportedAt);
+    if (!silent && typeof showToast === 'function') showToast('Säkerhetskopierat till Google Drive ☁️', '✅');
+    updateCloudStatus('Synkad ' + new Date().toLocaleTimeString());
+    return true;
+  } catch (e) {
+    if (!silent && typeof showToast === 'function') showToast('Synk misslyckades.', '⚠️');
+    updateCloudStatus('Synk misslyckades.');
+    return false;
+  }
+}
+
+async function driveDownloadBackup() {
+  try {
+    const file = await driveFindBackup();
+    if (!file) return null;
+    const res = await driveRequest(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) { return null; }
+}
+
+async function restoreFromCloud(force = false) {
+  const data = await driveDownloadBackup();
+  if (!data) { updateCloudStatus('Ingen molnbackup hittades.'); if (typeof showToast === 'function') showToast('Ingen molnbackup ännu.', '☁️'); return false; }
+  const localEmpty = !localStorage.getItem(STORAGE_KEYS.AUTH_USER) && !localStorage.getItem(STORAGE_KEYS.REGISTERED_USERS);
+  const localExport = localStorage.getItem('hundapp-last-cloud-export') || '';
+  if (force || localEmpty || (data.exportedAt && data.exportedAt > localExport)) {
+    applyAccountBackup(data, { skipReload: false });
+    return true;
+  }
+  updateCloudStatus('Nyare lokal data finns.');
+  return false;
+}
+
+function updateCloudStatus(text) {
+  const el = document.getElementById('cloudSyncStatus');
+  if (el) el.textContent = text;
+}
+
+/* --- 36.4 – Auto-sync på varje lagringsändring (debounced) --------------- */
+const scheduleCloudUpload = debounce(() => {
+  if (getGoogleAccessToken()) driveUploadBackup(true);
+}, 4000);
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('hundapp_storage_change', () => scheduleCloudUpload());
+
+  window.exportAccountBackup = exportAccountBackup;
+  window.importAccountBackupFile = importAccountBackupFile;
+  window.driveUploadBackup = driveUploadBackup;
+  window.restoreFromCloud = restoreFromCloud;
+  window.getGoogleAccessToken = getGoogleAccessToken;
+}
+
+// Koppla in synk-knappar om de finns på sidan (portal.html)
+(function initCloudSyncUI() {
+  if (typeof document === 'undefined') return;
+  const exportBtn = document.getElementById('exportBackupBtn');
+  const importBtn = document.getElementById('importBackupBtn');
+  const fileInput = document.getElementById('importBackupInput');
+  const upBtn = document.getElementById('cloudUploadBtn');
+  const downBtn = document.getElementById('cloudRestoreBtn');
+
+  if (exportBtn) exportBtn.addEventListener('click', () => exportAccountBackup());
+  if (importBtn && fileInput) {
+    importBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => { if (fileInput.files && fileInput.files[0]) importAccountBackupFile(fileInput.files[0]); });
+  }
+  if (upBtn) upBtn.addEventListener('click', () => driveUploadBackup(false));
+  if (downBtn) downBtn.addEventListener('click', () => restoreFromCloud(true));
+
+  const token = getGoogleAccessToken();
+  updateCloudStatus(token ? 'Inloggad med Google – synk aktiv.' : 'Logga in med Google för molnsynk.');
+
+  // Ny enhet: om inloggad med Google och lokalt är tomt, hämta molnbackup automatiskt.
+  if (token && /portal\.html/.test(window.location.pathname)) {
+    const localEmpty = !localStorage.getItem(STORAGE_KEYS.AUTH_USER) && !localStorage.getItem(STORAGE_KEYS.REGISTERED_USERS);
+    if (localEmpty) {
+      driveDownloadBackup().then((data) => {
+        if (data) { applyAccountBackup(data); }
+      }).catch(() => {});
+    }
+  }
 })();

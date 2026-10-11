@@ -281,6 +281,20 @@
       </aside>
 
     </div>
+  <section class="portal-card" id="dataSyncCard" style="grid-column:1/-1">
+        <h2>&#128260; Synk & s&auml;kerhetskopiering</h2>
+        <p style="font-size:0.9rem;opacity:0.8;margin-bottom:1rem">
+          Exportera/importera hela ditt konto, eller synka automatiskt till Google Drive s&aring; datan f&ouml;ljer med mellan enheter.
+        </p>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+          <button class="btn btn-secondary" id="exportBackupBtn">Exportera till fil</button>
+          <button class="btn btn-secondary" id="importBackupBtn">Importera fr&aring;n fil</button>
+          <button class="btn btn-primary" id="cloudUploadBtn">&#9729;&#65039; Synka till molnet nu</button>
+          <button class="btn btn-secondary" id="cloudRestoreBtn">H&auml;mta fr&aring;n molnet</button>
+          <input type="file" id="importBackupInput" accept="application/json" style="display:none">
+        </div>
+        <p id="cloudSyncStatus" style="font-size:0.85rem;opacity:0.75;margin-top:0.8rem"></p>
+      </section>
   </main>
 
   <!-- MODAL: REGISTRERA / REDIGERA MATALLERGI & SPECIALKOST -->
