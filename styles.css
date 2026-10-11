@@ -11221,3 +11221,431 @@ pre, code, table {
   border-radius: var(--radius-lg);
   background: var(--surface);
 }
+
+/* ============================================================================
+   SECTION 35: DONATION PAGE (donate.html) & MAINTENANCE NOTICE
+   ============================================================================ */
+
+/* Underhållsnotis – används när en vy är tillfälligt inaktiverad (t.ex. merch) */
+.maintenance-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 720px;
+  margin: 8px auto 32px;
+  padding: 20px 22px;
+  border: 1.5px solid var(--amber);
+  border-radius: var(--radius-md);
+  background: #fff8e6;
+  box-shadow: var(--shadow-sm);
+}
+
+.maintenance-notice .maintenance-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.maintenance-notice h2 {
+  margin: 0 0 6px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+
+.maintenance-notice p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--ink-light);
+}
+
+.maintenance-notice a {
+  color: var(--green-dark);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* --- Donation hero ------------------------------------------------------- */
+.donation-page {
+  background: var(--cream);
+}
+
+.donation-hero {
+  background: linear-gradient(160deg, #eaf5ec 0%, #f7fbf7 55%, var(--cream) 100%);
+  padding: 64px 20px 48px;
+  text-align: center;
+}
+
+.donation-hero-container {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.donation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 1px solid var(--green-border);
+  color: var(--green-dark);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+}
+
+.donation-title {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.7rem, 4.2vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--green-dark);
+}
+
+.donation-subtitle {
+  margin: 0;
+  max-width: 640px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-light);
+}
+
+.donation-trust-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.donation-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  box-shadow: var(--shadow-xs);
+}
+
+/* --- Layout & section headings ------------------------------------------ */
+.donation-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 20px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.donation-section-title {
+  margin: 0 0 6px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--ink);
+  text-align: center;
+}
+
+.donation-section-subtitle {
+  margin: 0 auto 28px;
+  max-width: 560px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Payment cards ------------------------------------------------------- */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.payment-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.payment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.payment-card.highlight {
+  border: 2px solid var(--green);
+  box-shadow: 0 14px 34px rgba(31, 106, 84, 0.14);
+}
+
+.payment-card-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--green);
+  color: var(--white);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.payment-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.payment-icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  font-size: 22px;
+  flex: none;
+}
+
+.swish-icon-bg { background: #e0f4fd; }
+.paypal-icon-bg { background: #e6f0fa; }
+.kofi-icon-bg { background: #ffecea; }
+
+.payment-title-group h3 {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.payment-title-group span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.payment-body {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-light);
+}
+
+.payment-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), filter 0.15s var(--ease);
+}
+
+.payment-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+.btn-swish-primary { background: #009ee0; color: var(--white); }
+.btn-swish-secondary { background: #e0f4fd; color: #00729f; }
+.btn-paypal { background: #0070ba; color: var(--white); }
+.btn-kofi { background: #ff5e5b; color: var(--white); }
+
+.swish-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink-light);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.swish-copy-btn:hover {
+  border-color: var(--green-border);
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+/* --- Swish QR ------------------------------------------------------------ */
+.swish-qr-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 0 4px;
+}
+
+.swish-qr-container {
+  padding: 12px;
+  background: var(--white);
+  border: 2px dashed var(--green-border);
+  border-radius: var(--radius-md);
+}
+
+.swish-qr-svg-wrap {
+  display: block;
+  width: 160px;
+  height: 160px;
+  background: var(--white);
+  cursor: zoom-in;
+}
+
+.swish-qr-svg-wrap img,
+.swish-qr-svg-wrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.swish-qr-caption {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* --- FAQ ----------------------------------------------------------------- */
+.donation-faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.faq-summary {
+  padding: 16px 20px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.faq-summary::-webkit-details-marker { display: none; }
+
+.faq-summary::after {
+  content: '+';
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green);
+  transition: transform 0.2s var(--ease);
+}
+
+.faq-card[open] .faq-summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-content {
+  padding: 0 20px 18px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-light);
+}
+
+/* --- Supporter diploma modal --------------------------------------------- */
+.diploma-card {
+  position: relative;
+  width: min(100%, 480px);
+  margin: auto;
+  padding: 34px 28px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--amber);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.diploma-seal {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.diploma-title {
+  margin: 0 0 12px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.diploma-badge-stamp {
+  display: inline-block;
+  padding: 6px 16px;
+  margin-bottom: 16px;
+  border: 2px dashed var(--green);
+  border-radius: var(--radius-pill);
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+.diploma-body {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-light);
+}
+
+@media (max-width: 700px) {
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .donation-hero {
+    padding: 48px 16px 36px;
+  }
+}

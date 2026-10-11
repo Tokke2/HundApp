@@ -1,10 +1,10 @@
 /* ==========================================================================
    HundApp – Service Worker (sw.js)
-   Version: 3.3.0
+   Version: 3.4.0
    100% Offline Support & PWA Engine for Forest Walks & Daily Dog Care
    ========================================================================== */
 
-const CACHE_NAME = 'hundapp-v3.3-clean';
+const CACHE_NAME = 'hundapp-v3.4-clean';
 
 const PRECACHE_ASSETS = [
   './',
@@ -20,6 +20,8 @@ const PRECACHE_ASSETS = [
   'login.html',
   'register.html',
   'visitkort-preview.html',
+  'donate.html',
+  'swish-qr.svg',
   'styles.css',
   'app.js',
   'manifest.json',

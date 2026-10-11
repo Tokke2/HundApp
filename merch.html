@@ -170,9 +170,19 @@
 
   <!-- Huvudinnehåll -->
   <main id="main" class="portal-main" style="max-width: 1200px; margin: 0 auto; padding: 32px 20px 80px;">
-    
+
+    <!-- TILLFÄLLIGT INAKTIVERAD (2026-10-11): ta bort notisen och display:none nedan för att återaktivera -->
+    <div class="maintenance-notice" role="status">
+      <span class="maintenance-icon" aria-hidden="true">🛠️</span>
+      <div>
+        <h2>Merch-butiken är tillfälligt pausad</h2>
+        <p>Vi uppdaterar profilkollektionen och återkommer snart. Under tiden kan du stödja HundApp på annat håll.</p>
+        <p><a href="donate.html">❤️ Stöd oss via Swish, PayPal eller Ko-fi</a></p>
+      </div>
+    </div>
+
     <!-- SIDRUBRIK & INTRO -->
-    <section class="portal-welcome-row" style="margin-bottom: 28px;">
+    <section class="portal-welcome-row" style="margin-bottom: 28px; display:none;">
       <div>
         <p class="eyebrow">OFFICIELL HUNDAPP MERCH &amp; TRYCKORIGINAL</p>
         <h1 style="font-family:'Fraunces',serif; font-size: 32px; color: var(--pine); margin: 4px 0 8px;">
@@ -190,8 +200,8 @@
       </div>
     </section>
 
-    <!-- MERCH GRID -->
-    <div class="merch-grid">
+    <!-- MERCH GRID (tillfälligt dold – återaktivera genom att ta bort style/data-attributet) -->
+    <div class="merch-grid" style="display:none;" data-temp-disabled="2026-10-11">
 
       <!-- PRODUKT 1: T-SHIRT -->
       <article class="merch-card">

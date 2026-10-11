@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stöd utvecklingen och driften av HundApp via Swish, PayPal eller Ko-fi. 100% reklamfritt, ideellt och skapat med kärlek för Sveriges alla hundar.">
+  <title>Stöd HundApp – Hjälp oss hålla appen gratis &amp; reklamfri 🐾</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2D6A4F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HundApp">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+</head>
+<body class="donation-page">
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Huvudnavigation -->
+  <header class="portal-header">
+    <div class="portal-nav">
+      <a class="brand" href="index.html" aria-label="HundApp – till startsidan">
+        <img src="hundapp-logo.svg" alt="HundApp Logotyp" class="brand-logo-img">
+      </a>
+
+      <nav class="portal-links" aria-label="Huvudmeny">
+        <a href="portal.html">Översikt</a>
+        <a href="dogs.html">Mina hundar</a>
+        <a href="walks.html">Promenader</a>
+        <a href="calendar.html">Kalender</a>
+        <a href="statistics.html">Statistik</a>
+        <a href="tips.html">Tips</a>
+        <a href="suggestions.html">Förslag &amp; Idéer</a>
+        <a href="merch.html">Merch</a>
+        <a href="donate.html" class="active" aria-current="page" style="color:#1B4332; font-weight:800;">❤️ Stöd oss</a>
+      </nav>
+
+      <div class="portal-user">
+        <button class="language-toggle" type="button" aria-label="Switch to English" aria-pressed="false" onclick="if(typeof toggleLanguage==='function')toggleLanguage();">EN</button>
+        <a href="login.html" class="btn btn-outline" style="padding:6px 14px; font-size:13px; text-decoration:none; border-radius:9999px;">Logga in</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero Sektion -->
+    <section class="donation-hero">
+      <div class="donation-hero-container">
+        <div class="donation-badge">
+          <span>❤️</span>
+          <span>100% Ideellt &amp; Reklamfritt Projekt</span>
+        </div>
+        
+        <h1 class="donation-title">Hjälp oss hålla HundApp gratis för alla hundägare 🐕</h1>
+        
+        <p class="donation-subtitle">
+          HundApp är byggt med kärlek för Sveriges alla vovvar – helt utan irriterande annonser eller dyra månadsabonnemang. Ditt stöd hjälper oss att driva utvecklingen framåt!
+        </p>
+
+        <div class="donation-trust-pills">
+          <div class="donation-trust-pill"><span>🛡️</span> 100% Reklamfritt</div>
+          <div class="donation-trust-pill"><span>🇸🇪</span> Skapat i Sverige</div>
+          <div class="donation-trust-pill"><span>☕</span> Drivs av hundkärlek</div>
+          <div class="donation-trust-pill"><span>🔒</span> Tryggt &amp; Enkelt</div>
+          <div class="donation-trust-pill"><span>0 kr</span> Gratis för alla</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="donation-container">
+      
+      <!-- Betalningsmetoder -->
+      <section aria-labelledby="payment-section-heading">
+        <h2 id="payment-section-heading" class="donation-section-title">Välj hur du vill stötta HundApp</h2>
+        <p class="donation-section-subtitle">
+          Alla gåvor gör en enorm skillnad. Välj det sätt som passar dig bäst för ett valfritt stöd.
+        </p>
+
+        <div class="payment-methods-grid">
+          
+          <!-- Metod 1: Swish -->
+          <article class="payment-card highlight" id="swishCard">
+            <div class="payment-card-badge">Snabbast i Sverige 🇸🇪</div>
+            
+            <div class="payment-header">
+              <div class="payment-icon-wrap swish-icon-bg">📱</div>
+              <div class="payment-title-group">
+                <h3>Swish</h3>
+                <span>Direkt &amp; avgiftsfritt via mobilen</span>
+              </div>
+            </div>
+
+            <p class="payment-body">
+              Öppna Swish i din mobil och scanna QR-koden direkt på skärmen för ett valfritt bidrag.
+            </p>
+
+            <!-- Interaktiv QR-kod -->
+            <div class="swish-qr-frame">
+              <div class="swish-qr-container">
+                <div class="swish-qr-svg-wrap" id="swishQrContainer" onclick="enlargeQrCode()" title="Klicka för att förstora QR-koden" role="button" tabindex="0" aria-label="Swish QR-kod">
+                  <!-- Skanningsbar Swish-QR (swish-qr.svg) genererad från swish://-länken -->
+                  <img src="swish-qr.svg" alt="Swish QR-kod för valfritt bidrag till HundApp" style="width:160px; height:160px; display:block;">
+                </div>
+              </div>
+              <p class="swish-qr-caption" id="swishQrCaption">Scanna med Swish-appen</p>
+            </div>
+
+            <div class="payment-actions">
+              <a href="swish://payment?data=%7B%22version%22%3A1%2C%22payee%22%3A%7B%22value%22%3A%220721817177%22%7D%2C%22message%22%3A%7B%22value%22%3A%22HundApp%22%7D%7D" class="payment-btn btn-swish-primary" id="openSwishLink">
+                <span>📲</span> Öppna i Swish-appen
+              </a>
+              <button type="button" class="payment-btn btn-swish-secondary" onclick="openThankYouModal()">
+                <span>🎉</span> Jag har swishat!
+              </button>
+            </div>
+          </article>
+
+          <!-- Metod 2: PayPal -->
+          <article class="payment-card">
+            <div class="payment-header">
+              <div class="payment-icon-wrap paypal-icon-bg">💳</div>
+              <div class="payment-title-group">
+                <h3>PayPal</h3>
+                <span>Kortbetalning &amp; Internationellt</span>
+              </div>
+            </div>
+
+            <p class="payment-body">
+              Vill du betala med betalkort, kreditkort eller ditt PayPal-saldo? Donera valfritt belopp smidigt och tryggt via vår officiella PayPal-länk.
+            </p>
+
+            <ul style="list-style:none; padding:0; margin:0 0 24px; font-size:13.5px; color:var(--ink); display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#0070BA; font-weight:800;">✓</span> Valfritt belopp (SEK, EUR, USD)
+              </li>
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#0070BA; font-weight:800;">✓</span> Fungerar med Visa, Mastercard &amp; Amex
+              </li>
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#0070BA; font-weight:800;">✓</span> Säker kryptering via PayPal
+              </li>
+            </ul>
+
+            <div class="payment-actions">
+              <a href="https://paypal.me/Rickard3dPrint" target="_blank" rel="noopener noreferrer" class="payment-btn btn-paypal" onclick="triggerDonationCelebration('PayPal')">
+                <span>💙</span> Donera via PayPal →
+              </a>
+              <button type="button" class="swish-copy-btn" style="width:100%; justify-content:center; padding:10px;" onclick="copyToClipboard('https://paypal.me/Rickard3dPrint', 'PayPal-länk kopierad! 📋')">
+                📋 Kopiera PayPal-länk
+              </button>
+            </div>
+          </article>
+
+          <!-- Metod 3: Ko-fi -->
+          <article class="payment-card">
+            <div class="payment-header">
+              <div class="payment-icon-wrap kofi-icon-bg">☕</div>
+              <div class="payment-title-group">
+                <h3>Ko-fi</h3>
+                <span>Bjud på en virtuell kaffe</span>
+              </div>
+            </div>
+
+            <p class="payment-body">
+              Ko-fi är en favorit bland skapare! Bjud utvecklaren på en digital kopp kaffe eller sätt upp ett litet månatligt stöd utan plattformsavgifter.
+            </p>
+
+            <ul style="list-style:none; padding:0; margin:0 0 24px; font-size:13.5px; color:var(--ink); display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#FF5E5B; font-weight:800;">✓</span> Inga plattformsavgifter
+              </li>
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#FF5E5B; font-weight:800;">✓</span> Lämna en personlig hälsning
+              </li>
+              <li style="display:flex; align-items:center; gap:8px;">
+                <span style="color:#FF5E5B; font-weight:800;">✓</span> Enkelt engångs- eller månadstöd
+              </li>
+            </ul>
+
+            <div class="payment-actions">
+              <a href="https://ko-fi.com/tokke2" target="_blank" rel="noopener noreferrer" class="payment-btn btn-kofi" onclick="triggerDonationCelebration('Ko-fi')">
+                <span>☕</span> Bjud på kaffe på Ko-fi →
+              </a>
+              <button type="button" class="swish-copy-btn" style="width:100%; justify-content:center; padding:10px;" onclick="copyToClipboard('https://ko-fi.com/tokke2', 'Ko-fi-länk kopierad! 📋')">
+                📋 Kopiera Ko-fi-länk
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Vanliga frågor (FAQ) -->
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading" class="donation-section-title">Vanliga frågor om stöd</h2>
+        <p class="donation-section-subtitle">
+          Har du funderingar kring hur ditt bidrag hanteras? Här är svaren!
+        </p>
+
+        <div class="donation-faq-list">
+          <details class="faq-card" open>
+            <summary class="faq-summary">Måste jag betala för att använda HundApp?</summary>
+            <div class="faq-content">
+              Nej, absolut inte! Grundversionen av HundApp är och kommer alltid att förbli 100% gratis för alla hundägare. Donationer är helt frivilliga och hjälper oss hålla appen fri från annonser och betalväggar.
+            </div>
+          </details>
+
+          <details class="faq-card">
+            <summary class="faq-summary">Hur fungerar det att stödja via Swish?</summary>
+            <div class="faq-content">
+              Öppna Swish i din mobil och scanna QR-koden direkt på skärmen, eller tryck på knappen "Öppna i Swish-appen" om du besöker sidan från mobilen. Alla bidrag går oavkortat till driften och vidareutvecklingen av HundApp.
+            </div>
+          </details>
+
+          <details class="faq-card">
+            <summary class="faq-summary">Kan jag bidra på andra sätt än med pengar?</summary>
+            <div class="faq-content">
+              Ja, varmt välkommen! Du kan tipsa vänner och hundklubbar om appen, lämna idéer i vår <a href="suggestions.html" style="color:#2D6A4F; font-weight:700;">Förslagslåda</a>, eller dela dina bästa hundtips. Varje rekommendation sprider glädje!
+            </div>
+          </details>
+
+          <details class="faq-card">
+            <summary class="faq-summary">Säljer ni någonsin användardata?</summary>
+            <div class="faq-content">
+              Aldrig! Din och din hunds integritet är en självklarhet. Vi samlar ingen känslig data och delar eller säljer aldrig någonting till tredje part.
+            </div>
+          </details>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Tack-Modal (Supporter Diploma) -->
+  <div class="modal-overlay" id="thankYouModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="diploma-card">
+      <button type="button" class="modal-close-btn" onclick="closeThankYouModal()" aria-label="Stäng ruta">✕</button>
+      <div class="diploma-seal">🏅</div>
+      <h2 id="modalTitle" class="diploma-title">Tack från djupet av våra hundhjärtan! 🐾</h2>
+      <div class="diploma-badge-stamp">Officiell HundApp Supporter</div>
+      <p class="diploma-body">
+        Ditt generösa stöd gör att vi kan hålla HundApp helt gratis, reklamfritt och tryggt för tusentals hundar och deras hussar och mattar i hela Sverige.
+      </p>
+      <div style="background:#FAF7F2; border-radius:16px; padding:16px; margin-bottom:20px; font-size:13.5px; color:var(--ink);">
+        <strong>Mottagare:</strong> HundApp Utvecklingsfond
+
+        <strong>Status:</strong> Varmt tack för att du stöttar projektet! ❤️
+      </div>
+      <button type="button" class="payment-btn btn-swish-primary" onclick="closeThankYouModal()">
+        Stäng &amp; Fortsätt använda appen ✨
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidfot -->
+  <footer class="portal-footer">
+    <div style="max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding:24px 20px;">
+      <span>© 2026 HundApp Sverige · Ideellt &amp; reklamfritt projekt</span>
+      <span style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+        <a href="portal.html" style="color:var(--muted); text-decoration:none;">Översikt</a>
+        <a href="dogs.html" style="color:var(--muted); text-decoration:none;">Mina hundar</a>
+        <a href="tips.html" style="color:var(--muted); text-decoration:none;">Tips</a>
+        <a href="suggestions.html" style="color:var(--muted); text-decoration:none;">Förslag</a>
+        <a href="merch.html" style="color:var(--muted); text-decoration:none;">Merch</a>
+        <a href="donate.html" style="color:#1B4332; font-weight:700; text-decoration:none;">Stöd oss ❤️</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    // Interaktiv Swish QR-kod rendering
+    const swishNumber = "0721817177";
+
+    function updateSwishQr() {
+      const qrContainer = document.getElementById('swishQrContainer');
+      const openSwishLink = document.getElementById('openSwishLink');
+
+      // Standard Swish URI payload
+      const swishPayload = {
+        version: 1,
+        payee: { value: swishNumber },
+        message: { value: "HundApp Stöd" }
+      };
+
+      const swishUri = `swish://payment?data=${encodeURIComponent(JSON.stringify(swishPayload))}`;
+      
+      if (openSwishLink) {
+        openSwishLink.href = swishUri;
+      }
+
+      // QR-koden är den statiska, skanningsbara swish-qr.svg (genererad från exakt
+      // denna swish://-URI). app.js dekorativa generateQrSvg används medvetet inte,
+      // eftersom den inte kan läsas av Swish-appen.
+    }
+
+    function copyToClipboard(text, successMsg) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (typeof showToast === 'function') {
+          showToast(successMsg, '✓');
+        }
+      });
+    }
+
+    function triggerDonationCelebration(method) {
+      if (typeof celebrateConfetti === 'function') {
+        celebrateConfetti();
+      }
+      if (typeof showToast === 'function') {
+        showToast(`Tack för att du stöttar via ${method}! ❤️`, '🎉');
+      }
+    }
+
+    function openThankYouModal() {
+      const modal = document.getElementById('thankYouModal');
+      if (modal) {
+        modal.classList.add('active');
+      }
+      if (typeof celebrateConfetti === 'function') {
+        celebrateConfetti();
+      }
+    }
+
+    function closeThankYouModal() {
+      const modal = document.getElementById('thankYouModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    function enlargeQrCode() {
+      if (typeof showToast === 'function') {
+        showToast('Öppna Swish i mobilen och scanna QR-koden direkt på skärmen! 📱', '📷');
+      }
+    }
+
+    // Initiera vid sidladdning
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSwishQr();
+    });
+  </script>
+</body>
+</html>
