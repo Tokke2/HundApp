@@ -1,3 +1,21 @@
+// 🔄 Migrate legacy underscore-keys written by the login/register <head>
+// OAuth-interceptor (pre v3.5) to the canonical dash-keys the app reads.
+(function migrateLegacyStorageKeys() {
+  try {
+    const LEGACY = {
+      'hundapp_auth_user': 'hundapp-auth-user',
+      'hundapp_registered_users': 'hundapp-registered-users'
+    };
+    Object.keys(LEGACY).forEach((oldKey) => {
+      const raw = localStorage.getItem(oldKey);
+      if (raw === null) return;
+      const newKey = LEGACY[oldKey];
+      if (localStorage.getItem(newKey) === null) localStorage.setItem(newKey, raw);
+      localStorage.removeItem(oldKey);
+    });
+  } catch (e) {}
+})();
+
 // 🛡️ Automatic PWA Legacy Demo User Purge & Migration (v3.2)
 (function purgeLegacyDemoUser() {
   try {

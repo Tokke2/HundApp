@@ -47,16 +47,18 @@
                   authProvider: 'google',
                   loggedInAt: new Date().toISOString()
                 };
-                localStorage.setItem('hundapp_auth_user', JSON.stringify(user));
-                
+                // Samma kanoniska nycklar som app.js läser (STORAGE_KEYS) –
+                // tidigare stod här underscore-nycklar som portalen aldrig såg.
+                localStorage.setItem('hundapp-auth-user', JSON.stringify(user));
+
                 // Add to registered users
                 let registered = [];
                 try {
-                  registered = JSON.parse(localStorage.getItem('hundapp_registered_users') || '[]');
+                  registered = JSON.parse(localStorage.getItem('hundapp-registered-users') || '[]');
                 } catch(e) { registered = []; }
                 if (!registered.some(u => u.email === user.email)) {
                   registered.push(user);
-                  localStorage.setItem('hundapp_registered_users', JSON.stringify(registered));
+                  localStorage.setItem('hundapp-registered-users', JSON.stringify(registered));
                 }
                 
                 // Redirect immediately to portal
