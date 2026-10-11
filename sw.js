@@ -1,10 +1,10 @@
 /* ==========================================================================
    HundApp – Service Worker (sw.js)
-   Version: 3.2.0
+   Version: 3.3.0
    100% Offline Support & PWA Engine for Forest Walks & Daily Dog Care
    ========================================================================== */
 
-const CACHE_NAME = 'hundapp-v3.2-clean';
+const CACHE_NAME = 'hundapp-v3.3-clean';
 
 const PRECACHE_ASSETS = [
   './',
@@ -19,12 +19,18 @@ const PRECACHE_ASSETS = [
   'merch.html',
   'login.html',
   'register.html',
+  'visitkort-preview.html',
   'styles.css',
   'app.js',
   'manifest.json',
   'manifest.webmanifest',
   'hundapp-logo.svg',
-  'hundapp-logo-dark.svg'
+  'hundapp-logo-dark.svg',
+  'icons/favicon-32.png',
+  'icons/apple-touch-icon.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
+  'icons/icon-maskable-512.png'
 ];
 
 // Install Event: Precache essential offline app shell

@@ -1,14 +1,17 @@
-// 🛡️ Automatic PWA Legacy Demo User Purge & Migration (v3.1)
+// 🛡️ Automatic PWA Legacy Demo User Purge & Migration (v3.2)
 (function purgeLegacyDemoUser() {
   try {
-    const rawAuth = localStorage.getItem('hundapp_auth_user');
-    if (rawAuth) {
+    // NOTE: STORAGE_KEYS.AUTH_USER is 'hundapp-auth-user'. The legacy underscore
+    // key is purged as well so pre-v3.1 installations are cleaned up too.
+    ['hundapp-auth-user', 'hundapp_auth_user'].forEach((authKey) => {
+      const rawAuth = localStorage.getItem(authKey);
+      if (!rawAuth) return;
       const user = JSON.parse(rawAuth);
       if (user && (user.id === 'user-demo-maria' || user.id === 'user-maria-1' || user.email === 'maria@hundapp.se')) {
-        console.log('[HundApp Security] Gammal testanvändare upptäckt i PWA-lagring. Rensar permanent...');
-        localStorage.removeItem('hundapp_auth_user');
+        console.log(`[HundApp Security] Gammal testanvändare upptäckt i "${authKey}". Rensar permanent...`);
+        localStorage.removeItem(authKey);
       }
-    }
+    });
   } catch(e) {}
 })();
 
@@ -912,13 +915,29 @@ function initGlobalNavigation() {
   // Escape key closes modals and dropdowns
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      document.querySelectorAll('.modal[aria-hidden="false"], .modal.open, .modal.active').forEach(m => {
+      document.querySelectorAll('.modal[aria-hidden="false"], .modal.open, .modal.active, .modal-overlay[aria-hidden="false"], .modal-overlay.open, .modal-overlay.active').forEach(m => {
         closeModal(m);
       });
       if (userBtn) {
         userBtn.setAttribute('aria-expanded', 'false');
         renderUserDropdown(false);
       }
+    }
+  });
+
+  // Global delegation: any element with [data-modal-close] closes its own modal,
+  // and clicking the dark backdrop of an overlay modal closes it too.
+  document.addEventListener('click', (e) => {
+    const closeBtn = e.target.closest('[data-modal-close]');
+    if (closeBtn) {
+      const modal = closeBtn.closest('.modal, .modal-overlay');
+      if (modal) closeModal(modal);
+      return;
+    }
+
+    const backdrop = e.target.closest('.modal, .modal-overlay');
+    if (backdrop && e.target === backdrop && (backdrop.classList.contains('open') || backdrop.getAttribute('aria-hidden') === 'false')) {
+      closeModal(backdrop);
     }
   });
 }
@@ -1074,7 +1093,7 @@ function updateActiveDogGlobalUI() {
   const currentUser = safeStorage.get(STORAGE_KEYS.AUTH_USER, null);
 
   const avatarLetters = document.querySelectorAll('#userAvatarLetter, .user-avatar-letter');
-  avatarLetters.forEach(el => el.textContent = (currentUser.name ? currentUser.name[0] : 'M').toUpperCase());
+  avatarLetters.forEach(el => el.textContent = ((currentUser && currentUser.name) ? currentUser.name[0] : 'M').toUpperCase());
 
   const userNavNames = document.querySelectorAll('#userNavName, .user-nav-name');
   userNavNames.forEach(el => el.textContent = (currentUser && currentUser.name) ? currentUser.name : (currentLang === 'en' ? 'Account' : 'Mitt konto'));
@@ -1500,8 +1519,8 @@ function initTipsPage() {
   const searchInput = document.getElementById('tips-search');
   const clearSearchBtn = document.getElementById('tips-clear-search');
   const catButtons = document.querySelectorAll('.cat-pill, [data-category]');
-  const progressBarFill = document.getElementById('tipsProgressBarFill');
-  const progressText = document.getElementById('tipsProgressText');
+  const progressBarFill = document.getElementById('readingProgressBarFill');
+  const progressText = document.getElementById('readingProgressText');
   const spotlightCard = document.getElementById('dailySpotlightCard');
   const randomizeBtn = document.getElementById('randomize-tip-btn');
 
@@ -1526,7 +1545,7 @@ function initTipsPage() {
 
   function updateCategoryCounts() {
     const saved = getSavedTips();
-    const countSavedEl = document.getElementById('count-saved');
+    const countSavedEl = document.getElementById('count-favorites');
     if (countSavedEl) countSavedEl.textContent = saved.length;
 
     const countAllEl = document.getElementById('count-all');
@@ -1536,7 +1555,7 @@ function initTipsPage() {
   function setSpotlightTip(tip) {
     if (!spotlightCard || !tip) return;
     const titleEl = document.getElementById('spotlightTitle');
-    const descEl = document.getElementById('spotlightDesc');
+    const descEl = document.getElementById('spotlightSummary');
     const badgeEl = document.getElementById('spotlightBadge');
     const catTagEl = document.getElementById('spotlightCatTag');
 
@@ -2167,8 +2186,8 @@ function initStatisticsPage() {
   const dogSelect = document.getElementById('stat-dog-select');
   const printBtn = document.getElementById('print-stats-btn');
   const openWeightBtn = document.getElementById('open-weight-modal-btn');
-  const weightModal = document.getElementById('weight-modal');
-  const weightForm = document.getElementById('weight-form');
+  const weightModal = document.getElementById('log-weight-modal');
+  const weightForm = document.getElementById('log-weight-form');
 
   function renderStats() {
     const activeDog = getActiveDog();
@@ -2179,7 +2198,7 @@ function initStatisticsPage() {
     const totalTime = walks.reduce((a, b) => a + (b.duration || 0), 0);
 
     const statWalksCount = document.getElementById('stat-walks-count');
-    const statTimeCount = document.getElementById('stat-time-count');
+    const statTimeCount = document.getElementById('stat-time-total');
     const statDistanceTotal = document.getElementById('stat-distance-total');
 
     if (statWalksCount) statWalksCount.innerHTML = `${walks.length} <em>promenader</em>`;
@@ -2242,7 +2261,7 @@ function initStatisticsPage() {
   if (weightForm && weightModal) {
     weightForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const weightVal = parseFloat(document.getElementById('new-weight-val')?.value || '0');
+      const weightVal = parseFloat(document.getElementById('weight-input')?.value || '0');
       if (weightVal > 0) {
         const dog = getActiveDog();
         dog.weight = weightVal;
@@ -3987,17 +4006,17 @@ function saveCommunitySuggestions(list) {
 
 function initSuggestionsPage() {
   if (typeof document === 'undefined') return;
-  const listContainer = document.getElementById('suggestions-list-container');
+  const listContainer = document.getElementById('suggestions-grid');
   if (!listContainer) return;
 
-  const searchInput = document.getElementById('suggestions-search');
+  const searchInput = document.getElementById('suggestion-search');
   const viewToggleBtns = document.querySelectorAll('.view-toggle-btn, [data-view]');
   const filterBtns = document.querySelectorAll('.s-filter-btn, [data-filter]');
   const openModalBtn = document.getElementById('open-suggestion-modal-btn');
   const mailAdminBtn = document.getElementById('direct-email-admin-btn');
-  const modal = document.getElementById('new-suggestion-modal');
+  const modal = document.getElementById('suggestion-modal');
   const form = document.getElementById('new-suggestion-form');
-  const kanbanBoard = document.getElementById('suggestions-kanban-board');
+  const kanbanBoard = document.getElementById('roadmap-kanban-board');
 
   let currentView = 'grid'; // 'grid' | 'kanban'
   let currentCategory = 'all';
@@ -4006,8 +4025,31 @@ function initSuggestionsPage() {
   /* ==========================================
      1. VECKANS COMMUNITY OMRÖSTNING
      ========================================== */
-  const pollOptionBtns = document.querySelectorAll('.poll-option-btn, [data-poll-option]');
-  const pollResultsBox = document.getElementById('poll-results-box');
+  const pollContainer = document.getElementById('pollOptionsContainer');
+
+  // De fyra community-alternativen (nycklarna måste matcha pollTallies nedan).
+  const POLL_OPTIONS = [
+    { key: 'map-warning',   icon: '🗺️', label: 'Varningskarta för fästingtäta områden' },
+    { key: 'dog-passport',  icon: '🛂', label: 'Digitalt hundpass med QR-kod' },
+    { key: 'voice-control', icon: '🎙️', label: 'Röststyrning under promenaden' },
+    { key: 'social-walks',  icon: '🐕', label: 'Hitta promenadkompisar i närheten' }
+  ];
+
+  const getPollOptionBtns = () => Array.from(document.querySelectorAll('.poll-option-btn[data-poll-option]'));
+
+  // #pollOptionsContainer är tomt i HTML:n – alternativen renderas här.
+  function renderPollOptions() {
+    if (!pollContainer) return;
+    pollContainer.innerHTML = POLL_OPTIONS.map((opt) => `
+      <button type="button" class="poll-option-btn" data-poll-option="${opt.key}" aria-pressed="false">
+        <span class="poll-option-title-row">
+          <span>${opt.icon} ${escapeHtml(opt.label)}</span>
+          <span class="poll-pct-stat">&mdash;</span>
+        </span>
+        <span class="poll-option-bar-bg"><span class="poll-option-bar-fill" style="width:0%"></span></span>
+      </button>
+    `).join('');
+  }
 
   function renderWeeklyPoll() {
     const userPollVote = safeStorage.get(STORAGE_KEYS.COMMUNITY_POLL, null);
@@ -4026,26 +4068,30 @@ function initSuggestionsPage() {
 
     const totalVotes = Object.values(pollTallies).reduce((a, b) => a + b, 0);
 
-    pollOptionBtns.forEach(btn => {
+    getPollOptionBtns().forEach(btn => {
       const opt = btn.getAttribute('data-poll-option');
       const isSelected = (userPollVote === opt);
       const count = pollTallies[opt] || 0;
       const pct = Math.round((count / totalVotes) * 100);
 
-      btn.classList.toggle('user-voted', isSelected);
-      const pctBar = btn.querySelector('.poll-bar-fill');
+      btn.classList.toggle('has-voted', isSelected);
+      btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+      const pctBar = btn.querySelector('.poll-option-bar-fill');
       if (pctBar) pctBar.style.width = `${pct}%`;
 
       const statSpan = btn.querySelector('.poll-pct-stat');
       if (statSpan) statSpan.textContent = `${pct}% (${count} röster)`;
     });
 
-    const totalVotesEl = document.getElementById('poll-total-votes-count');
+    const totalVotesEl = document.getElementById('pollTotalVotesLabel');
     if (totalVotesEl) totalVotesEl.textContent = `${totalVotes} röster registrerade`;
   }
 
-  pollOptionBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
+  // Delegaterad klicklyssnare – fungerar även för dynamiskt renderade alternativ.
+  if (pollContainer) {
+    pollContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.poll-option-btn[data-poll-option]');
+      if (!btn) return;
       const opt = btn.getAttribute('data-poll-option');
       const currentVote = safeStorage.get(STORAGE_KEYS.COMMUNITY_POLL, null);
 
@@ -4059,7 +4105,9 @@ function initSuggestionsPage() {
       }
       renderWeeklyPoll();
     });
-  });
+  }
+
+  renderPollOptions();
 
   /* ==========================================
      2. STATISTIK & STATUS BADGES
@@ -4333,10 +4381,10 @@ function initSuggestionsPage() {
   if (form && modal) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const title = document.getElementById('sug-title-input')?.value.trim();
-      const description = document.getElementById('sug-desc-input')?.value.trim();
-      const category = document.getElementById('sug-category-select')?.value || 'app-feature';
-      const author = document.getElementById('sug-author-input')?.value.trim() || 'Hundvän';
+      const title = document.getElementById('sugg-title')?.value.trim();
+      const description = document.getElementById('sugg-description')?.value.trim();
+      const category = document.getElementById('sugg-category')?.value || 'app-feature';
+      const author = document.getElementById('sugg-author')?.value.trim() || 'Hundvän';
 
       if (!title || !description) {
         showToast('Fyll i både titel och beskrivning!', '⚠️');
