@@ -1,3 +1,19 @@
+// 🗃️ Rescue data that the old undefined-key bug wrote to localStorage["undefined"]:
+// arrays are walk logs, object-with-arrays are dog photos. Best-effort, then remove key.
+(function rescueUndefinedKeyData() {
+  try {
+    const raw = localStorage.getItem('undefined');
+    if (raw === null) return;
+    const data = JSON.parse(raw);
+    if (Array.isArray(data)) {
+      if (!localStorage.getItem('hundapp-walk-logs')) localStorage.setItem('hundapp-walk-logs', raw);
+    } else if (data && typeof data === 'object') {
+      if (!localStorage.getItem('hundapp-dog-photos')) localStorage.setItem('hundapp-dog-photos', raw);
+    }
+    localStorage.removeItem('undefined');
+  } catch (e) {}
+})();
+
 // 🔄 Migrate legacy underscore-keys written by the login/register <head>
 // OAuth-interceptor (pre v3.5) to the canonical dash-keys the app reads.
 (function migrateLegacyStorageKeys() {
@@ -235,6 +251,7 @@ const STORAGE_KEYS = {
   REMEMBERED_EMAIL: 'hundapp-remembered-email',
   ACTIVE_DOG_ID: 'hundapp-active-dog-id',
   DOGS_LIST: 'hundapp-dogs-list',
+  DOG_PHOTOS: 'hundapp-dog-photos',
   SAVED_TIPS: 'hundapp-saved-tips',
   CHECKED_TIPS: 'hundapp-checked-tips',
   WALK_LOGS: 'hundapp-walk-logs',
@@ -1970,7 +1987,7 @@ function initWalksPage() {
       activeDogFilterName.textContent = activeDog.name;
     }
 
-    const allEvents = safeStorage.get(STORAGE_KEYS.WALKS_LOG, []);
+    const allEvents = safeStorage.get(STORAGE_KEYS.WALK_LOGS, []);
     // Filter events by active dog (or shared walks)
     const dogEvents = allEvents.filter(e => !e.dogId || e.dogId === activeDog.id || e.dogId === 'all');
 
@@ -2054,9 +2071,9 @@ function initWalksPage() {
 
   // Delete handler
   window.deleteWalkLogItem = function(id) {
-    let all = safeStorage.get(STORAGE_KEYS.WALKS_LOG, []);
+    let all = safeStorage.get(STORAGE_KEYS.WALK_LOGS, []);
     all = all.filter(i => i.id !== id);
-    safeStorage.set(STORAGE_KEYS.WALKS_LOG, all);
+    safeStorage.set(STORAGE_KEYS.WALK_LOGS, all);
     showToast(t('toast_deleted', 'Borttaget.'), '✓');
     renderWalksPage();
   };
@@ -2115,9 +2132,9 @@ function initWalksPage() {
         createdAt: new Date().toISOString()
       };
 
-      const all = safeStorage.get(STORAGE_KEYS.WALKS_LOG, []);
+      const all = safeStorage.get(STORAGE_KEYS.WALK_LOGS, []);
       all.unshift(newWalk);
-      safeStorage.set(STORAGE_KEYS.WALKS_LOG, all);
+      safeStorage.set(STORAGE_KEYS.WALK_LOGS, all);
 
       if (walkModal) closeModal(walkModal);
       walkForm.reset();
@@ -2149,9 +2166,9 @@ function initWalksPage() {
         createdAt: new Date().toISOString()
       };
 
-      const all = safeStorage.get(STORAGE_KEYS.WALKS_LOG, []);
+      const all = safeStorage.get(STORAGE_KEYS.WALK_LOGS, []);
       all.unshift(newAct);
-      safeStorage.set(STORAGE_KEYS.WALKS_LOG, all);
+      safeStorage.set(STORAGE_KEYS.WALK_LOGS, all);
 
       if (activityModal) closeModal(activityModal);
       activityForm.reset();
